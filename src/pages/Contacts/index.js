@@ -53,7 +53,7 @@ export default function Contacts() {
 						</div>
 					</header>
 
-					<div className="card-deck bg-transparent w-100">
+					<div className="card-deck bg-transparent m-0">
 						{contacts.map((contact) => (
 							<Link key={contact._id} className="col-sm-3 text-light m-0 p-0" to={"/contacts/edit/" + contact._id}>
 								<div className="card bg-transparent m-0">
@@ -81,7 +81,7 @@ export default function Contacts() {
 						</div>
 					</header>
 
-					<div className="card bg-transparent m-0 w-100">
+					<div className="card bg-transparent m-0">
 						<h4 className="text-light m-3">Nenhum contato registrado</h4>
 					</div>
 				</div>

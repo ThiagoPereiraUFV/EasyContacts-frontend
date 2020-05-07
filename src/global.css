@@ -11,6 +11,7 @@
 
 html, body, #content {
 	height: 100%;
+	overflow-y: hidden;
 }
 
 #content {
@@ -21,6 +22,7 @@ html, body, #content {
 body {
 	font: 400 14px Roboto, sans-serif;
 	-webkit-font-smoothing: antialiased;
+
 	background-image: url(./assets/bg.jpg);
 	background-size: cover;
 	background-attachment: fixed;
@@ -40,11 +42,15 @@ body {
 .contacts-container {
 	width: 100%;
 	height: 100%;
+
+	overflow-y: auto;
 }
 
 .user-container, .contact-container {
 	width: 100%;
 	height: 100%;
+
+	overflow-y: auto;
 
 	display: flex;
 	align-items: center;
