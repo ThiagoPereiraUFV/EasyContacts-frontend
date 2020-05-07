@@ -43,7 +43,7 @@ export default function Signup() {
 	if(!sessionStorage.getItem("userId")) {
 		return (
 			<div className="user-container">
-				<div className="jumbotron m-2 py-4 w-75">
+				<div className="jumbotron m-2 py-4 w-50">
 					<h3>Abra sua conta:</h3>
 					<hr/>
 					<form onSubmit={handleSignup}>

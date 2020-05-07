@@ -41,31 +41,31 @@ export default function Navbar() {
 	//	Testing if user is logged in
 	if(sessionStorage.getItem("userId")) {
 		return (
-			<nav id="navbar-fixed" class="navbar navbar-expand-lg navbar-dark bg-dark py-0 m-0">
-				<Link class="navbar-brand" to="/">
+			<nav id="navbar-fixed" className="navbar navbar-expand-lg navbar-dark bg-dark py-0 m-0">
+				<Link className="navbar-brand" to="/">
 					EasyContacts
 				</Link>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
+				<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span className="navbar-toggler-icon"></span>
 				</button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<div class="row align-items-center justify-content-between w-100">
-						<ul class="navbar-nav align-items-center">
-							<li class="nav-item mx-1">
-								<Link class="nav-link" to="/user">
+				<div className="collapse navbar-collapse" id="navbarSupportedContent">
+					<div className="row align-items-center justify-content-between w-100">
+						<ul className="navbar-nav align-items-center">
+							<li className="nav-item mx-1">
+								<Link className="nav-link" to="/user">
 									Meu Perfil
 								</Link>
 							</li>
-							<li class="nav-item mx-1">
-								<Link class="nav-link" to="/contacts">
+							<li className="nav-item mx-1">
+								<Link className="nav-link" to="/contacts">
 									Contatos
 								</Link>
 							</li>
-							<li class="nav-item mx-1">
-								<form class="form-inline" onSubmit={searchContact}>
+							<li className="nav-item mx-1">
+								<form className="form-inline" onSubmit={searchContact}>
 									<input 
-										class="form-control search bg-dark mr-sm-2 py-0" 
+										className="form-control search bg-dark mr-sm-2 py-0" 
 										name="search" 
 										placeholder="&#128270; Procure uma pessoa"
 										value={searchQuery}
@@ -74,9 +74,9 @@ export default function Navbar() {
 								</form>
 							</li>
 						</ul>
-						<ul class="navbar-nav">
-							<li class="nav-item">
-								<Link class="nav-link" to="#" onClick={logoutUser}>
+						<ul className="navbar-nav">
+							<li className="nav-item">
+								<Link className="nav-link" to="#" onClick={logoutUser}>
 									Sair
 								</Link>
 							</li>

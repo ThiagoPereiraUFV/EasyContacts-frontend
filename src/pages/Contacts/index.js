@@ -42,7 +42,7 @@ export default function Contacts() {
 		if(contacts.length > 0) {
 			return (
 				<div className="contacts-container">
-					<header className="row align-items-center justify-content-between m-3 p-0 w-100">
+					<header className="row align-items-center justify-content-between m-3 p-0">
 						<div className="col-sm m-0 p-0">
 							<h1 className="display-3">Meus contatos</h1>
 						</div>
@@ -53,9 +53,9 @@ export default function Contacts() {
 						</div>
 					</header>
 
-					<div className="card-deck bg-transparent">
+					<div className="card-deck bg-transparent w-100">
 						{contacts.map((contact) => (
-							<Link className="col-sm-3 text-light m-0 p-0" to={"/contacts/edit/" + contact._id}>
+							<Link key={contact._id} className="col-sm-3 text-light m-0 p-0" to={"/contacts/edit/" + contact._id}>
 								<div className="card bg-transparent m-0">
 									<img className="img-thumbnail rounded mx-auto" src="/avatar.png" alt="Avatar"/>
 									<div className="d-flex flex-column align-items-center p-2 h-100">
@@ -70,7 +70,7 @@ export default function Contacts() {
 		} else {
 			return (
 				<div className="contacts-container">
-					<header className="row align-items-center justify-content-between m-3 p-0 w-100">
+					<header className="row align-items-center justify-content-between m-3 p-0">
 						<div className="col-sm m-0 p-0">
 							<h1 className="display-3">Meus contatos</h1>
 						</div>
@@ -81,7 +81,7 @@ export default function Contacts() {
 						</div>
 					</header>
 
-					<div className="card bg-transparent m-0">
+					<div className="card bg-transparent m-0 w-100">
 						<h4 className="text-light m-3">Nenhum contato registrado</h4>
 					</div>
 				</div>

@@ -16,7 +16,7 @@ export default function Home() {
 	if(sessionStorage.getItem("userId")) {
 		return (
 			<div className="website-container">
-				<div className="jumbotron m-4 w-75">
+				<div className="jumbotron m-5">
 					<h1 className="display-3">EasyContacts</h1>
 					<p className="lead">O seu gerenciador de contatos</p>
 					<p className="my-4">Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts, 
@@ -31,7 +31,7 @@ export default function Home() {
 	} else {
 		return (
 			<div className="website-container">
-				<div className="jumbotron m-4 w-75">
+				<div className="jumbotron m-5">
 					<h1 className="display-3">EasyContacts</h1>
 					<p className="lead">O seu gerenciador de contatos</p>
 					<p className="my-4">Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts, 

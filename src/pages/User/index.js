@@ -84,7 +84,7 @@ export default function User() {
 	if(sessionStorage.getItem("userId")) {
 		return (
 			<div className="user-container">
-				<div className="jumbotron py-4 m-0 w-75">
+				<div className="jumbotron py-4 m-2">
 					<h3>Configurações:</h3>
 					<hr/>
 					<div id="accordion">

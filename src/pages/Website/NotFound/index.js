@@ -14,9 +14,9 @@ export default function Error404() {
 	
 	return (
 		<div className="website-container">
-			<div className="jumbotron m-4">
-				<h1 class="display-3">Erro 404 - Página não encontrada</h1>
-				<p class="lead">A página que você procura não existe, desculpe pelo transtorno</p>
+			<div className="jumbotron m-5">
+				<h1 className="display-3">Erro 404 - Página não encontrada</h1>
+				<p className="lead">A página que você procura não existe, desculpe pelo transtorno</p>
 				<Link className="btn btn-primary btn-lg" to="/">
 					Voltar ao inicio
 				</Link>

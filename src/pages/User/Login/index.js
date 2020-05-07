@@ -41,8 +41,8 @@ export default function Login() {
 	if(!sessionStorage.getItem("userId")) {
 		return (
 			<div className="user-container">
-				<div className="jumbotron m-2 py-4">
-					<h3 className="mr-5">Acesse sua conta:</h3>
+				<div className="col-md-3 jumbotron m-2 py-4">
+					<h3>Acesse sua conta:</h3>
 					<hr/>
 					<form onSubmit={handleLogin}>
 						<div className="row my-1">

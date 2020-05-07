@@ -98,7 +98,7 @@ export default function Edit({match}) {
 	if(sessionStorage.getItem("userId")) {
 		return (
 			<div className="contact-container">
-				<div className="jumbotron p-4 my-0 m-2 w-75">
+				<div className="jumbotron p-4 my-0 m-1">
 					<h3>Modificar contato:</h3>
 					<form onSubmit={handleEditContact}>
 						<div className="row my-1">
@@ -154,8 +154,8 @@ export default function Edit({match}) {
 								</div>
 							</div>
 						</div>
-						<div className="my-1" id="accordion">
-							<div className="jumbotron p-0 my-2">
+						<div className="row my-1" id="accordion">
+							<div className="jumbotron p-0 my-2 w-100">
 								<div className="card-header" id="headingOne">
 									<h5 className="mb-0">
 										<button type="button" className="btn btn-outline-light btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
