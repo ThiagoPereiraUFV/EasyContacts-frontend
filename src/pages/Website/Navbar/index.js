@@ -50,7 +50,7 @@ export default function Navbar() {
 				</button>
 
 				<div className="collapse navbar-collapse" id="navbarSupportedContent">
-					<div className="row align-items-center justify-content-between w-100">
+					<div className="row align-items-center justify-content-between m-0 w-100">
 						<ul className="navbar-nav align-items-center">
 							<li className="nav-item mx-1">
 								<Link className="nav-link" to="/user">

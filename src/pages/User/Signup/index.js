@@ -43,12 +43,12 @@ export default function Signup() {
 	if(!sessionStorage.getItem("userId")) {
 		return (
 			<div className="user-container">
-				<div className="jumbotron m-2 py-4 w-50">
+				<div className="col-md-7 jumbotron m-2 py-3">
 					<h3>Abra sua conta:</h3>
 					<hr/>
 					<form onSubmit={handleSignup}>
 						<div className="row my-1">
-							<div className="col-md">
+							<div className="col-md my-1">
 								<label>Nome: </label>
 								<input 
 									type="text" 
@@ -60,7 +60,7 @@ export default function Signup() {
 									required
 								/>
 							</div>
-							<div className="col-md">
+							<div className="col-md my-1">
 								<label>Email: </label>
 								<input 
 									type="email" 
@@ -74,7 +74,7 @@ export default function Signup() {
 							</div>
 						</div>
 						<div className="row my-1">
-							<div className="col-md">
+							<div className="col-md my-1">
 								<label>Senha: </label>
 								<input 
 									type="password" 
@@ -86,7 +86,7 @@ export default function Signup() {
 									required
 								/>
 							</div>
-							<div className="col-md">
+							<div className="col-md my-1">
 								<label>Confirme a senha: </label>
 								<input 
 									type="password" 
