@@ -84,15 +84,15 @@ export default function User() {
 	if(sessionStorage.getItem("userId")) {
 		return (
 			<div className="user-container">
-				<div className="jumbotron py-4 m-2">
+				<div className="jumbotron py-4 m-auto">
 					<h3>Configurações:</h3>
 					<hr/>
-					<div id="accordion">
+					<div className="row" id="accordion">
 						<div className="jumbotron p-0 m-2 w-100">
 							<div className="card-header" id="headingOne">
 								<h5 className="mb-0">
 									<button className="btn btn-outline-light btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										<b>Alterar Dados do Usuário</b>
+										<b>Meus dados</b>
 									</button>
 								</h5>
 							</div>

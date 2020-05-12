@@ -58,7 +58,7 @@ export default function Add() {
 	if(sessionStorage.getItem("userId")) {
 		return (
 			<div className="contact-container">
-				<div className="col-md-7 jumbotron p-4 my-0 m-1">
+				<div className="col-md-7 jumbotron p-4 m-auto">
 					<h3>Novo contato:</h3>
 					<form onSubmit={handleAddContact}>
 						<div className="row my-1">

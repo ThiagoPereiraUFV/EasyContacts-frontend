@@ -23,7 +23,7 @@ export default function Home() {
 						abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
 					</p>
 					<Link className="btn btn-primary btn-lg" to="/contacts">
-						Acesse seus contatos
+						Ver meus contatos
 					</Link>
 				</div>
 			</div>
