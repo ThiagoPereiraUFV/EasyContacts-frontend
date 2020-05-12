@@ -58,7 +58,7 @@ export default function Search({location}) {
 				<div className="contacts-container">
 					<header className="row align-items-center justify-content-between m-3 p-0">
 						<div className="col-sm m-0 p-0">
-							<h1 className="display-3">Resultados para busca de "{search_query}"</h1>
+							<h1 className="display-5">Resultados para busca de "{search_query}"</h1>
 						</div>
 					</header>
 
@@ -80,7 +80,7 @@ export default function Search({location}) {
 			return (
 				<div className="contacts-container">
 					<header className="row align-items-center justify-content-between m-3 p-0">
-						<h1 className="display-3">Resultados para busca de "{search_query}"</h1>
+						<h1 className="display-5">Resultados para busca de "{search_query}"</h1>
 					</header>
 
 					<div className="card bg-transparent m-0">

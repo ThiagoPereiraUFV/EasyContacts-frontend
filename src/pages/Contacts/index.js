@@ -34,7 +34,7 @@ export default function Contacts() {
 
 			history.push("/");
 		});
-	});
+	}, [history]);
 
 	//	Testing if user is logged in
 	if(sessionStorage.getItem("userId")) {
@@ -44,7 +44,7 @@ export default function Contacts() {
 				<div className="contacts-container">
 					<header className="row align-items-center justify-content-between m-3 p-0">
 						<div className="col-sm m-0 p-0">
-							<h1 className="display-3">Meus contatos</h1>
+							<h1 className="display-5">Meus contatos</h1>
 						</div>
 						<div className="col-sm text-right m-0 p-0">
 							<Link className="btn btn-primary my-0" to="/contacts/add">
@@ -72,7 +72,7 @@ export default function Contacts() {
 				<div className="contacts-container">
 					<header className="row align-items-center justify-content-between m-3 p-0">
 						<div className="col-sm m-0 p-0">
-							<h1 className="display-3">Meus contatos</h1>
+							<h1 className="display-5">Meus contatos</h1>
 						</div>
 						<div className="col-sm text-right m-0 p-0">
 							<Link className="btn btn-primary my-0" to="/contacts/add">

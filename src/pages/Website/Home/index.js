@@ -18,12 +18,14 @@ export default function Home() {
 			<div className="website-container">
 				<div className="jumbotron m-5">
 					<h1 className="display-3">EasyContacts</h1>
-					<p className="lead">O seu gerenciador de contatos</p>
-					<p className="my-4">Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts, 
-						abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
+					<p className="lead">
+						O seu gerenciador de contatos
+					</p>
+					<p className="my-4">
+						Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts.
 					</p>
 					<Link className="btn btn-primary btn-lg" to="/contacts">
-						Ver meus contatos
+						Meus contatos
 					</Link>
 				</div>
 			</div>
@@ -33,12 +35,15 @@ export default function Home() {
 			<div className="website-container">
 				<div className="jumbotron m-5">
 					<h1 className="display-3">EasyContacts</h1>
-					<p className="lead">O seu gerenciador de contatos</p>
-					<p className="my-4">Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts, 
-						abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
+					<p className="lead">
+						O seu gerenciador de contatos
+					</p>
+					<p className="my-4">
+						Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts. 
+						Abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
 					</p>
 					<Link className="btn btn-primary btn-lg" to="/user/login">
-						Acesse sua conta
+						Acessar conta
 					</Link>
 				</div>
 			</div>
