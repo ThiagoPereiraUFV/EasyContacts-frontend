@@ -67,7 +67,7 @@ export default function Navbar() {
 									<input 
 										className="form-control search bg-dark mr-sm-2 py-0" 
 										name="search" 
-										placeholder="&#128270; Procure uma pessoa"
+										placeholder="Procure uma pessoa"
 										value={searchQuery}
 										onChange={(e) => setSearchQuery(e.target.value)}
 									/>
