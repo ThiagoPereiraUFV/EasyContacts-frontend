@@ -38,7 +38,9 @@ export default function Search({location}) {
 	//	Loading current user contacts given search query
 	useEffect(() => {
 		var contactsField = document.getElementById("contactsField");
-		contactsField.textContent = "Carregando busca";
+		if(contactsField) {
+			contactsField.textContent = "Carregando busca";
+		}
 
 		api.get("contactsSearch?search_query=" + search_query, {
 			headers: {
@@ -47,7 +49,7 @@ export default function Search({location}) {
 		}).then((response) => {
 			setContacts(response.data);
 
-			if(!response.data.length) {
+			if(contactsField && !response.data.length) {
 				contactsField.textContent = "Nenhum contato encontrado";
 			}
 		}).catch((error) => {
@@ -91,7 +93,7 @@ export default function Search({location}) {
 					</header>
 
 					<div className="card bg-transparent m-0">
-						<h4 id="contactsField" className="text-light m-3">.</h4>
+						<h4 id="contactsField" className="text-light m-3">Nenhum contato encontrado</h4>
 					</div>
 				</div>
 			);

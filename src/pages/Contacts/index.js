@@ -24,7 +24,9 @@ export default function Contacts() {
 	//	Loading current user contacts
 	useEffect(() => {
 		var contactsField = document.getElementById("contactsField");
-		contactsField.textContent = "Carregando contatos";
+		if(contactsField) {
+			contactsField.textContent = "Carregando contatos";
+		}
 		
 		api.get("contacts", {
 			headers: {
@@ -33,7 +35,7 @@ export default function Contacts() {
 		}).then((response) => {
 			setContacts(response.data);
 
-			if(!response.data.length) {
+			if(contactsField && !response.data.length) {
 				contactsField.textContent = "Nenhum contato registrado";
 			}
 		}).catch((error) => {
@@ -89,7 +91,7 @@ export default function Contacts() {
 					</header>
 
 					<div className="card bg-transparent m-0">
-						<h4 id="contactsField" className="text-light m-3">.</h4>
+						<h4 id="contactsField" className="text-light m-3">Nenhum contato registrado</h4>
 					</div>
 				</div>
 			);
