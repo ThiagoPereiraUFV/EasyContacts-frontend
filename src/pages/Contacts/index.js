@@ -23,12 +23,19 @@ export default function Contacts() {
 
 	//	Loading current user contacts
 	useEffect(() => {
+		var contactsField = document.getElementById("contactsField");
+		contactsField.textContent = "Carregando contatos";
+		
 		api.get("contacts", {
 			headers: {
 				Authorization: sessionStorage.getItem("userId")
 			}
 		}).then((response) => {
 			setContacts(response.data);
+
+			if(!response.data.length) {
+				contactsField.textContent = "Nenhum contato registrado";
+			}
 		}).catch((error) => {
 			alert(error.response.data);
 
@@ -82,7 +89,7 @@ export default function Contacts() {
 					</header>
 
 					<div className="card bg-transparent m-0">
-						<h4 className="text-light m-3">Nenhum contato registrado</h4>
+						<h4 id="contactsField" className="text-light m-3">.</h4>
 					</div>
 				</div>
 			);
