@@ -12,6 +12,10 @@ import "./styles.css";
 
 //	Exporting resource to routes.js
 export default function Contacts() {
+	if(global.message) {
+		alert(global.message);
+		delete global.message;
+	}
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 	

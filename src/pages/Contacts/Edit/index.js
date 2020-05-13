@@ -67,8 +67,8 @@ export default function Edit({match}) {
 			});
 
 			history.push("/contacts");
-		
-			alert(response.data);
+			
+			global.message = response.data;
 		} catch(error) {
 			alert(error.response.data);
 		}
@@ -86,9 +86,10 @@ export default function Edit({match}) {
 			});
 
 			history.push("/contacts");
+			
+			global.message = response.data;
+			
 			history.go();
-		
-			alert(response.data);
 		} catch(error) {
 			alert(error.response.data);
 		}

@@ -48,7 +48,7 @@ export default function Add() {
 
 			history.push("/contacts");
 			
-			alert(response.data);
+			global.message = response.data;
 		} catch(error) {
 			alert(error.response.data);
 		}
