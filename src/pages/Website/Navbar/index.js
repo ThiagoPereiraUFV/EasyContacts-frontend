@@ -65,6 +65,7 @@ export default function Navbar() {
 							<li className="nav-item mx-1">
 								<form className="form-inline" onSubmit={searchContact}>
 									<input 
+										type="search" 
 										className="form-control search bg-dark mr-sm-2 py-0" 
 										name="search" 
 										placeholder="Procure uma pessoa"
