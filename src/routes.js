@@ -1,5 +1,5 @@
 //	Importing React main module
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 //	Importing Route features to manage app routes
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import HomePage from "./pages/Website/Home";
 import NotFoundPage from "./pages/Website/NotFound";
 import Navbar from "./pages/Website/Navbar";
+import Loading from "./pages/Website/Loading";
 import User from "./pages/User";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
@@ -16,14 +17,48 @@ import AddContact from "./pages/Contacts/Add";
 import EditContact from "./pages/Contacts/Edit";
 import SearchContact from "./pages/Contacts/Search";
 
+//	Importing api to communicate to backend
+import api from "./services/api";
+
 //	Exporting Routes do App.js
 export default function Routes() {
+	//	User and session variables
+	const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
+	const [user, setUser] = useState({});
+
+	//	Loading variable
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() => {
+		async function fetchData() {
+			if(userId && userId.length) {
+				await api.get("user", {
+					headers: {
+						authorization: userId
+					}
+				}).then((response) => {
+					if(response && response.data) {
+						setUser(response.data);
+						setUserId(response.data._id);
+					}
+				}).catch(() => {});
+			}
+
+			setLoading(false);
+		}
+
+		fetchData();
+	}, [userId]);
+
+	if(isLoading) {
+		return (<Loading />);
+	}
+
 	return (
 		<BrowserRouter>
-			<Navbar />
+			<Navbar userId={userId} setUserId={setUserId} setUser={setUser} />
 			<Switch>
 				<Route exact path="/" component={HomePage} />
-				<Route exact path="/404" component={NotFoundPage} />
 				<Route exact path="/user" component={User} />
 				<Route exact path="/user/login" component={Login} />
 				<Route exact path="/user/signup" component={Signup} />

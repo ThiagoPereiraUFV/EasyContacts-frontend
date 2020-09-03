@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 
 //	Importing React Router features
-import { Link, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+
+//	Importing React Bootstrap features
+import { Navbar, Nav, Form } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function Navbar() {
+export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 	//  Defining state variables
 	const [searchQuery, setSearchQuery] = useState("");
 	
@@ -13,78 +16,82 @@ export default function Navbar() {
 	const history = useHistory();
 
 	//	Function to handle search contacts
-	function searchContact(e) {
-		e.preventDefault();
+	function handleSearch(event) {
+		event.preventDefault();
 
 		try {
 			history.push("/contacts/search?search_query=" + searchQuery);
 
 			setSearchQuery("");
 		} catch(error) {
-			alert(error.response.data);
+			alert(error);
 		}
 	}
 
 	//	Function to handle user logout
-	function logoutUser(e) {
-		e.preventDefault();
+	function handleLogout(event) {
+		event.preventDefault();
 
 		try {
 			sessionStorage.removeItem("userId");
+			setUserId("");
+			setUser({});
 
 			history.push("/");
 		} catch(error) {
-			alert(error.response.data);
+			alert(error);
 		}
 	}
 
 	//	Testing if user is logged in
-	if(sessionStorage.getItem("userId")) {
+	if(userId && userId.length) {
 		return (
-			<nav id="navbar-fixed" className="navbar navbar-expand-lg navbar-dark bg-dark py-0 m-0">
-				<Link className="navbar-brand" to="/">
+			<Navbar className="py-0 m-0" bg="dark" variant="dark" expand="lg">
+				<NavLink to="/" className="navbar-brand text-white">
 					EasyContacts
-				</Link>
-				<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span className="navbar-toggler-icon"></span>
-				</button>
-
-				<div className="collapse navbar-collapse" id="navbarSupportedContent">
-					<div className="row align-items-center justify-content-between m-0 w-100">
-						<ul className="navbar-nav align-items-center">
-							<li className="nav-item mx-1">
-								<Link className="nav-link" to="/user">
-									Meu Perfil
-								</Link>
-							</li>
-							<li className="nav-item mx-1">
-								<Link className="nav-link" to="/contacts">
-									Contatos
-								</Link>
-							</li>
-							<li className="nav-item mx-1">
-								<form className="form-inline" onSubmit={searchContact}>
-									<input 
-										type="search" 
-										className="form-control search bg-dark mr-sm-2 py-0" 
-										name="search" 
-										placeholder="Procure uma pessoa"
-										value={searchQuery}
-										onChange={(e) => setSearchQuery(e.target.value)}
-									/>
-								</form>
-							</li>
-						</ul>
-						<ul className="navbar-nav">
-							<li className="nav-item">
-								<Link className="nav-link" to="#" onClick={logoutUser}>
-									Sair
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
+				</NavLink>
+				<Navbar.Toggle className="bg-warning" aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav>
+						<Nav.Item>
+							<NavLink
+								exact activeClassName="activeRoute"
+								activeStyle={{ color: "white" }}
+								to="/user"
+								className="nav-link mx-2"
+							>
+								Perfil
+							</NavLink>
+						</Nav.Item>
+						<Nav.Item>
+							<NavLink 
+								activeClassName="activeRoute"
+								activeStyle={{ color: "white" }}
+								to="/contacts"
+								className="nav-link mx-2"
+							>
+								Contatos
+							</NavLink>
+						</Nav.Item>
+					</Nav>
+					<Form onSubmit={handleSearch} inline>
+						<Form.Control type="text" placeholder="Busque aqui" className="mr-sm-2" />
+					</Form>
+					<Nav className="ml-auto">
+						<Nav.Item>
+							<NavLink
+								exact activeClassName="activeRoute"
+								activeStyle={{ color: "white" }}
+								to="#"
+								onClick={handleLogout}
+								className="nav-link mx-2"
+							>
+								Sair
+							</NavLink>
+						</Nav.Item>
+					</Nav>
+				</Navbar.Collapse>
+			</Navbar>
 		);
 	} else {
 		return null;
