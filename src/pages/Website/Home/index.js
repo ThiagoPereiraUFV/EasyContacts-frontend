@@ -31,7 +31,7 @@ export default function Home({ userId }) {
 						Meus contatos
 					</Link>
 					:
-					<Link className="btn btn-primary btn-lg" to="/user/login">
+					<Link className="btn btn-primary btn-lg" to="/login">
 						Acessar conta
 					</Link>
 				}

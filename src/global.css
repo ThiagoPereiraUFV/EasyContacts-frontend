@@ -40,13 +40,6 @@ body {
 	height: 100%;
 }
 
-.user-container, .contact-container {
-	width: 100%;
-	height: 100%;
-
-	display: flex;
-}
-
 .jumbotron {
 	font-weight: bolder;
 	color: rgb(255, 255, 255);

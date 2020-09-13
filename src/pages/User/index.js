@@ -7,20 +7,17 @@ import { useHistory } from "react-router-dom";
 //	Importing api to communicate to backend
 import api from "../../services/api";
 
-//	Importing page styles
-import "./styles.css";
-
 //	Exporting resource to routes.js
 export default function User() {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
-	
+
 	//  Defining state variables
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [passwordO, setPasswordO] = useState("");
 	const [passwordN, setPasswordN] = useState("");
-	
+
 	//	Defining history to jump through pages
 	const history = useHistory();
 
@@ -101,11 +98,11 @@ export default function User() {
 									<div className="row my-1">
 										<div className="col-md">
 											<label>Nome: </label>
-											<input 
-												type="text" 
-												className="form-control" 
-												id="name" 
-												name="name" 
+											<input
+												type="text"
+												className="form-control"
+												id="name"
+												name="name"
 												placeholder="Nome"
 												value={name}
 												onChange={(e) => setName(e.target.value)}
@@ -113,11 +110,11 @@ export default function User() {
 										</div>
 										<div className="col-md">
 											<label>Email: </label>
-											<input 
-												type="email" 
-												className="form-control" 
-												id="email" 
-												name="email" 
+											<input
+												type="email"
+												className="form-control"
+												id="email"
+												name="email"
 												placeholder="email@provedor.com"
 												value={email}
 												onChange={(e) => setEmail(e.target.value)}
@@ -127,10 +124,10 @@ export default function User() {
 									<div className="row my-1">
 										<div className="col-md">
 											<label>Senha antiga: </label>
-											<input 
-												type="password" 
-												className="form-control" 
-												name="passwordO" 
+											<input
+												type="password"
+												className="form-control"
+												name="passwordO"
 												placeholder="Senha antiga"
 												value={passwordO}
 												onChange={(e) => setPasswordO(e.target.value)}
@@ -138,11 +135,11 @@ export default function User() {
 										</div>
 										<div className="col-md">
 											<label>Nova senha: </label>
-											<input 
-												type="password" 
-												className="form-control" 
-												id="password" 
-												name="passwordN" 
+											<input
+												type="password"
+												className="form-control"
+												id="password"
+												name="passwordN"
 												placeholder="Nova senha"
 												value={passwordN}
 												onChange={(e) => setPasswordN(e.target.value)}
@@ -152,10 +149,10 @@ export default function User() {
 									</div>
 									<div className="row my-1">
 										<div className="col-md text-center">
-											<input 
-												id="submitButton" 
-												type="submit" 
-												className="btn btn-primary btn-md" 
+											<input
+												id="submitButton"
+												type="submit"
+												className="btn btn-primary btn-md"
 												value="Salvar alterações"
 											/>
 										</div>

@@ -16,6 +16,7 @@ import Contacts from "./pages/Contacts";
 import AddContact from "./pages/Contacts/Add";
 import EditContact from "./pages/Contacts/Edit";
 import SearchContact from "./pages/Contacts/Search";
+import Logged from "./pages/Website/Authentication/Logged";
 
 //	Importing api to communicate to backend
 import api from "./services/api";
@@ -32,16 +33,13 @@ export default function Routes() {
 	useEffect(() => {
 		async function fetchData() {
 			if(userId && userId.length) {
-				await api.get("user", {
-					headers: {
-						authorization: userId
-					}
-				}).then((response) => {
-					if(response && response.data) {
-						setUser(response.data);
-						setUserId(response.data._id);
-					}
-				}).catch(() => {});
+				await api.get("user/" + userId)
+					.then((response) => {
+						if(response && response.data) {
+							setUser(response.data);
+							setUserId(response.data._id);
+						}
+					}).catch(() => {});
 			}
 
 			setLoading(false);
@@ -49,6 +47,10 @@ export default function Routes() {
 
 		fetchData();
 	}, [userId]);
+
+	function userAuth() {
+		return (user._id && userId);
+	}
 
 	if(isLoading) {
 		return (<Loading />);
@@ -60,8 +62,14 @@ export default function Routes() {
 			<Switch>
 				<Route exact path="/" render={() => <HomePage userId={userId} />} />
 				<Route exact path="/user" component={User} />
-				<Route exact path="/user/login" component={Login} />
-				<Route exact path="/user/signup" component={Signup} />
+				<Route
+					exact path="/login"
+					render={() => !userAuth() ? <Login setUserId={setUserId} setUser={setUser} /> : <Logged />}
+				/>
+				<Route
+					exact path="/signup"
+					render={() => !userAuth() ? <Signup setUserId={setUserId} setUser={setUser} /> : <Logged />}
+				/>
 				<Route exact path="/contacts" component={Contacts} />
 				<Route exact path="/contacts/add" component={AddContact} />
 				<Route path="/contacts/edit/:id" component={EditContact} />
