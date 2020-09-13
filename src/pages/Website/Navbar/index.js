@@ -11,7 +11,7 @@ import { Navbar, Nav, Form } from "react-bootstrap";
 export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 	//  Defining state variables
 	const [searchQuery, setSearchQuery] = useState("");
-	
+
 	//	Defining history to jump through pages
 	const history = useHistory();
 
@@ -50,7 +50,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 				<NavLink to="/" className="navbar-brand text-white">
 					EasyContacts
 				</NavLink>
-				<Navbar.Toggle className="bg-warning" aria-controls="basic-navbar-nav" />
+				<Navbar.Toggle className="bg-dark" aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav>
 						<Nav.Item>
@@ -64,7 +64,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 							</NavLink>
 						</Nav.Item>
 						<Nav.Item>
-							<NavLink 
+							<NavLink
 								activeClassName="activeRoute"
 								activeStyle={{ color: "white" }}
 								to="/contacts"

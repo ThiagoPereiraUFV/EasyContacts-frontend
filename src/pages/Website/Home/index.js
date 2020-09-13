@@ -4,49 +4,38 @@ import React from "react";
 //	Importing React Router features
 import { Link } from "react-router-dom";
 
-//	Importing page styles
-import "./styles.css";
+//	Importing React Bootstrap features
+import { Jumbotron } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function Home() {
+export default function Home({ userId }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(0px)";
-	
-	//	Testing if user is logged in
-	if(sessionStorage.getItem("userId")) {
-		return (
-			<div className="website-container">
-				<div className="jumbotron m-5">
-					<h1 className="display-3">EasyContacts</h1>
-					<p className="lead">
-						O seu gerenciador de contatos
-					</p>
-					<p className="my-4">
-						Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts.
-					</p>
+
+	return (
+		<div className="website-container d-flex h-100">
+			<Jumbotron
+				className="my-auto ml-5"
+				style={{ width: "65%" }}
+			>
+				<h1 className="display-3">EasyContacts</h1>
+				<p className="lead">
+					O seu gerenciador de contatos
+				</p>
+				<p className="my-4">
+					Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts.
+					Abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
+				</p>
+				{userId ?
 					<Link className="btn btn-primary btn-lg" to="/contacts">
 						Meus contatos
 					</Link>
-				</div>
-			</div>
-		);
-	} else {
-		return (
-			<div className="website-container">
-				<div className="jumbotron m-5">
-					<h1 className="display-3">EasyContacts</h1>
-					<p className="lead">
-						O seu gerenciador de contatos
-					</p>
-					<p className="my-4">
-						Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts. 
-						Abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.
-					</p>
+					:
 					<Link className="btn btn-primary btn-lg" to="/user/login">
 						Acessar conta
 					</Link>
-				</div>
-			</div>
-		);
-	}
+				}
+			</Jumbotron>
+		</div>
+	);
 }

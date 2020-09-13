@@ -9,14 +9,15 @@
 	box-sizing: border-box;
 }
 
-html, body, #content {
+html, body, #root {
 	height: 100%;
 	width: 100%;
 
 	overflow-y: hidden;
+	font: 400 14px Roboto, sans-serif;
 }
 
-#content {
+#root {
 	overflow-y: auto;
 
 	display: flex;
@@ -24,7 +25,6 @@ html, body, #content {
 }
 
 body {
-	font: 400 14px Roboto, sans-serif;
 	-webkit-font-smoothing: antialiased;
 
 	background-image: url(./assets/bg.jpg);
@@ -34,14 +34,6 @@ body {
 }
 
 /*	General content styles	*/
-
-.website-container {
-	height: 100%;
-	width: 100%;
-
-	display: flex;
-	align-items: center;
-}
 
 .contacts-container {
 	width: 100%;
@@ -59,7 +51,7 @@ body {
 	font-weight: bolder;
 	color: rgb(255, 255, 255);
 	background-color: rgba(126, 123, 215, 0.521);
-	
+
 	border-style: solid;
 	border-width: 0.5px;
 	border-radius: 50px;
@@ -90,57 +82,49 @@ body {
 }
 
 @media (min-width: 0) {
-	.display-3 { 
+	.display-3 {
 		font-size: 200%;
 	}
 }
 
 @media (min-width: 320px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 210%;
 	}
 }
 
 @media (min-width: 375px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 250%;
 	}
 }
 
 @media (min-width: 425px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 280%;
 	}
 }
 
 @media (min-width: 768px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 450%;
 	}
 }
 
 @media (min-width: 1024px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 500%;
 	}
 }
 
 @media (min-width: 1440px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 600%;
 	}
 }
 
 @media (min-width: 2560px) {
-	.display-3 { 
+	.display-3 {
 		font-size: 800%;
 	}
-}
-
-/*	Jumbotron sizes	*/
-
-.website-container .jumbotron, 
-.user-container .jumbotron, 
-.contact-container .jumbotron {
-	width: 65%;
 }

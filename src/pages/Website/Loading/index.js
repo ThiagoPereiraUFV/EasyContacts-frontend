@@ -8,11 +8,11 @@ import { Container, Spinner } from "react-bootstrap";
 export default function Loading() {
 	return (
 		<Container className="d-flex h-100">
-			<Spinner 
-				className="m-auto" 
-				style={{width: "8rem", height: "8rem"}} 
-				animation="border" 
-				variant="warning" 
+			<Spinner
+				className="m-auto"
+				style={{width: "8rem", height: "8rem"}}
+				animation="border"
+				variant="primary"
 			/>
 		</Container>
 	);
