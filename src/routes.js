@@ -78,7 +78,14 @@ export default function Routes() {
 					exact path="/signup"
 					render={() => !userAuth() ? <Signup setUserId={setUserId} setUser={setUser} /> : <Logged />}
 				/>
-				<Route exact path="/contacts" component={Contacts} />
+				<Route exact path="/contacts"
+					render={() => {
+						return userAuth() ?
+							<Contacts userId={userId} />
+							:
+							<Auth />;
+					}}
+				/>
 				<Route exact path="/contacts/add" component={AddContact} />
 				<Route path="/contacts/edit/:id" component={EditContact} />
 				<Route path="/contacts/search" component={SearchContact} />

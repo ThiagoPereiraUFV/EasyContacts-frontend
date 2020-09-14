@@ -34,7 +34,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 
 		try {
 			sessionStorage.removeItem("userId");
-			setUserId("");
+			setUserId(sessionStorage.getItem("userId"));
 			setUser({});
 
 			history.push("/");
