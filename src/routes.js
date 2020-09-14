@@ -17,6 +17,7 @@ import AddContact from "./pages/Contacts/Add";
 import EditContact from "./pages/Contacts/Edit";
 import SearchContact from "./pages/Contacts/Search";
 import Logged from "./pages/Website/Authentication/Logged";
+import Auth from "./pages/Website/Authentication";
 
 //	Importing api to communicate to backend
 import api from "./services/api";
@@ -61,7 +62,14 @@ export default function Routes() {
 			<Navbar userId={userId} setUserId={setUserId} setUser={setUser} />
 			<Switch>
 				<Route exact path="/" render={() => <HomePage userId={userId} />} />
-				<Route exact path="/user" component={User} />
+				<Route exact path="/user"
+					render={() => {
+						return userAuth() ?
+							<User userId={userId} setUserId={setUserId} user={user} setUser={setUser} />
+							:
+							<Auth />;
+					}}
+				/>
 				<Route
 					exact path="/login"
 					render={() => !userAuth() ? <Login setUserId={setUserId} setUser={setUser} /> : <Logged />}

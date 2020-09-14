@@ -42,11 +42,7 @@ export default function Login({ setUserId, setUser }) {
 			})
 			.catch((error) => {
 				setTitle("Erro!");
-				if(error.response) {
-					setMessage(error.response.data);
-				} else {
-					setMessage(error.message);
-				}
+				setMessage(error.response ? error.response.data : error.message);
 				setToastShow(true);
 			});
 	}
@@ -72,9 +68,9 @@ export default function Login({ setUserId, setUser }) {
 	);
 
 	return (
-		<div className="user-container d-flex h-100">
+		<div className="user-container d-flex justify-content-center align-items-center h-100">
 			{toast}
-			<Jumbotron className="col-md-3 py-3 m-auto">
+			<Jumbotron className="col-md-3 py-3 m-3">
 				<h3>Acesse sua conta:</h3>
 				<Form className="py-2 text-white" onSubmit={handleLogin}>
 					<Form.Group controlId="email">

@@ -1,215 +1,192 @@
 //	Importing React main module and its features
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 //	Importing React Router features
 import { useHistory } from "react-router-dom";
+
+//	Importing React Bootstrap features
+import { Toast, Modal, Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
 
 //	Exporting resource to routes.js
-export default function User() {
+export default function User({ userId, setUserId, user, setUser }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
 	//  Defining state variables
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
+	const [name, setName] = useState(user.name);
+	const [email, setEmail] = useState(user.email);
 	const [passwordO, setPasswordO] = useState("");
 	const [passwordN, setPasswordN] = useState("");
+
+	//	Message settings
+	const [toastShow, setToastShow] = useState(false);
+	const [modalShow, setModalShow] = useState(false);
+	const [title, setTitle] = useState("");
+	const [message, setMessage] = useState("");
 
 	//	Defining history to jump through pages
 	const history = useHistory();
 
-	//	Loading current user informations
-	useEffect(() => {
-		api.get("session", {
-			headers: {
-				Authorization: sessionStorage.getItem("userId")
-			}
-		}).then((response) => {
-			setName(response.data.name);
-			setEmail(response.data.email);
-		}).catch((error) => {
-			alert(error.response.data);
-			history.push("/");
-		});
-	}, [history]);
-
 	// Function to handle user information modifications
-	async function editUser(e) {
-		e.preventDefault();
+	async function handleUser(event) {
+		event.preventDefault();
 
-		try {
-			const response = await api.put("user", { name, email, passwordO, passwordN } , {
-				headers: {
-					Authorization: sessionStorage.getItem("userId")
-				}
-			});
+		const data = {
+			name,
+			email,
+			passwordO,
+			passwordN
+		};
 
-			alert(response.data);
-
-			history.go();
-		} catch(error) {
-			alert(error.response.data);
-		}
+		await api.put("user", data , {
+			headers: {
+				Authorization: userId
+			}
+		}).then(() => {
+			setTitle("Alterações usuário");
+			setMessage("Alterações feitas com sucesso!");
+			setToastShow(true);
+		}).catch((error) => {
+			setTitle("Erro!");
+			setMessage(error.response ? error.response.data : error.message);
+			setToastShow(true);
+		});
 	}
 
 	// Function to handle user information deleting
-	async function deleteUser(e) {
-		e.preventDefault();
+	async function handleDelete(event) {
+		event.preventDefault();
 
-		try {
-			const response = await api.delete("user", {
-				headers: {
-					Authorization: sessionStorage.getItem("userId")
-				}
-			});
-
+		await api.delete("user", {
+			headers: {
+				Authorization: userId
+			}
+		}).then(() => {
 			sessionStorage.removeItem("userId");
 
+			setUserId(sessionStorage.getItem("userId"));
+			setUser({});
+
+			setModalShow(false);
 			history.push("/");
-			history.go();
-
-			alert(response.data);
-		} catch(error) {
-			alert(error.response.data);
-		}
+		}).catch((error) => {
+			setTitle("Erro!");
+			setMessage(error.response ? error.response.data : error.message);
+			setToastShow(true);
+		});
 	}
 
-	//	Testing if user is logged in
-	if(sessionStorage.getItem("userId")) {
-		return (
-			<div className="user-container">
-				<div className="jumbotron py-4 m-auto">
-					<h3>Configurações:</h3>
-					<hr/>
-					<div className="row" id="accordion">
-						<div className="jumbotron p-0 m-2 w-100">
-							<div className="card-header" id="headingOne">
-								<h5 className="mb-0">
-									<button className="btn btn-outline-light btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										<b>Meus dados</b>
-									</button>
-								</h5>
-							</div>
-							<div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-								<form className="card-body" onSubmit={editUser}>
-									<div className="row my-1">
-										<div className="col-md">
-											<label>Nome: </label>
-											<input
-												type="text"
-												className="form-control"
-												id="name"
-												name="name"
-												placeholder="Nome"
-												value={name}
-												onChange={(e) => setName(e.target.value)}
-											/>
-										</div>
-										<div className="col-md">
-											<label>Email: </label>
-											<input
-												type="email"
-												className="form-control"
-												id="email"
-												name="email"
-												placeholder="email@provedor.com"
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
-											/>
-										</div>
-									</div>
-									<div className="row my-1">
-										<div className="col-md">
-											<label>Senha antiga: </label>
-											<input
-												type="password"
-												className="form-control"
-												name="passwordO"
-												placeholder="Senha antiga"
-												value={passwordO}
-												onChange={(e) => setPasswordO(e.target.value)}
-											/>
-										</div>
-										<div className="col-md">
-											<label>Nova senha: </label>
-											<input
-												type="password"
-												className="form-control"
-												id="password"
-												name="passwordN"
-												placeholder="Nova senha"
-												value={passwordN}
-												onChange={(e) => setPasswordN(e.target.value)}
-											/>
-											<br/>
-										</div>
-									</div>
-									<div className="row my-1">
-										<div className="col-md text-center">
-											<input
-												id="submitButton"
-												type="submit"
-												className="btn btn-primary btn-md"
-												value="Salvar alterações"
-											/>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-						<div className="jumbotron p-0 m-2 w-100">
-							<div className="card-header" id="headingTwo">
-								<h5 className="mb-0">
-									<button className="btn btn-outline-warning btn-block" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-										<b>Área de risco</b>
-									</button>
-								</h5>
-							</div>
-							<div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-								<div className="card-body">
-									<div className="col-md text-center p-0">
-										<button type="button" className="btn btn-danger m-2" data-toggle="modal" data-target="#closeAccountModal">
-											Encerrar conta
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+	const toast = (
+		<div
+			aria-live="polite"
+			aria-atomic="true"
+			style={{
+				position: "fixed",
+				top: "7%",
+				right: "3%",
+				zIndex: 5
+			}}
+		>
+			<Toast show={toastShow} onClose={() => setToastShow(false)} delay={3000} autohide>
+				<Toast.Header>
+					<strong className="mr-auto">{title}</strong>
+				</Toast.Header>
+				<Toast.Body>{message}</Toast.Body>
+			</Toast>
+		</div>
+	);
 
-				<div className="modal fade" id="closeAccountModal" tabIndex="-1" role="dialog" aria-labelledby="closeAccountModalLabel" aria-hidden="true">
-					<div className="modal-dialog" role="document">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h5 className="modal-title" id="closeAccountModalLabel">Alerta</h5>
-								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div className="modal-body">
-								Todas as suas informações serão perdidas, você realmente deseja encerrar sua conta?
-							</div>
-							<div className="modal-footer">
-								<button type="button" className="btn btn-primary" data-dismiss="modal">
-									Cancelar
-								</button>
-								<button type="button" className="btn btn-danger" onClick={deleteUser}>
-									Fechar Conta
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	} else {
-		alert("You must log in before accessing this page!");
-		history.push("/user/login");
+	return (
+		<div className="user-container d-flex justify-content-center align-items-center h-100">
+			{toast}
+			<Jumbotron className="col-md-7 py-4 m-3">
+				<h3>Configurações:</h3>
+				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleUser}>
+					<Row className="d-flex justify-content-between">
+						<Col sm>
+							<Form.Group controlId="name">
+								<Form.Label>Nome</Form.Label>
+								<Form.Control
+									placeholder="Seu nome"
+									type="text"
+									value={name}
+									onChange={event => setName(event.target.value)}
+									required
+								/>
+							</Form.Group>
+						</Col>
+						<Col sm>
+							<Form.Group controlId="email">
+								<Form.Label>Email</Form.Label>
+								<Form.Control
+									placeholder="Seu email"
+									type="email"
+									value={email}
+									onChange={event => setEmail(event.target.value)}
+									required
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Row className="d-flex justify-content-between">
+						<Col sm>
+							<Form.Group controlId="passwordO">
+								<Form.Label>Senha antiga</Form.Label>
+								<Form.Control
+									placeholder="Senha antiga"
+									type="passwordO"
+									value={passwordO}
+									onChange={event => setPasswordO(event.target.value)}
+								/>
+							</Form.Group>
+						</Col>
+						<Col sm>
+							<Form.Group controlId="passwordN">
+								<Form.Label>Nova Senha</Form.Label>
+								<Form.Control
+									placeholder="Nova senha"
+									type="passwordN"
+									value={passwordN}
+									onChange={event => setPasswordN(event.target.value)}
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
+					<Row className="my-3">
+						<Col className="text-center">
+							<Button variant="primary" type="submit">
+								Salvar alterações
+							</Button>
+						</Col>
+					</Row>
+				</Form>
+				<hr/>
+				<Row className="d-flex">
+					<Button className="m-auto" variant="danger" onClick={() => setModalShow(true)}>
+						Encerrar conta
+					</Button>
+				</Row>
+			</Jumbotron>
 
-		return null;
-	}
+			<Modal show={modalShow} onClick={() => setModalShow(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Aviso</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					Você está prestes a encerrar sua conta!
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setModalShow(false)}>
+						Voltar
+					</Button>
+					<Button variant="danger" onClick={handleDelete}>
+						Encerrar
+					</Button>
+				</Modal.Footer>
+			</Modal>
+		</div>
+	);
 }

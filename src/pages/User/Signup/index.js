@@ -33,30 +33,26 @@ export default function Signup({ setUserId, setUser }) {
 	async function handleSignup(event) {
 		event.preventDefault();
 
-		const data = new FormData();
+		const data = {
+			name,
+			email,
+			password,
+			passwordC
+		};
 
-		data.append("name", name);
-		data.append("email", email);
-		data.append("password", password);
-		data.append("passwordC", passwordC);
-
-		await api.post("/user", data)
+		await api.post("user", data)
 			.then((response) => {
 				sessionStorage.setItem("userId", response.data._id);
 
 				setUserId(sessionStorage.getItem("userId"));
 				setUser(response.data);
 
-				history.push("/menu");
+				history.push("/contacts");
 			})
 			.catch((error) => {
 				setTitle("Erro!");
-				if(error.response) {
-					setMessage(error.response.data);
-				} else {
-					setMessage(error.message);
-				}
-				setToastShow(true); // deu erro de objeto
+				setMessage(error.response ? error.response.data : error.message);
+				setToastShow(true);
 			});
 	}
 
@@ -81,13 +77,13 @@ export default function Signup({ setUserId, setUser }) {
 	);
 
 	return (
-		<div className="user-container d-flex h-100">
+		<div className="user-container d-flex justify-content-center align-items-center h-100">
 			{toast}
-			<Jumbotron className="col-md-7 py-3 m-auto">
+			<Jumbotron className="col-md-7 py-3 m-3">
 				<h3>Abra sua conta:</h3>
-				<Form className="py-2 d-flex flex-column flex-wrap h-100" onSubmit={handleSignup}>
+				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleSignup}>
 					<Row className="d-flex justify-content-between">
-						<Col>
+						<Col sm>
 							<Form.Group controlId="name">
 								<Form.Label>Nome</Form.Label>
 								<Form.Control
@@ -99,7 +95,7 @@ export default function Signup({ setUserId, setUser }) {
 								/>
 							</Form.Group>
 						</Col>
-						<Col>
+						<Col sm>
 							<Form.Group controlId="email">
 								<Form.Label>Email</Form.Label>
 								<Form.Control
@@ -113,7 +109,7 @@ export default function Signup({ setUserId, setUser }) {
 						</Col>
 					</Row>
 					<Row className="d-flex justify-content-between">
-						<Col>
+						<Col sm>
 							<Form.Group controlId="password">
 								<Form.Label>Senha</Form.Label>
 								<Form.Control
@@ -125,7 +121,7 @@ export default function Signup({ setUserId, setUser }) {
 								/>
 							</Form.Group>
 						</Col>
-						<Col>
+						<Col sm>
 							<Form.Group controlId="passwordC">
 								<Form.Label>Confirmar Senha</Form.Label>
 								<Form.Control

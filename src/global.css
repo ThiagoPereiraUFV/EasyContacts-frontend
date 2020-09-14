@@ -33,13 +33,6 @@ body {
 	background-position: center;
 }
 
-/*	General content styles	*/
-
-.contacts-container {
-	width: 100%;
-	height: 100%;
-}
-
 .jumbotron {
 	font-weight: bolder;
 	color: rgb(255, 255, 255);
