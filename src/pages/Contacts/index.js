@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 //	Importing React Router features
 import { Link } from "react-router-dom";
 
+//	Importing React Bootstrap features
+import { CardDeck, Card, Col, Row, Image } from "react-bootstrap";
+
 //	Importing api to communicate to backend
 import api from "../../services/api";
 
@@ -27,9 +30,7 @@ export default function Contacts({ userId }) {
 				}
 			}).then((response) => {
 				setContacts(response.data);
-			}).catch((error) => {
-				//alert(error.response.data);
-			});
+			}).catch(() => {});
 		}
 
 		fetchData();
@@ -37,34 +38,40 @@ export default function Contacts({ userId }) {
 
 	return (
 		<div className="contacts-container h-100">
-			<header className="row align-items-center justify-content-between m-3 p-0">
-				<div className="col-sm m-0 p-0">
+			<Row className="m-3 p-0">
+				<Col sm>
 					<h1 className="display-5">Meus contatos</h1>
-				</div>
-				<div className="col-sm text-right m-0 p-0">
+				</Col>
+				<Col sm className="text-right">
 					<Link className="btn btn-primary my-0" to="/contacts/add">
 						Novo contato
 					</Link>
-				</div>
-				<hr/>
-			</header>
+				</Col>
+			</Row>
 
-			<div className="card-deck bg-transparent m-0">
+			<CardDeck className="bg-transparent m-3">
 				{contacts.length ?
 					contacts.map((contact) => (
-						<Link key={contact._id} className="col-sm-3 text-light m-0 p-0" to={"/contacts/edit/" + contact._id}>
-							<div className="card bg-transparent m-0">
-								<img className="img-thumbnail rounded mx-auto" src={avatar} alt="Avatar"/>
-								<div className="d-flex flex-column align-items-center p-2 h-100">
-									<h5 className="card-title my-1">{contact.name} {contact.surname}</h5>
-								</div>
-							</div>
+						<Link key={contact._id} className="col-sm-2 text-light m-0 p-0" to={"/contacts/edit/" + contact._id}>
+							<Card className="bg-transparent m-0">
+								<Image
+									className="mx-auto" src={avatar}
+									alt="Avatar"
+									style={{ filter: "saturate(9.9)" }}
+									fluid
+								/>
+								<Card.Body>
+									<Card.Title className="d-flex flex-column align-items-center p-2 h-100">
+										<h5>{contact.name} {contact.surname}</h5>
+									</Card.Title>
+								</Card.Body>
+							</Card>
 						</Link>
 					))
 					:
 					<h4 id="contactsField" className="text-light m-3">Nenhum contato registrado</h4>
 				}
-			</div>
+			</CardDeck>
 		</div>
 	);
 }
