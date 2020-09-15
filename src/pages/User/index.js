@@ -20,6 +20,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 	const [email, setEmail] = useState(user.email);
 	const [passwordO, setPasswordO] = useState("");
 	const [passwordN, setPasswordN] = useState("");
+	const [passwordOnDelete, setPasswordOnDelete] = useState("");
 
 	//	Message settings
 	const [toastShow, setToastShow] = useState(false);
@@ -59,10 +60,12 @@ export default function User({ userId, setUserId, user, setUser }) {
 	// Function to handle user information deleting
 	async function handleDelete(event) {
 		event.preventDefault();
+		console.log(passwordOnDelete);
 
 		await api.delete("user", {
 			headers: {
-				Authorization: userId
+				Authorization: userId,
+				password: passwordOnDelete
 			}
 		}).then(() => {
 			sessionStorage.removeItem("userId");
@@ -77,6 +80,8 @@ export default function User({ userId, setUserId, user, setUser }) {
 			setMessage(error.response ? error.response.data : error.message);
 			setToastShow(true);
 		});
+
+		setPasswordOnDelete("");
 	}
 
 	const toast = (
@@ -171,18 +176,30 @@ export default function User({ userId, setUserId, user, setUser }) {
 				</Row>
 			</Jumbotron>
 
-			<Modal show={modalShow} onClick={() => setModalShow(false)}>
+			<Modal show={modalShow} onHide={() => setModalShow(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>Aviso</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					Você está prestes a encerrar sua conta!
+					<Form className="my-3" onSubmit={(e) => { handleDelete(e); setModalShow(false); }}>
+						<Form.Group controlId="passwordOnDelete">
+							<Form.Label>Confirme sua senha</Form.Label>
+							<Form.Control
+								placeholder="Senha"
+								type="password"
+								value={passwordOnDelete}
+								onChange={event => setPasswordOnDelete(event.target.value)}
+								required
+							/>
+						</Form.Group>
+					</Form>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={() => setModalShow(false)}>
 						Voltar
 					</Button>
-					<Button variant="danger" onClick={handleDelete}>
+					<Button variant="danger" onClick={(e) => { handleDelete(e); setModalShow(false); }}>
 						Encerrar
 					</Button>
 				</Modal.Footer>

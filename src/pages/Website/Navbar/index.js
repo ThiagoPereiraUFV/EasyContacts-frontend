@@ -81,7 +81,6 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 						<Nav.Item>
 							<NavLink
 								exact activeClassName="activeRoute"
-								activeStyle={{ color: "white" }}
 								to="#"
 								onClick={handleLogout}
 								className="nav-link mx-2"

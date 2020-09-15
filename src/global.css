@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 /*	HTML and general styles	*/
 
@@ -14,7 +14,7 @@ html, body, #root {
 	width: 100%;
 
 	overflow-y: hidden;
-	font: 400 14px Roboto, sans-serif;
+	font-family: 'Varela Round', sans-serif;
 }
 
 #root {
@@ -46,25 +46,6 @@ body {
 
 .form-control:not(textarea) {
 	border-radius: 100px;
-}
-
-.form-control {
-	font-size: 15px;
-	font-weight: bold;
-	background-color: rgba(126, 123, 215, 0.521);
-	color: #fff;
-}
-
-.form-control::placeholder {
-	font-weight: lighter;
-	color: rgba(255, 255, 255, 0.58);
-}
-
-.form-control.search {
-	font-size: 20px;
-	border-style: hidden;
-	background-color: rgba(0, 0, 0, 0);
-	color: white;
 }
 
 @media (min-width: 0) {
