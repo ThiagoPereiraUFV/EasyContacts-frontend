@@ -13,8 +13,6 @@ import User from "./pages/User";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
 import Contacts from "./pages/Contacts";
-import AddContact from "./pages/Contacts/Add";
-import EditContact from "./pages/Contacts/Edit";
 import SearchContact from "./pages/Contacts/Search";
 import Logged from "./pages/Website/Authentication/Logged";
 import Auth from "./pages/Website/Authentication";
@@ -86,8 +84,6 @@ export default function Routes() {
 							<Auth />;
 					}}
 				/>
-				<Route exact path="/contacts/add" component={AddContact} />
-				<Route path="/contacts/edit/:id" component={EditContact} />
 				<Route path="/contacts/search" component={SearchContact} />
 				<Route path="*" component={NotFoundPage} />
 			</Switch>
