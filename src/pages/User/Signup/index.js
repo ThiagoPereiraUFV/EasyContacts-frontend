@@ -91,6 +91,7 @@ export default function Signup({ setUserId, setUser }) {
 									type="text"
 									value={name}
 									onChange={event => setName(event.target.value)}
+									autoFocus
 									required
 								/>
 							</Form.Group>

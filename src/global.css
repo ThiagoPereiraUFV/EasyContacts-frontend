@@ -56,42 +56,42 @@ body {
 
 @media (min-width: 320px) {
 	.display-3 {
-		font-size: 210%;
+		font-size: 170%;
 	}
 }
 
 @media (min-width: 375px) {
 	.display-3 {
-		font-size: 250%;
+		font-size: 200%;
 	}
 }
 
 @media (min-width: 425px) {
 	.display-3 {
-		font-size: 280%;
+		font-size: 240%;
 	}
 }
 
 @media (min-width: 768px) {
 	.display-3 {
-		font-size: 450%;
+		font-size: 410%;
 	}
 }
 
 @media (min-width: 1024px) {
 	.display-3 {
-		font-size: 500%;
+		font-size: 590%;
 	}
 }
 
 @media (min-width: 1440px) {
 	.display-3 {
-		font-size: 600%;
+		font-size: 780%;
 	}
 }
 
 @media (min-width: 2560px) {
 	.display-3 {
-		font-size: 800%;
+		font-size: 1200%;
 	}
 }

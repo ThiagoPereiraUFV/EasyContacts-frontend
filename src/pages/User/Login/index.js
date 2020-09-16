@@ -80,6 +80,7 @@ export default function Login({ setUserId, setUser }) {
 							onChange={event => setEmail(event.target.value)}
 							type="email"
 							placeholder="email@provedor.com"
+							autoFocus
 							required
 						/>
 					</Form.Group>

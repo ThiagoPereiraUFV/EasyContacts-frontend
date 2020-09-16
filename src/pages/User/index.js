@@ -55,6 +55,9 @@ export default function User({ userId, setUserId, user, setUser }) {
 			setMessage(error.response ? error.response.data : error.message);
 			setToastShow(true);
 		});
+
+		setPasswordO("");
+		setPasswordN("");
 	}
 
 	// Function to handle user information deleting
@@ -90,8 +93,8 @@ export default function User({ userId, setUserId, user, setUser }) {
 			aria-atomic="true"
 			style={{
 				position: "fixed",
-				top: "7%",
-				right: "3%",
+				right: "2%",
+				bottom: "3%",
 				zIndex: 5
 			}}
 		>
@@ -142,7 +145,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 								<Form.Label>Senha antiga</Form.Label>
 								<Form.Control
 									placeholder="Senha antiga"
-									type="passwordO"
+									type="password"
 									value={passwordO}
 									onChange={event => setPasswordO(event.target.value)}
 								/>
@@ -153,7 +156,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 								<Form.Label>Nova Senha</Form.Label>
 								<Form.Control
 									placeholder="Nova senha"
-									type="passwordN"
+									type="password"
 									value={passwordN}
 									onChange={event => setPasswordN(event.target.value)}
 								/>
