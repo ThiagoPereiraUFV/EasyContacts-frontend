@@ -1,11 +1,15 @@
 //	Importing React main module and its features
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Router features
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Toast, Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+import { Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+
+//	Importing utils
+import Toast from "../../../utils/toast";
 
 //	Importing api to communicate to backend
 import api from "../../../services/api";
@@ -47,29 +51,9 @@ export default function Login({ setUserId, setUser }) {
 			});
 	}
 
-	const toast = (
-		<div
-			aria-live="polite"
-			aria-atomic="true"
-			style={{
-				position: "fixed",
-				top: "3%",
-				right: "3%",
-				zIndex: 5
-			}}
-		>
-			<Toast show={toastShow} onClose={() => setToastShow(false)} delay={3000} autohide>
-				<Toast.Header>
-					<strong className="mr-auto">{title}</strong>
-				</Toast.Header>
-				<Toast.Body>{message}</Toast.Body>
-			</Toast>
-		</div>
-	);
-
 	return (
 		<div className="user-container d-flex justify-content-center align-items-center h-100">
-			{toast}
+			<Toast.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 			<Jumbotron className="col-md-3 py-3 m-3">
 				<h3>Acesse sua conta:</h3>
 				<Form className="py-2 text-white" onSubmit={handleLogin}>
@@ -115,3 +99,8 @@ export default function Login({ setUserId, setUser }) {
 		</div>
 	);
 }
+
+Login.propTypes = {
+	setUserId: PropTypes.any.isRequired,
+	setUser: PropTypes.any.isRequired
+};

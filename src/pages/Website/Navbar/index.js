@@ -1,5 +1,6 @@
 //	Importing React main module and its features
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Router features
 import { NavLink, useHistory } from "react-router-dom";
@@ -15,12 +16,12 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 	//	Defining history to jump through pages
 	const history = useHistory();
 
-	//	Function to handle search contacts
-	function handleSearch(event) {
+	//	Function to handle contact search
+	async function handleSearch(event) {
 		event.preventDefault();
 
 		try {
-			history.push("/contacts/search?search_query=" + searchQuery);
+			history.push("/contacts/search?query=" + searchQuery);
 
 			setSearchQuery("");
 		} catch(error) {
@@ -75,7 +76,13 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 						</Nav.Item>
 					</Nav>
 					<Form onSubmit={handleSearch} inline>
-						<Form.Control type="text" placeholder="Busque aqui" className="mr-sm-2" />
+						<Form.Control
+							type="text"
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+							placeholder="Busque aqui"
+							className="mr-sm-2"
+						/>
 					</Form>
 					<Nav className="ml-auto">
 						<Nav.Item>
@@ -96,3 +103,9 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 		return null;
 	}
 }
+
+WebsiteNavbar.propTypes = {
+	userId: PropTypes.string.isRequired,
+	setUserId: PropTypes.any.isRequired,
+	setUser: PropTypes.any.isRequired
+};

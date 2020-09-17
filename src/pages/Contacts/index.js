@@ -1,11 +1,15 @@
 //	Importing React main module and its features
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Router features
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Modal, Toast, CardDeck, Card, Col, Row, Image, Button, Accordion, Form } from "react-bootstrap";
+import { Modal, CardDeck, Card, Col, Row, Image, Button, Accordion, Form } from "react-bootstrap";
+
+//	Importing utils
+import Toast from "../../utils/toast";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
@@ -143,26 +147,6 @@ export default function Contacts({ userId }) {
 		});
 	}
 
-	const toast = (
-		<div
-			aria-live="polite"
-			aria-atomic="true"
-			style={{
-				position: "fixed",
-				top: "inherit",
-				right: "2%",
-				zIndex: 5
-			}}
-		>
-			<Toast show={toastShow} onClose={() => setToastShow(false)} delay={3000} autohide>
-				<Toast.Header>
-					<strong className="mr-auto">{title}</strong>
-				</Toast.Header>
-				<Toast.Body>{message}</Toast.Body>
-			</Toast>
-		</div>
-	);
-
 	return (
 		<div className="contacts-container h-100">
 			<Row className="m-3 p-0">
@@ -212,7 +196,7 @@ export default function Contacts({ userId }) {
 				size="lg"
 				centered
 			>
-				{toast}
+				<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 				<Modal.Header closeButton>
 					<Modal.Title>Adicionar novo contato</Modal.Title>
 				</Modal.Header>
@@ -271,10 +255,10 @@ export default function Contacts({ userId }) {
 								</Row>
 							</Col>
 						</Row>
-						<Accordion className="w-100">
-							<Card className="w-100" bg="warning">
-								<Card.Header className="text-center w-100">
-									<Accordion.Toggle as={Button} variant="outline-primary" eventKey="0">
+						<Accordion>
+							<Card bg="light">
+								<Card.Header className="text-center">
+									<Accordion.Toggle as={Button} variant="light" eventKey="0">
 										Adicionar mais informações
 									</Accordion.Toggle>
 								</Card.Header>
@@ -343,7 +327,7 @@ export default function Contacts({ userId }) {
 				size="lg"
 				centered
 			>
-				{toast}
+				<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 				<Modal.Header closeButton>
 					<Modal.Title>Modificar contato</Modal.Title>
 				</Modal.Header>
@@ -402,10 +386,10 @@ export default function Contacts({ userId }) {
 								</Row>
 							</Col>
 						</Row>
-						<Accordion className="w-100">
-							<Card className="w-100" bg="warning">
-								<Card.Header className="text-center w-100">
-									<Accordion.Toggle as={Button} variant="outline-primary" eventKey="0">
+						<Accordion>
+							<Card bg="light">
+								<Card.Header className="text-center">
+									<Accordion.Toggle as={Button} variant="light" eventKey="0">
 										Adicionar mais informações
 									</Accordion.Toggle>
 								</Card.Header>
@@ -472,3 +456,7 @@ export default function Contacts({ userId }) {
 		</div>
 	);
 }
+
+Contacts.propTypes = {
+	userId: PropTypes.string.isRequired
+};

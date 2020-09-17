@@ -1,5 +1,6 @@
 //	Importing React main module
 import React from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Router features
 import { Link } from "react-router-dom";
@@ -39,3 +40,7 @@ export default function Home({ userId }) {
 		</div>
 	);
 }
+
+Home.propTypes = {
+	userId: PropTypes.string.isRequired
+};

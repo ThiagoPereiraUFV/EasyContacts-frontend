@@ -1,11 +1,15 @@
 //	Importing React main module and its features
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Router features
 import { useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Toast, Modal, Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+import { Modal, Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+
+//	Importing utils
+import Toast from "../../utils/toast";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
@@ -87,29 +91,9 @@ export default function User({ userId, setUserId, user, setUser }) {
 		setPasswordOnDelete("");
 	}
 
-	const toast = (
-		<div
-			aria-live="polite"
-			aria-atomic="true"
-			style={{
-				position: "fixed",
-				right: "2%",
-				bottom: "3%",
-				zIndex: 5
-			}}
-		>
-			<Toast show={toastShow} onClose={() => setToastShow(false)} delay={3000} autohide>
-				<Toast.Header>
-					<strong className="mr-auto">{title}</strong>
-				</Toast.Header>
-				<Toast.Body>{message}</Toast.Body>
-			</Toast>
-		</div>
-	);
-
 	return (
 		<div className="user-container d-flex justify-content-center align-items-center h-100">
-			{toast}
+			<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 			<Jumbotron className="col-md-7 py-4 m-3">
 				<h3>Configurações:</h3>
 				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleUser}>
@@ -210,3 +194,10 @@ export default function User({ userId, setUserId, user, setUser }) {
 		</div>
 	);
 }
+
+User.propTypes = {
+	userId: PropTypes.string.isRequired,
+	setUserId: PropTypes.any.isRequired,
+	user: PropTypes.object.isRequired,
+	setUser: PropTypes.any.isRequired
+};

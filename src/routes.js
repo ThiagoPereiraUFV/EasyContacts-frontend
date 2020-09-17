@@ -1,5 +1,6 @@
 //	Importing React main module
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 //	Importing Route features to manage app routes
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -84,9 +85,20 @@ export default function Routes() {
 							<Auth />;
 					}}
 				/>
-				<Route path="/contacts/search" component={SearchContact} />
+				<Route path="/contacts/search"
+					render={(props) => {
+						return userAuth() ?
+							<SearchContact userId={userId} location={props.location} />
+							:
+							<Auth />;
+					}}
+				/>
 				<Route path="*" component={NotFoundPage} />
 			</Switch>
 		</BrowserRouter>
 	);
 }
+
+Routes.propTypes = {
+	location: PropTypes.object
+};
