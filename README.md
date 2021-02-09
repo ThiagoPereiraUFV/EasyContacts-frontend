@@ -33,12 +33,13 @@
 
 This project was built using following technologies:
 
+- [NodeJS](https://nodejs.org/)
 - [ReactJS](https://reactjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
 
 ## :computer: Project
 
-System to manage contacts developed using React.js and React Bootstrap.
+System to manage contacts developed using NodeJS, React.js and React Bootstrap.
 
 ## :wrench: Installation
 
