@@ -8,14 +8,14 @@ import { Link, useHistory } from "react-router-dom";
 //	Importing React Bootstrap features
 import { Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
 
-//	Importing utils
-import Toast from "../../../utils/toast";
+//	Importing components
+import { Push } from "../../../components/Push";
 
 //	Importing api to communicate to backend
 import api from "../../../services/api";
 
 //	Exporting resource to routes.js
-export default function Login({ setUserId, setUser }) {
+export function Login({ setUserId, setUser }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
@@ -35,25 +35,30 @@ export default function Login({ setUserId, setUser }) {
 	async function handleLogin(event) {
 		event.preventDefault();
 
-		await api.post("session", { email, password })
+		await api.post("/session", { email, password })
 			.then((response) => {
-				sessionStorage.setItem("userId", response.data._id);
+				if(response && response.status === 201) {
+					sessionStorage.setItem("userId", response.data.token);
 
-				setUserId(sessionStorage.getItem("userId"));
-				setUser(response.data);
+					setUserId(sessionStorage.getItem("userId"));
+					setUser(response.data.user);
 
-				history.push("/contacts");
-			})
-			.catch((error) => {
+					history.push("/contacts");
+				}
+			}).catch((error) => {
 				setTitle("Erro!");
-				setMessage(error.response ? error.response.data : error.message);
+				if(error.response && [400, 404].includes(error.response.status)) {
+					setMessage(error.response.data);
+				} else if(error.response && error.response.status === 500) {
+					setMessage(error.message);
+				}
 				setToastShow(true);
 			});
 	}
 
 	return (
 		<div className="user-container d-flex justify-content-center align-items-center h-100">
-			<Toast.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+			<Push.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 			<Jumbotron className="col-md-3 py-3 m-3">
 				<h3>Acesse sua conta:</h3>
 				<Form className="py-2 text-white" onSubmit={handleLogin}>
@@ -101,6 +106,6 @@ export default function Login({ setUserId, setUser }) {
 }
 
 Login.propTypes = {
-	setUserId: PropTypes.any.isRequired,
-	setUser: PropTypes.any.isRequired
+	setUserId: PropTypes.func.isRequired,
+	setUser: PropTypes.func.isRequired
 };

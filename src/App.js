@@ -5,7 +5,7 @@ import React from "react";
 import "./global.css";
 
 //	Importing Routes feature to navigate through website pages
-import Routes from "./routes";
+import { Routes } from "./routes";
 
 //	Exporting App to index.js
 export default function App() {

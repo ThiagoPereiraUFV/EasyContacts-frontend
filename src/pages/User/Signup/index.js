@@ -8,14 +8,14 @@ import { Link, useHistory } from "react-router-dom";
 //	Importing React Bootstrap features
 import { Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
 
-//	Importing utils
-import Toast from "../../../utils/toast";
+//	Importing components
+import { Push } from "../../../components/Push";
 
 //	Importing api to communicate to backend
 import api from "../../../services/api";
 
 //	Exporting resource to routes.js
-export default function Signup({ setUserId, setUser }) {
+export function Signup({ setUserId, setUser }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
@@ -44,25 +44,31 @@ export default function Signup({ setUserId, setUser }) {
 			passwordC
 		};
 
-		await api.post("user", data)
+		await api.post("/user", data)
 			.then((response) => {
-				sessionStorage.setItem("userId", response.data._id);
+				if(response && response.status === 201) {
+					sessionStorage.setItem("userId", response.data.token);
 
-				setUserId(sessionStorage.getItem("userId"));
-				setUser(response.data);
+					setUserId(sessionStorage.getItem("userId"));
+					setUser(response.data.user);
 
-				history.push("/contacts");
-			})
-			.catch((error) => {
+					history.push("/contacts");
+				}
+			}).catch((error) => {
 				setTitle("Erro!");
-				setMessage(error.response ? error.response.data : error.message);
+				if(error.response && error.response.status === 400) {
+					const messages = error.response.data;
+					setMessage(messages.errors ? messages.errors.join(", ") : messages);
+				} else if(error.response && error.response.status === 500) {
+					setMessage(error.message);
+				}
 				setToastShow(true);
 			});
 	}
 
 	return (
 		<div className="user-container d-flex justify-content-center align-items-center h-100">
-			<Toast.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+			<Push.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 			<Jumbotron className="col-md-7 py-3 m-3">
 				<h3>Abra sua conta:</h3>
 				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleSignup}>
@@ -142,6 +148,6 @@ export default function Signup({ setUserId, setUser }) {
 }
 
 Signup.propTypes = {
-	setUserId: PropTypes.any.isRequired,
-	setUser: PropTypes.any.isRequired
+	setUserId: PropTypes.func.isRequired,
+	setUser: PropTypes.func.isRequired
 };

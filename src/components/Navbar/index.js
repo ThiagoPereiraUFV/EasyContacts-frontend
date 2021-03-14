@@ -9,7 +9,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { Navbar, Nav, Form } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function WebsiteNavbar({ userId, setUserId, setUser }) {
+export function WebNavbar({ userId, setUserId, setUser }) {
 	//  Defining state variables
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -21,7 +21,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 		event.preventDefault();
 
 		try {
-			history.push("/contacts/search?query=" + searchQuery);
+			history.push("/contacts/search?q=" + searchQuery);
 
 			setSearchQuery("");
 		} catch(error) {
@@ -36,7 +36,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 		try {
 			sessionStorage.removeItem("userId");
 			setUserId(sessionStorage.getItem("userId"));
-			setUser({});
+			setUser(null);
 
 			history.push("/");
 		} catch(error) {
@@ -104,7 +104,7 @@ export default function WebsiteNavbar({ userId, setUserId, setUser }) {
 	}
 }
 
-WebsiteNavbar.propTypes = {
+WebNavbar.propTypes = {
 	userId: PropTypes.string.isRequired,
 	setUserId: PropTypes.any.isRequired,
 	setUser: PropTypes.any.isRequired

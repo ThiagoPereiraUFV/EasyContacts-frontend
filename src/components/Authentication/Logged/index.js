@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function Logged() {
+export function Logged() {
 	return (
 		<Modal show={true}>
 			<Modal.Header>

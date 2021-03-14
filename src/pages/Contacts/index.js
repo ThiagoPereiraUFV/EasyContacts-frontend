@@ -6,10 +6,10 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Modal, CardDeck, Card, Col, Row, Image, Button, Accordion, Form } from "react-bootstrap";
+import { Modal, CardDeck, Card, Col, Row, Image, Button, Accordion, Form, Container } from "react-bootstrap";
 
-//	Importing utils
-import Toast from "../../utils/toast";
+//	Importing components
+import { Push } from "../../components/Push";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
@@ -18,11 +18,11 @@ import api from "../../services/api";
 import avatar from "../../assets/avatar.png";
 
 //	Exporting resource to routes.js
-export default function Contacts({ userId }) {
+export function Contacts({ userId }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
-	//  Defining state variables
+	//  Contact state variables
 	const [contacts, setContacts] = useState([]);
 	const [contact, setContact] = useState({});
 	const [name, setName] = useState("");
@@ -31,9 +31,9 @@ export default function Contacts({ userId }) {
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
 	const [annotations, setAnnotations] = useState("");
-	const [imageName, setImageName] = useState("");
+	//const [image, setImage] = useState("");
 
-	//	Message settings
+	//	Message state variables
 	const [addContactModal, setAddContactModal] = useState(false);
 	const [editContactModal, setEditContactModal] = useState(false);
 	const [toastShow, setToastShow] = useState(false);
@@ -43,34 +43,30 @@ export default function Contacts({ userId }) {
 	//	Defining history to jump through pages
 	const history = useHistory();
 
-	//	Loading current user contacts
-	useEffect(() => {
-		async function fetchData() {
-			await api.get("contacts", {
-				headers: {
-					Authorization: userId
-				}
-			}).then((response) => {
+	//	Loading user contacts
+	useEffect(async () => {
+		await api.get("/contact", {
+			headers: {
+				"X-Access-Token": userId
+			}
+		}).then((response) => {
+			if(response && response.status === 200) {
 				setContacts(response.data);
-			}).catch(() => {});
-		}
-
-		fetchData();
+			}
+		}).catch(() => {
+			setContacts([]);
+		});
 	}, [userId]);
 
-	//	Loading current contact data
+	//	Load current contact data
 	useEffect(() => {
-		async function setData() {
-			setName(contact.name ? contact.name : "");
-			setSurname(contact.surname ? contact.surname : "");
-			setPhone(contact.phone ? contact.phone : "");
-			setEmail(contact.email ? contact.email : "");
-			setAddress(contact.address ? contact.address : "");
-			setAnnotations(contact.annotations ? contact.annotations : "");
-			setImageName(contact.imageName ? contact.imageName : "");
-		}
-
-		setData();
+		setName(contact.name ? contact.name : "");
+		setSurname(contact.surname ? contact.surname : "");
+		setPhone(contact.phone ? contact.phone : "");
+		setEmail(contact.email ? contact.email : "");
+		setAddress(contact.address ? contact.address : "");
+		setAnnotations(contact.annotations ? contact.annotations : "");
+		//setImage(contact.image ? contact.image : "");
 	}, [contact]);
 
 	async function handleAddContact(event) {
@@ -82,26 +78,30 @@ export default function Contacts({ userId }) {
 			phone,
 			email,
 			address,
-			annotations,
-			imageName
+			annotations
 		};
 
-		await api.post("contacts", data, {
+		await api.post("/contact", data, {
 			headers: {
-				Authorization: userId
+				"X-Access-Token": userId
 			}
-		}).then(() => {
-			setContact({});
-			setAddContactModal(false);
-			history.go();
+		}).then((response) => {
+			if(response && response.status === 201) {
+				history.go();
+			}
 		}).catch((error) => {
 			setTitle("Erro!");
-			setMessage(error.response ? error.response.data : error.message);
+			if(error.response && [400, 401, 403].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
 			setToastShow(true);
 		});
 	}
 
-	async function handleEditContact(event) {
+	async function handleUpdateContact(event) {
 		event.preventDefault();
 
 		const data = {
@@ -110,45 +110,87 @@ export default function Contacts({ userId }) {
 			phone,
 			email,
 			address,
-			annotations,
-			imageName
+			annotations
 		};
 
-		await api.put("contacts/" + contact._id, data, {
+		await api.put("/contact/" + contact._id, data, {
 			headers: {
-				Authorization: userId
+				"X-Access-Token": userId
 			}
-		}).then(() => {
-			setContact({});
-			setEditContactModal(false);
-			history.go();
+		}).then((response) => {
+			if(response && response.status === 200) {
+				history.go();
+			}
 		}).catch((error) => {
 			setTitle("Erro!");
-			setMessage(error.response ? error.response.data : error.message);
+			if(error.response && [400, 401, 403, 404].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
 			setToastShow(true);
 		});
 	}
+	/*
+	async function handleUpdateContactImage(event) {
+		event.preventDefault();
 
+		const data = {
+			name,
+			surname,
+			phone,
+			email,
+			address,
+			annotations
+		};
+
+		await api.put("/contacts/" + contact._id, data, {
+			headers: {
+				"X-Access-Token": userId
+			}
+		}).then((response) => {
+			if(response && response.status === 200) {
+				setContact({});
+				history.go();
+			}
+		}).catch((error) => {
+			setTitle("Erro!");
+			if(error.response && [400, 401, 403, 404].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
+			setToastShow(true);
+		});
+	}
+	*/
 	async function handleDeleteContact(event) {
 		event.preventDefault();
 
-		await api.delete("contacts/" + contact._id, {
+		await api.delete("/contact/" + contact._id, {
 			headers: {
-				Authorization: userId
+				"X-Access-Token": userId
 			}
-		}).then(() => {
-			setContact({});
-			setEditContactModal(false);
-			history.go();
+		}).then((response) => {
+			if(response && response.status === 200) {
+				history.go();
+			}
 		}).catch((error) => {
 			setTitle("Erro!");
-			setMessage(error.response ? error.response.data : error.message);
+			if(error.response && [400, 401, 403, 404].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
 			setToastShow(true);
 		});
 	}
 
 	return (
-		<div className="contacts-container h-100">
+		<Container fluid>
 			<Row className="m-3 p-0">
 				<Col sm>
 					<h1 className="display-5">Meus contatos</h1>
@@ -160,7 +202,7 @@ export default function Contacts({ userId }) {
 				</Col>
 			</Row>
 
-			<CardDeck className="bg-transparent m-3">
+			<CardDeck className="m-3">
 				{contacts.length ?
 					contacts.map((contact) => (
 						<Link
@@ -185,7 +227,7 @@ export default function Contacts({ userId }) {
 						</Link>
 					))
 					:
-					<h4 id="contactsField" className="text-light m-3">Nenhum contato registrado</h4>
+					<h4 className="text-light m-3">Nenhum contato registrado</h4>
 				}
 			</CardDeck>
 
@@ -196,7 +238,7 @@ export default function Contacts({ userId }) {
 				size="lg"
 				centered
 			>
-				<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 				<Modal.Header closeButton>
 					<Modal.Title>Adicionar novo contato</Modal.Title>
 				</Modal.Header>
@@ -327,12 +369,12 @@ export default function Contacts({ userId }) {
 				size="lg"
 				centered
 			>
-				<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 				<Modal.Header closeButton>
 					<Modal.Title>Modificar contato</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form onSubmit={handleEditContact}>
+					<Form onSubmit={handleUpdateContact}>
 						<Row>
 							<Col className="text-center" sm>
 								<Image
@@ -448,12 +490,12 @@ export default function Contacts({ userId }) {
 					<Button variant="danger" onClick={handleDeleteContact}>
 						Apagar contato
 					</Button>
-					<Button variant="primary" onClick={(e) => { handleEditContact(e); }}>
+					<Button variant="primary" onClick={(e) => { handleUpdateContact(e); }}>
 						Salvar alterações
 					</Button>
 				</Modal.Footer>
 			</Modal>
-		</div>
+		</Container>
 	);
 }
 

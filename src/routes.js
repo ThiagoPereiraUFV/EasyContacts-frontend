@@ -6,51 +6,51 @@ import PropTypes from "prop-types";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 //	Importing all app pages
-import HomePage from "./pages/Website/Home";
-import NotFoundPage from "./pages/Website/NotFound";
-import Navbar from "./pages/Website/Navbar";
-import Loading from "./pages/Website/Loading";
-import User from "./pages/User";
-import Login from "./pages/User/Login";
-import Signup from "./pages/User/Signup";
-import Contacts from "./pages/Contacts";
-import SearchContact from "./pages/Contacts/Search";
-import Logged from "./pages/Website/Authentication/Logged";
-import Auth from "./pages/Website/Authentication";
+import { HomePage } from "./pages/Website/Home";
+import { NotFoundPage } from "./pages/Website/NotFound";
+import { User } from "./pages/User";
+import { Login } from "./pages/User/Login";
+import { Signup } from "./pages/User/Signup";
+import { Contacts } from "./pages/Contacts";
+import { SearchContact } from "./pages/Contacts/Search";
+
+//	Importing components
+import { WebNavbar } from "./components/Navbar";
+import { Loading } from "./components/Loading";
+import { Logged } from "./components/Authentication/Logged";
+import { Auth } from "./components/Authentication";
 
 //	Importing api to communicate to backend
 import api from "./services/api";
 
 //	Exporting Routes do App.js
-export default function Routes() {
-	//	User and session variables
+export function Routes() {
+	//	User and session state variables
 	const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(null);
 
-	//	Loading variable
+	//	Loading component state variable
 	const [isLoading, setLoading] = useState(true);
 
-	useEffect(() => {
-		async function fetchData() {
-			if(userId && userId.length) {
-				await api.get("user/" + userId)
-					.then((response) => {
-						if(response && response.data) {
-							setUser(response.data);
-							setUserId(response.data._id);
-						}
-					}).catch(() => {});
+	useEffect(async () => {
+		await api.get("/session", {
+			headers: {
+				"X-Access-Token": userId
 			}
+		}).then((response) => {
+			if(response.status === 200) {
+				setUser(response.data);
+			}
+		}).catch(() => {
+			setUserId("");
+			setUser(null);
+			sessionStorage.removeItem("userId");
+		});
 
-			setLoading(false);
-		}
-
-		fetchData();
+		setLoading(false);
 	}, [userId]);
 
-	function userAuth() {
-		return (user._id && userId);
-	}
+	const userAuth = user && user._id && userId && userId.length;
 
 	if(isLoading) {
 		return (<Loading />);
@@ -58,42 +58,36 @@ export default function Routes() {
 
 	return (
 		<BrowserRouter>
-			<Navbar userId={userId} setUserId={setUserId} setUser={setUser} />
+			<WebNavbar userId={userId} setUserId={setUserId} setUser={setUser} />
 			<Switch>
 				<Route exact path="/" render={() => <HomePage userId={userId} />} />
 				<Route exact path="/user"
-					render={() => {
-						return userAuth() ?
-							<User userId={userId} setUserId={setUserId} user={user} setUser={setUser} />
-							:
-							<Auth />;
-					}}
+					render={() => userAuth ?
+						<User userId={userId} setUserId={setUserId} user={user} setUser={setUser} />
+						:
+						<Auth />
+					}
 				/>
 				<Route
 					exact path="/login"
-					render={() => !userAuth() ? <Login setUserId={setUserId} setUser={setUser} /> : <Logged />}
+					render={() => !userAuth ? <Login setUserId={setUserId} setUser={setUser} /> : <Logged />}
 				/>
 				<Route
 					exact path="/signup"
-					render={() => !userAuth() ? <Signup setUserId={setUserId} setUser={setUser} /> : <Logged />}
+					render={() => !userAuth ? <Signup setUserId={setUserId} setUser={setUser} /> : <Logged />}
 				/>
-				<Route exact path="/contacts"
-					render={() => {
-						return userAuth() ?
-							<Contacts userId={userId} />
-							:
-							<Auth />;
-					}}
+				<Route
+					exact path="/contacts"
+					render={() => userAuth ? <Contacts userId={userId} /> : <Auth />}
 				/>
 				<Route path="/contacts/search"
-					render={(props) => {
-						return userAuth() ?
-							<SearchContact userId={userId} location={props.location} />
-							:
-							<Auth />;
-					}}
+					render={(props) => userAuth ?
+						<SearchContact userId={userId} location={props.location} />
+						:
+						<Auth />
+					}
 				/>
-				<Route path="*" component={NotFoundPage} />
+				<Route path="*" component={NotFoundPage} status={404} />
 			</Switch>
 		</BrowserRouter>
 	);

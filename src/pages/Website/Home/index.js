@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 import { Jumbotron } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function Home({ userId }) {
+export function HomePage({ userId }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(0px)";
 
 	return (
-		<div className="website-container d-flex h-100">
+		<div className="d-flex h-100">
 			<Jumbotron
 				className="my-auto ml-5"
 				style={{ width: "65%" }}
@@ -41,6 +41,6 @@ export default function Home({ userId }) {
 	);
 }
 
-Home.propTypes = {
-	userId: PropTypes.string.isRequired
+HomePage.propTypes = {
+	userId: PropTypes.string
 };

@@ -8,14 +8,14 @@ import { useHistory } from "react-router-dom";
 //	Importing React Bootstrap features
 import { Modal, Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
 
-//	Importing utils
-import Toast from "../../utils/toast";
+//	Importing components
+import { Push } from "../../components/Push";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
 
 //	Exporting resource to routes.js
-export default function User({ userId, setUserId, user, setUser }) {
+export function User({ userId, setUserId, user, setUser }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
@@ -36,7 +36,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 	const history = useHistory();
 
 	// Function to handle user information modifications
-	async function handleUser(event) {
+	async function handleUserUpdate(event) {
 		event.preventDefault();
 
 		const data = {
@@ -46,17 +46,24 @@ export default function User({ userId, setUserId, user, setUser }) {
 			passwordN
 		};
 
-		await api.put("user", data , {
+		await api.put("/user", data , {
 			headers: {
-				Authorization: userId
+				"X-Access-Token": userId
 			}
-		}).then(() => {
-			setTitle("Alterações usuário");
-			setMessage("Alterações feitas com sucesso!");
-			setToastShow(true);
+		}).then((response) => {
+			if(response && response.status) {
+				setTitle("Alterações usuário");
+				setMessage("Alterações feitas com sucesso!");
+				setToastShow(true);
+			}
 		}).catch((error) => {
 			setTitle("Erro!");
-			setMessage(error.response ? error.response.data : error.message);
+			if(error.response && [400, 401, 403, 404].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
 			setToastShow(true);
 		});
 
@@ -65,26 +72,32 @@ export default function User({ userId, setUserId, user, setUser }) {
 	}
 
 	// Function to handle user information deleting
-	async function handleDelete(event) {
+	async function handleUserDelete(event) {
 		event.preventDefault();
-		console.log(passwordOnDelete);
 
-		await api.delete("user", {
+		await api.delete("/user", {
 			headers: {
-				Authorization: userId,
+				"X-Access-Token": userId,
 				password: passwordOnDelete
 			}
-		}).then(() => {
-			sessionStorage.removeItem("userId");
+		}).then((response) => {
+			if(response && response.status === 200) {
+				sessionStorage.removeItem("userId");
 
-			setUserId(sessionStorage.getItem("userId"));
-			setUser({});
+				setUserId(sessionStorage.getItem("userId"));
+				setUser(null);
 
-			setModalShow(false);
-			history.push("/");
+				setModalShow(false);
+				history.push("/");
+			}
 		}).catch((error) => {
 			setTitle("Erro!");
-			setMessage(error.response ? error.response.data : error.message);
+			if(error.response && [400, 401, 403, 404].includes(error.response.status)) {
+				const messages = error.response.data;
+				setMessage(messages.errors ? messages.errors.join(", ") : messages);
+			} else if(error.response && error.response.status === 500) {
+				setMessage(error.message);
+			}
 			setToastShow(true);
 		});
 
@@ -93,10 +106,10 @@ export default function User({ userId, setUserId, user, setUser }) {
 
 	return (
 		<div className="user-container d-flex justify-content-center align-items-center h-100">
-			<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+			<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
 			<Jumbotron className="col-md-7 py-4 m-3">
 				<h3>Configurações:</h3>
-				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleUser}>
+				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleUserUpdate}>
 					<Row className="d-flex justify-content-between">
 						<Col sm>
 							<Form.Group controlId="name">
@@ -169,7 +182,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 				</Modal.Header>
 				<Modal.Body>
 					Você está prestes a encerrar sua conta!
-					<Form className="my-3" onSubmit={(e) => { handleDelete(e); setModalShow(false); }}>
+					<Form className="my-3" onSubmit={(e) => { handleUserDelete(e); setModalShow(false); }}>
 						<Form.Group controlId="passwordOnDelete">
 							<Form.Label>Confirme sua senha</Form.Label>
 							<Form.Control
@@ -186,7 +199,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 					<Button variant="secondary" onClick={() => setModalShow(false)}>
 						Voltar
 					</Button>
-					<Button variant="danger" onClick={(e) => { handleDelete(e); setModalShow(false); }}>
+					<Button variant="danger" onClick={(e) => { handleUserDelete(e); setModalShow(false); }}>
 						Encerrar
 					</Button>
 				</Modal.Footer>
@@ -197,7 +210,7 @@ export default function User({ userId, setUserId, user, setUser }) {
 
 User.propTypes = {
 	userId: PropTypes.string.isRequired,
-	setUserId: PropTypes.any.isRequired,
+	setUserId: PropTypes.func.isRequired,
 	user: PropTypes.object.isRequired,
-	setUser: PropTypes.any.isRequired
+	setUser: PropTypes.func.isRequired
 };

@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 //	Importing React Router features
 import { Link } from "react-router-dom";
 
-//	Importing utils
-import Toast from "../../../utils/toast";
+//	Importing React Bootstrap features
+import { Container } from "react-bootstrap";
 
 //	Importing query-string handle feature
 import queryString from "query-string";
@@ -18,41 +18,36 @@ import api from "../../../services/api";
 import avatar from "../../../assets/avatar.png";
 
 //	Exporting resource to routes.js
-export default function Search({ userId, location }) {
+export function SearchContact({ userId, location }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
 	//  Defining state variables
 	const [contacts, setContacts] = useState([]);
-	const searchQuery = queryString.parse(location.search).query;
-
+	const searchQuery = queryString.parse(location.search).q;
+	/*
 	//	Message settings
 	const [toastShow, setToastShow] = useState(false);
 	const [title, setTitle] = useState("");
 	const [message, setMessage] = useState("");
-
+	*/
 	//	Loading current user contacts given search query
-	useEffect(() => {
-		async function fetchData() {
-			await api.get("contactsSearch?search_query=" + searchQuery, {
-				headers: {
-					Authorization: userId
-				}
-			}).then((response) => {
+	useEffect(async () => {
+		await api.get("/searchContacts?q=" + searchQuery, {
+			headers: {
+				"X-Access-Token": userId
+			}
+		}).then((response) => {
+			if(response && response.status) {
 				setContacts(response.data);
-			}).catch((error) => {
-				setTitle("Alerta!");
-				setMessage(error.response ? error.response.data : error.message);
-				setToastShow(true);
-			});
-		}
-
-		fetchData();
+			}
+		}).catch(() => {
+			setContacts([]);
+		});
 	}, [userId, searchQuery]);
 
 	return (
-		<div className="contacts-container">
-			<Toast.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+		<Container fluid>
 			<header className="row align-items-center justify-content-between m-3 p-0">
 				<div className="col-sm m-0 p-0">
 					<h1 className="display-5">{"Resultados para busca de \"" + searchQuery + "\""}</h1>
@@ -75,11 +70,11 @@ export default function Search({ userId, location }) {
 					<h4 id="contactsField" className="text-light m-3">Nenhum contato encontrado</h4>
 				}
 			</div>
-		</div>
+		</Container>
 	);
 }
 
-Search.propTypes = {
+SearchContact.propTypes = {
 	userId: PropTypes.string.isRequired,
 	location: PropTypes.object.isRequired
 };

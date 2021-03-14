@@ -5,7 +5,7 @@ import React from "react";
 import { Container, Spinner } from "react-bootstrap";
 
 //	Exporting resource to routes.js
-export default function Loading() {
+export function Loading() {
 	return (
 		<Container className="d-flex h-100">
 			<Spinner

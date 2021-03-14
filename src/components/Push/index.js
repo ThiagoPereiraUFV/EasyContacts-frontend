@@ -1,10 +1,11 @@
 //	Importing React main module and its features
 import React from "react";
+import PropTypes from "prop-types";
 
 //	Importing React Bootstrap features
 import { Toast } from "react-bootstrap";
 
-export default {
+export const Push = {
 	Top: function Top({ toastShow, setToastShow, message, title }) {
 		return (
 			<div
@@ -48,4 +49,11 @@ export default {
 			</div>
 		);
 	}
+};
+
+Push.Top.propTypes = Push.Bottom.propTypes = {
+	toastShow: PropTypes.bool.isRequired,
+	setToastShow: PropTypes.func.isRequired,
+	message: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired
 };
