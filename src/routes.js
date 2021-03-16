@@ -33,19 +33,21 @@ export function Routes() {
 	const [isLoading, setLoading] = useState(true);
 
 	useEffect(async () => {
-		await api.get("/session", {
-			headers: {
-				"X-Access-Token": userId
-			}
-		}).then((response) => {
-			if(response.status === 200) {
-				setUser(response.data);
-			}
-		}).catch(() => {
-			setUserId("");
-			setUser(null);
-			sessionStorage.removeItem("userId");
-		});
+		if(userId && userId.length) {
+			await api.get("/session", {
+				headers: {
+					"X-Access-Token": userId
+				}
+			}).then((response) => {
+				if(response && response.status === 200) {
+					setUser(response.data);
+				}
+			}).catch(() => {
+				setUserId("");
+				setUser(null);
+				sessionStorage.removeItem("userId");
+			});
+		}
 
 		setLoading(false);
 	}, [userId]);

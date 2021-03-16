@@ -105,7 +105,7 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 }
 
 WebNavbar.propTypes = {
-	userId: PropTypes.string.isRequired,
+	userId: PropTypes.string,
 	setUserId: PropTypes.any.isRequired,
 	setUser: PropTypes.any.isRequired
 };
