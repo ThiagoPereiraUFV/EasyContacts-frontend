@@ -3,14 +3,17 @@ import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 
 //	Importing React Router features
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+//	Importing query-string handle feature
+import queryString from "query-string";
 
 //	Importing React Bootstrap features
-import { CardDeck, Card, Col, Row, Image, Button, Form, Container } from "react-bootstrap";
+import { CardDeck, Card, Col, Row, Image, Button, Form, Modal, Container } from "react-bootstrap";
 
 //	Importing components
 import { Loading } from "../../components/Loading";
-import { Contact } from "../../components/Contact";
+import { Push } from "../../components/Push";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
@@ -19,7 +22,7 @@ import api from "../../services/api";
 import avatar from "../../assets/avatar.png";
 
 //	Exporting resource to routes.js
-export function Contacts({ userId }) {
+export function Contacts({ userId, location }) {
 	//	Setting background style properties
 	document.getElementsByTagName("body")[0].style = "backdrop-filter: blur(4px)";
 
@@ -45,12 +48,15 @@ export function Contacts({ userId }) {
 	//	Loading component state variable
 	const [isLoading, setLoading] = useState(true);
 
-	//	Defining history to jump through pages
-	const history = useHistory();
+	//	Query
+	const searchQuery = queryString.parse(location.search).q;
 
 	//	Loading user contacts
 	useEffect(async () => {
-		await api.get("/contact", {
+		const queryContactsURL = (searchQuery && searchQuery.length) ?
+			"/searchContacts?q=" + searchQuery : "/contact";
+
+		await api.get(queryContactsURL, {
 			headers: {
 				"X-Access-Token": userId
 			}
@@ -63,17 +69,17 @@ export function Contacts({ userId }) {
 		});
 
 		setLoading(false);
-	}, [userId]);
+	}, [userId, searchQuery, editContactModal, addContactModal]);
 
 	//	Load current contact data
 	useEffect(() => {
-		setName(contact.name ? contact.name : "");
-		setSurname(contact.surname ? contact.surname : "");
-		setPhone(contact.phone ? contact.phone : "");
-		setEmail(contact.email ? contact.email : "");
-		setAddress(contact.address ? contact.address : "");
-		setAnnotations(contact.annotations ? contact.annotations : "");
-		setImageName(contact.image ? contact.image : "");
+		setName(contact.name ?? "");
+		setSurname(contact.surname ?? "");
+		setPhone(contact.phone ?? "");
+		setEmail(contact.email ?? "");
+		setAddress(contact.address ?? "");
+		setAnnotations(contact.annotations ?? "");
+		setImageName(contact.image ?? "");
 		setImage(null);
 	}, [contact]);
 
@@ -100,7 +106,7 @@ export function Contacts({ userId }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 201) {
-				history.go();
+				setAddContactModal(false);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -132,7 +138,7 @@ export function Contacts({ userId }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
-				history.go();
+				setEditContactModal(false);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -159,7 +165,9 @@ export function Contacts({ userId }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
-				history.go();
+				setTitle("Sucesso!");
+				setMessage("Imagem atualizada com sucesso!");
+				setToastShow(true);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -182,7 +190,7 @@ export function Contacts({ userId }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
-				history.go();
+				setEditContactModal(false);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -264,7 +272,13 @@ export function Contacts({ userId }) {
 		<Container fluid>
 			<Row className="m-3 p-0">
 				<Col sm>
-					<h1 className="display-5">Meus contatos</h1>
+					<h1 className="display-5">
+						{searchQuery && searchQuery.length ?
+							"Resultados para busca de \"" + searchQuery + "\""
+							:
+							"Meus contatos"
+						}
+					</h1>
 				</Col>
 				<Col sm className="text-right">
 					<Button variant="primary" onClick={() => setAddContactModal(true)}>
@@ -310,38 +324,119 @@ export function Contacts({ userId }) {
 				</CardDeck>
 			}
 
-			<Contact.ModalAdd
-				contactFormBody={contactFormBody}
-				handleAddContact={handleAddContact}
-				addContactModal={addContactModal}
-				setAddContactModal={setAddContactModal}
-				toastShow={toastShow}
-				setToastShow={setToastShow}
-				message={message}
-				title={title}
-			/>
+			<Modal
+				className="p-0"
+				show={addContactModal}
+				onHide={() => setAddContactModal(false)}
+				size="lg"
+				centered
+			>
+				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+				<Modal.Header closeButton>
+					<Modal.Title>Adicionar novo contato</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Row>
+						<Col className="text-center h-100 m-auto" sm="5">
+							<Image
+								alt="Avatar"
+								src={avatar}
+								fluid
+								rounded
+							/>
+						</Col>
+						<Col sm>
+							<Form onSubmit={handleAddContact}>
+								{contactFormBody}
+							</Form>
+						</Col>
+					</Row>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setAddContactModal(false)}>
+						Voltar
+					</Button>
+					<Button variant="primary" onClick={(e) => { handleAddContact(e); }}>
+						Adicionar
+					</Button>
+				</Modal.Footer>
+			</Modal>
 
-			<Contact.ModalEdit
-				preview={preview}
-				image={image}
-				setImage={setImage}
-				imageName={imageName}
-				contactFormBody={contactFormBody}
-				editContactModal={editContactModal}
-				setEditContactModal={setEditContactModal}
-				handleUpdateContact={handleUpdateContact}
-				handleDeleteContact={handleDeleteContact}
-				handleUpdateContactImage={handleUpdateContactImage}
-				toastShow={toastShow}
-				setToastShow={setToastShow}
-				message={message}
-				title={title}
-			/>
+			<Modal
+				className="p-0"
+				show={editContactModal}
+				onHide={() => setEditContactModal(false)}
+				size="lg"
+				centered
+			>
+				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
+				<Modal.Header closeButton>
+					<Modal.Title>Modificar contato</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Row>
+						<Col className="d-flex text-center flex-column m-auto" sm="5">
+							<Form onSubmit={handleUpdateContactImage}>
+								<Form.Control
+									id="inputImage"
+									className="d-none"
+									type="file"
+									accept="image/*"
+									onChange={event => setImage(event.target.files[0])}
+									required
+								/>
+								<Image
+									className={preview ? "btn border-0 m-auto" : "btn w-75 m-auto"}
+									src={preview ?
+										preview
+										:
+										(imageName && imageName.length ?
+											process.env.REACT_APP_API_URL + "files/" + imageName
+											:
+											avatar
+										)
+									}
+									alt="Selecione sua imagem"
+									onClick={() => document.getElementById("inputImage").click()}
+									rounded
+									fluid
+								/>
+								{image ?
+									<Button variant="primary" type="submit" className="d-flex mx-auto my-2">
+										Alterar imagem
+									</Button>
+									:
+									<Button variant="primary" type="submit" className="d-flex mx-auto my-2">
+										Adicionar imagem
+									</Button>
+								}
+							</Form>
+						</Col>
+						<Col sm>
+							<Form onSubmit={handleUpdateContact}>
+								{contactFormBody}
+							</Form>
+						</Col>
+					</Row>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setEditContactModal(false)}>
+						Voltar
+					</Button>
+					<Button variant="danger" onClick={handleDeleteContact}>
+						Apagar
+					</Button>
+					<Button variant="primary" onClick={(e) => { handleUpdateContact(e); }}>
+						Salvar alterações
+					</Button>
+				</Modal.Footer>
+			</Modal>
 
 		</Container>
 	);
 }
 
 Contacts.propTypes = {
-	userId: PropTypes.string.isRequired
+	userId: PropTypes.string.isRequired,
+	location: PropTypes.object.isRequired
 };

@@ -12,7 +12,6 @@ import { User } from "./pages/User";
 import { Login } from "./pages/User/Login";
 import { Signup } from "./pages/User/Signup";
 import { Contacts } from "./pages/Contacts";
-import { SearchContact } from "./pages/Contacts/Search";
 
 //	Importing components
 import { WebNavbar } from "./components/Navbar";
@@ -78,13 +77,9 @@ export function Routes() {
 					exact path="/signup"
 					render={() => !userAuth ? <Signup setUserId={setUserId} setUser={setUser} /> : <Logged />}
 				/>
-				<Route
-					exact path="/contacts"
-					render={() => userAuth ? <Contacts userId={userId} /> : <Auth />}
-				/>
-				<Route path="/contacts/search"
+				<Route path="/contacts"
 					render={(props) => userAuth ?
-						<SearchContact userId={userId} location={props.location} />
+						<Contacts userId={userId} location={props.location} />
 						:
 						<Auth />
 					}

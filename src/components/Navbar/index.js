@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 //	Importing React Router features
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
 import { Navbar, Nav, Form } from "react-bootstrap";
@@ -21,7 +21,7 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 		event.preventDefault();
 
 		try {
-			history.push("/contacts/search?q=" + searchQuery);
+			history.push("/contacts?q=" + searchQuery);
 
 			setSearchQuery("");
 		} catch(error) {
@@ -47,32 +47,32 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 	//	Testing if user is logged in
 	if(userId && userId.length) {
 		return (
-			<Navbar className="py-0 m-0" bg="dark" variant="dark" expand="lg">
-				<NavLink to="/" className="navbar-brand text-white">
+			<Navbar className="py-0 m-0" bg="dark" variant="dark" expand="lg" collapseOnSelect>
+				<Nav.Link as={Link} to="/" href="/" className="navbar-brand text-white">
 					EasyContacts
-				</NavLink>
+				</Nav.Link>
 				<Navbar.Toggle className="bg-dark" aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav>
 						<Nav.Item>
-							<NavLink
-								exact activeClassName="activeRoute"
-								activeStyle={{ color: "white" }}
+							<Nav.Link
+								as={Link}
 								to="/user"
+								href="/user"
 								className="nav-link mx-2"
 							>
 								Perfil
-							</NavLink>
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<NavLink
-								activeClassName="activeRoute"
-								activeStyle={{ color: "white" }}
+							<Nav.Link
+								as={Link}
 								to="/contacts"
+								href="/contacts"
 								className="nav-link mx-2"
 							>
 								Contatos
-							</NavLink>
+							</Nav.Link>
 						</Nav.Item>
 					</Nav>
 					<Form onSubmit={handleSearch} inline>
@@ -86,14 +86,15 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 					</Form>
 					<Nav className="ml-auto">
 						<Nav.Item>
-							<NavLink
-								exact activeClassName="activeRoute"
+							<Nav.Link
+								as={Link}
 								to="#"
+								href="#"
 								onClick={handleLogout}
 								className="nav-link mx-2"
 							>
 								Sair
-							</NavLink>
+							</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Navbar.Collapse>
