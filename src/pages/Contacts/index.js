@@ -54,7 +54,7 @@ export function Contacts({ userId, location }) {
 	//	Loading user contacts
 	useEffect(async () => {
 		const queryContactsURL = (searchQuery && searchQuery.length) ?
-			"/searchContacts?q=" + searchQuery : "/contact";
+			"/searchContact?q=" + searchQuery : "/contact";
 
 		await api.get(queryContactsURL, {
 			headers: {
@@ -73,13 +73,13 @@ export function Contacts({ userId, location }) {
 
 	//	Load current contact data
 	useEffect(() => {
-		setName(contact.name ?? "");
-		setSurname(contact.surname ?? "");
-		setPhone(contact.phone ?? "");
-		setEmail(contact.email ?? "");
-		setAddress(contact.address ?? "");
-		setAnnotations(contact.annotations ?? "");
-		setImageName(contact.image ?? "");
+		setName(contact?.name ?? "");
+		setSurname(contact?.surname ?? "");
+		setPhone(contact?.phone ?? "");
+		setEmail(contact?.email ?? "");
+		setAddress(contact?.address ?? "");
+		setAnnotations(contact?.annotations ?? "");
+		setImageName(contact?.image ?? "");
 		setImage(null);
 	}, [contact]);
 
@@ -107,6 +107,7 @@ export function Contacts({ userId, location }) {
 		}).then((response) => {
 			if(response && response.status === 201) {
 				setAddContactModal(false);
+				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -139,6 +140,7 @@ export function Contacts({ userId, location }) {
 		}).then((response) => {
 			if(response && response.status === 200) {
 				setEditContactModal(false);
+				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -191,6 +193,7 @@ export function Contacts({ userId, location }) {
 		}).then((response) => {
 			if(response && response.status === 200) {
 				setEditContactModal(false);
+				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -271,7 +274,7 @@ export function Contacts({ userId, location }) {
 	return (
 		<Container fluid>
 			<Row className="m-3 p-0">
-				<Col sm>
+				<Col sm="10">
 					<h1 className="display-5">
 						{searchQuery && searchQuery.length ?
 							"Resultados para busca de \"" + searchQuery + "\""
@@ -280,7 +283,7 @@ export function Contacts({ userId, location }) {
 						}
 					</h1>
 				</Col>
-				<Col sm className="text-right">
+				<Col className="text-right ml-auto" sm="auto">
 					<Button variant="primary" onClick={() => setAddContactModal(true)}>
 						Novo contato
 					</Button>
@@ -327,7 +330,7 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={addContactModal}
-				onHide={() => setAddContactModal(false)}
+				onHide={() => { setAddContactModal(false); setContact(null); }}
 				size="lg"
 				centered
 			>
@@ -353,7 +356,7 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setAddContactModal(false)}>
+					<Button variant="secondary" onClick={() => { setAddContactModal(false); setContact(null); }}>
 						Voltar
 					</Button>
 					<Button variant="primary" onClick={(e) => { handleAddContact(e); }}>
@@ -365,7 +368,7 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={editContactModal}
-				onHide={() => setEditContactModal(false)}
+				onHide={() => { setEditContactModal(false); setContact(null); }}
 				size="lg"
 				centered
 			>
@@ -420,7 +423,7 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setEditContactModal(false)}>
+					<Button variant="secondary" onClick={() => { setEditContactModal(false); setContact(null); }}>
 						Voltar
 					</Button>
 					<Button variant="danger" onClick={handleDeleteContact}>
