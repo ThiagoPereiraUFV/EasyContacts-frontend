@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Modal, CardDeck, Card, Col, Row, Image, Button, Form, Container } from "react-bootstrap";
+import { CardDeck, Card, Col, Row, Image, Button, Form, Container } from "react-bootstrap";
 
 //	Importing components
-import { Push } from "../../components/Push";
 import { Loading } from "../../components/Loading";
+import { Contact } from "../../components/Contact";
 
 //	Importing api to communicate to backend
 import api from "../../services/api";
@@ -294,7 +294,6 @@ export function Contacts({ userId }) {
 											avatar
 										}
 										alt="Avatar"
-										style={{ filter: "saturate(9.9)" }}
 										fluid
 									/>
 									<Card.Body>
@@ -311,113 +310,34 @@ export function Contacts({ userId }) {
 				</CardDeck>
 			}
 
-			<Modal
-				className="p-0"
-				show={addContactModal}
-				onHide={() => setAddContactModal(false)}
-				size="lg"
-				centered
-			>
-				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
-				<Modal.Header closeButton>
-					<Modal.Title>Adicionar novo contato</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Row>
-						<Col className="text-center h-100 m-auto" sm="5">
-							<Image
-								alt="Avatar"
-								src={avatar}
-								fluid
-								rounded
-							/>
-						</Col>
-						<Col sm>
-							<Form onSubmit={handleAddContact}>
-								{contactFormBody}
-							</Form>
-						</Col>
-					</Row>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setAddContactModal(false)}>
-						Voltar
-					</Button>
-					<Button variant="primary" onClick={(e) => { handleAddContact(e); }}>
-						Adicionar
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			<Contact.ModalAdd
+				contactFormBody={contactFormBody}
+				handleAddContact={handleAddContact}
+				addContactModal={addContactModal}
+				setAddContactModal={setAddContactModal}
+				toastShow={toastShow}
+				setToastShow={setToastShow}
+				message={message}
+				title={title}
+			/>
 
-			<Modal
-				className="p-0"
-				show={editContactModal}
-				onHide={() => setEditContactModal(false)}
-				size="lg"
-				centered
-			>
-				<Push.Bottom toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
-				<Modal.Header closeButton>
-					<Modal.Title>Modificar contato</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Row>
-						<Col className="d-flex text-center flex-column m-auto" sm="5">
-							<Form onSubmit={handleUpdateContactImage}>
-								<Form.Control
-									id="inputImage"
-									className="d-none"
-									type="file"
-									accept="image/*"
-									onChange={event => setImage(event.target.files[0])}
-									required
-								/>
-								<Image
-									className={preview ? "btn border-0 m-auto" : "btn w-75 m-auto"}
-									src={preview ?
-										preview
-										:
-										(imageName && imageName.length ?
-											process.env.REACT_APP_API_URL + "files/" + imageName
-											:
-											avatar
-										)
-									}
-									alt="Selecione sua imagem"
-									onClick={() => document.getElementById("inputImage").click()}
-									rounded
-									fluid
-								/>
-								{image ?
-									<Button variant="primary" type="submit" className="d-flex mx-auto my-2">
-										Alterar imagem
-									</Button>
-									:
-									<Button variant="primary" type="submit" className="d-flex mx-auto my-2">
-										Adicionar imagem
-									</Button>
-								}
-							</Form>
-						</Col>
-						<Col sm>
-							<Form onSubmit={handleUpdateContact}>
-								{contactFormBody}
-							</Form>
-						</Col>
-					</Row>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setEditContactModal(false)}>
-						Voltar
-					</Button>
-					<Button variant="danger" onClick={handleDeleteContact}>
-						Apagar
-					</Button>
-					<Button variant="primary" onClick={(e) => { handleUpdateContact(e); }}>
-						Salvar alterações
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			<Contact.ModalEdit
+				preview={preview}
+				image={image}
+				setImage={setImage}
+				imageName={imageName}
+				contactFormBody={contactFormBody}
+				editContactModal={editContactModal}
+				setEditContactModal={setEditContactModal}
+				handleUpdateContact={handleUpdateContact}
+				handleDeleteContact={handleDeleteContact}
+				handleUpdateContactImage={handleUpdateContactImage}
+				toastShow={toastShow}
+				setToastShow={setToastShow}
+				message={message}
+				title={title}
+			/>
+
 		</Container>
 	);
 }
