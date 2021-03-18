@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+import { Jumbotron, Form, Button, Col, Row, Container } from "react-bootstrap";
 
 //	Importing components
 import { Push } from "../../../components/Push";
@@ -67,14 +67,14 @@ export function Signup({ setUserId, setUser }) {
 	}
 
 	return (
-		<div className="user-container d-flex justify-content-center align-items-center h-100">
+		<Container className="m-auto" fluid>
 			<Push.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
-			<Jumbotron className="col-md-7 py-3 m-3">
-				<h3>Abra sua conta:</h3>
-				<Form className="py-2 d-flex flex-column h-100" onSubmit={handleSignup}>
-					<Row className="d-flex justify-content-between">
-						<Col sm>
-							<Form.Group controlId="name">
+			<Col className="my-2 mx-auto" xl="8" lg="10" md="10">
+				<Jumbotron className="py-3">
+					<h3>Abra sua conta:</h3>
+					<Form onSubmit={handleSignup}>
+						<Row>
+							<Form.Group as={Col} controlId="name" md="6" sm>
 								<Form.Label>Nome</Form.Label>
 								<Form.Control
 									placeholder="Seu nome"
@@ -85,9 +85,7 @@ export function Signup({ setUserId, setUser }) {
 									required
 								/>
 							</Form.Group>
-						</Col>
-						<Col sm>
-							<Form.Group controlId="email">
+							<Form.Group as={Col} controlId="email" md="6" sm>
 								<Form.Label>Email</Form.Label>
 								<Form.Control
 									placeholder="Seu email"
@@ -97,11 +95,7 @@ export function Signup({ setUserId, setUser }) {
 									required
 								/>
 							</Form.Group>
-						</Col>
-					</Row>
-					<Row className="d-flex justify-content-between">
-						<Col sm>
-							<Form.Group controlId="password">
+							<Form.Group as={Col} controlId="password" md="6" sm>
 								<Form.Label>Senha</Form.Label>
 								<Form.Control
 									placeholder="Senha"
@@ -111,9 +105,7 @@ export function Signup({ setUserId, setUser }) {
 									required
 								/>
 							</Form.Group>
-						</Col>
-						<Col sm>
-							<Form.Group controlId="passwordC">
+							<Form.Group as={Col} controlId="passwordC" md="6" sm>
 								<Form.Label>Confirmar Senha</Form.Label>
 								<Form.Control
 									placeholder="Confirme sua senha"
@@ -123,27 +115,23 @@ export function Signup({ setUserId, setUser }) {
 									required
 								/>
 							</Form.Group>
-						</Col>
-					</Row>
-					<Row className="my-1">
-						<Col className="text-center">
-							<small>Já tem conta? </small>
-							<Link className="text-light" to="/login">
-								<small>Clique aqui</small>
-							</Link>
-							<small> para acessar</small>
-						</Col>
-					</Row>
-					<Row className="my-3">
-						<Col className="text-center">
-							<Button variant="primary" type="submit">
+							<Col className="text-center my-2" sm="12">
+								<small>Já tem conta? </small>
+								<Link className="text-light" to="/login">
+									<small>Clique aqui</small>
+								</Link>
+								<small> para acessar</small>
+							</Col>
+							<Col className="text-center my-2" sm="12">
+								<Button variant="primary" type="submit">
 								Cadastrar
-							</Button>
-						</Col>
-					</Row>
-				</Form>
-			</Jumbotron>
-		</div>
+								</Button>
+							</Col>
+						</Row>
+					</Form>
+				</Jumbotron>
+			</Col>
+		</Container>
 	);
 }
 

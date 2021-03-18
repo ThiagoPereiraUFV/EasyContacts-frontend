@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
 //	Importing React Bootstrap features
-import { Jumbotron, Form, Button, Col, Row } from "react-bootstrap";
+import { Jumbotron, Form, Button, Col, Row, Container } from "react-bootstrap";
 
 //	Importing components
 import { Push } from "../../../components/Push";
@@ -57,51 +57,51 @@ export function Login({ setUserId, setUser }) {
 	}
 
 	return (
-		<div className="user-container d-flex justify-content-center align-items-center h-100">
+		<Container className="m-auto" fluid>
 			<Push.Top toastShow={toastShow} setToastShow={setToastShow} message={message} title={title} />
-			<Jumbotron className="col-md-3 py-3 m-3">
-				<h3>Acesse sua conta:</h3>
-				<Form className="py-2 text-white" onSubmit={handleLogin}>
-					<Form.Group controlId="email">
-						<Form.Label>Email</Form.Label>
-						<Form.Control
-							value={email}
-							onChange={event => setEmail(event.target.value)}
-							type="email"
-							placeholder="email@provedor.com"
-							autoFocus
-							required
-						/>
-					</Form.Group>
-					<Form.Group controlId="password">
-						<Form.Label>Senha</Form.Label>
-						<Form.Control
-							value={password}
-							onChange={event => setPassword(event.target.value)}
-							type="password"
-							placeholder="Senha"
-							required
-						/>
-					</Form.Group>
-					<Row className="my-1">
-						<Col className="text-center">
-							<small>Não tem conta? </small>
-							<Link className="text-light" to="/signup">
-								<small>Clique aqui</small>
-							</Link>
-							<small> para se cadastrar</small>
-						</Col>
-					</Row>
-					<Row className="my-3">
-						<Col className="text-center">
-							<Button variant="primary" type="submit">
+			<Col className="my-2 mx-auto" lg="4" md="6">
+				<Jumbotron className="py-3">
+					<h3>Acesse sua conta:</h3>
+					<Form onSubmit={handleLogin}>
+						<Row>
+							<Form.Group as={Col} controlId="email" sm="12">
+								<Form.Label>Email</Form.Label>
+								<Form.Control
+									value={email}
+									onChange={event => setEmail(event.target.value)}
+									type="email"
+									placeholder="email@provedor.com"
+									autoFocus
+									required
+								/>
+							</Form.Group>
+							<Form.Group as={Col} controlId="password" sm="12">
+								<Form.Label>Senha</Form.Label>
+								<Form.Control
+									value={password}
+									onChange={event => setPassword(event.target.value)}
+									type="password"
+									placeholder="Senha"
+									required
+								/>
+							</Form.Group>
+							<Col className="text-center my-2" sm="12">
+								<small>Não tem conta? </small>
+								<Link className="text-light" to="/signup">
+									<small>Clique aqui</small>
+								</Link>
+								<small> para se cadastrar</small>
+							</Col>
+							<Col className="text-center my-2" sm="12">
+								<Button variant="primary" type="submit">
 								Acessar
-							</Button>
-						</Col>
-					</Row>
-				</Form>
-			</Jumbotron>
-		</div>
+								</Button>
+							</Col>
+						</Row>
+					</Form>
+				</Jumbotron>
+			</Col>
+		</Container>
 	);
 }
 
