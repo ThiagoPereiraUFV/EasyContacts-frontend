@@ -15,6 +15,7 @@ import { Contacts } from "./pages/Contacts";
 
 //	Importing components
 import { WebNavbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
 import { Loading } from "./components/Loading";
 import { Logged } from "./components/Authentication/Logged";
 import { Auth } from "./components/Authentication";
@@ -86,6 +87,7 @@ export function Routes() {
 				/>
 				<Route path="*" component={NotFoundPage} status={404} />
 			</Switch>
+			<Footer />
 		</BrowserRouter>
 	);
 }
