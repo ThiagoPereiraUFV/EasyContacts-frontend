@@ -44,7 +44,7 @@ export function Routes() {
 				}
 			}).catch(() => {
 				setUserId("");
-				setUser(null);
+				setUser({});
 				sessionStorage.removeItem("userId");
 			});
 		}

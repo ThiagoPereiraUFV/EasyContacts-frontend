@@ -36,7 +36,7 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 		try {
 			sessionStorage.removeItem("userId");
 			setUserId(sessionStorage.getItem("userId"));
-			setUser(null);
+			setUser({});
 
 			history.push("/");
 		} catch(error) {

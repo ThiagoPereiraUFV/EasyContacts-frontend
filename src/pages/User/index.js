@@ -85,7 +85,7 @@ export function User({ userId, setUserId, user, setUser }) {
 				sessionStorage.removeItem("userId");
 
 				setUserId(sessionStorage.getItem("userId"));
-				setUser(null);
+				setUser({});
 
 				setModalShow(false);
 				history.push("/");

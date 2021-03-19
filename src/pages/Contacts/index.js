@@ -28,7 +28,7 @@ export function Contacts({ userId, location }) {
 
 	//  Contact state variables
 	const [contacts, setContacts] = useState([]);
-	const [contact, setContact] = useState({});
+	const [contact, setContact] = useState(null);
 	const [name, setName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [phone, setPhone] = useState("");
@@ -106,8 +106,8 @@ export function Contacts({ userId, location }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 201) {
+				setContact({});
 				setAddContactModal(false);
-				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -139,8 +139,8 @@ export function Contacts({ userId, location }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
+				setContact({});
 				setEditContactModal(false);
-				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -192,8 +192,8 @@ export function Contacts({ userId, location }) {
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
+				setContact({});
 				setEditContactModal(false);
-				setContact(null);
 			}
 		}).catch((error) => {
 			setTitle("Erro!");
@@ -283,7 +283,7 @@ export function Contacts({ userId, location }) {
 						}
 					</h1>
 				</Col>
-				<Col className="text-right ml-auto" sm="auto">
+				<Col className="text-center ml-auto" sm="auto">
 					<Button variant="primary" onClick={() => setAddContactModal(true)}>
 						Novo contato
 					</Button>
@@ -293,34 +293,35 @@ export function Contacts({ userId, location }) {
 			{isLoading ?
 				<Loading animation="grow" />
 				:
-				<CardDeck className="m-3">
+				<CardDeck className="mx-5">
 					{contacts.length ?
-						contacts.map((contact) => (
-							<Link
-								key={contact._id}
-								className="col-sm-2 text-light m-0 p-0"
-								to="#"
-								onClick={() => { setContact(contact); setEditContactModal(true); }}
-							>
-								<Card className="bg-transparent m-0">
-									<Image
-										className="mx-auto"
-										src={contact.image && contact.image.length ?
-											process.env.REACT_APP_API_URL + "files/" + contact.image
-											:
-											avatar
-										}
-										alt="Avatar"
-										fluid
-									/>
-									<Card.Body>
-										<Card.Title className="d-flex flex-column align-items-center p-2 h-100">
-											<h5>{contact.name} {contact.surname}</h5>
-										</Card.Title>
-									</Card.Body>
-								</Card>
-							</Link>
-						))
+						<Row>
+							{contacts.map((contact) => (
+								<Col key={contact._id} className="px-1 py-0" md="3" lg="2" xl="2">
+									<Link
+										className="text-light"
+										to="#"
+										onClick={() => { setContact(contact); setEditContactModal(true); }}
+									>
+										<Card className="bg-transparent m-0">
+											<Image
+												className="mx-auto"
+												src={contact.image && contact.image.length ?
+													process.env.REACT_APP_API_URL + "files/" + contact.image
+													:
+													avatar
+												}
+												alt="Avatar"
+												fluid
+											/>
+											<Card.Body className="text-center">
+												<h5>{contact.name} {contact.surname}</h5>
+											</Card.Body>
+										</Card>
+									</Link>
+								</Col>
+							))}
+						</Row>
 						:
 						<h4 className="text-light m-3">Nenhum contato registrado</h4>
 					}
@@ -330,7 +331,7 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={addContactModal}
-				onHide={() => { setAddContactModal(false); setContact(null); }}
+				onHide={() => { setAddContactModal(false); setContact({}); }}
 				size="lg"
 				centered
 			>
@@ -356,7 +357,7 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => { setAddContactModal(false); setContact(null); }}>
+					<Button variant="secondary" onClick={() => { setAddContactModal(false); setContact({}); }}>
 						Voltar
 					</Button>
 					<Button variant="primary" onClick={(e) => { handleAddContact(e); }}>
@@ -368,7 +369,7 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={editContactModal}
-				onHide={() => { setEditContactModal(false); setContact(null); }}
+				onHide={() => { setEditContactModal(false); setContact({}); }}
 				size="lg"
 				centered
 			>
@@ -423,7 +424,7 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => { setEditContactModal(false); setContact(null); }}>
+					<Button variant="secondary" onClick={() => { setEditContactModal(false); setContact({}); }}>
 						Voltar
 					</Button>
 					<Button variant="danger" onClick={handleDeleteContact}>
