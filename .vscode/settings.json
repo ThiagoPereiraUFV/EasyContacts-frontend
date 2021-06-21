@@ -1,3 +1,5 @@
 {
-	"editor.tabSize": 2
+	"eslint.options": {
+		"configFile": "/home/thiago/Downloads/Projects/config/.eslintrc"
+	},
 }
