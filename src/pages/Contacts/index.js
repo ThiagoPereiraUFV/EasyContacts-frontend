@@ -54,7 +54,7 @@ export function Contacts({ userId, location }) {
 	//	Loading user contacts
 	useEffect(async () => {
 		const queryContactsURL = (searchQuery && searchQuery.length) ?
-			"/searchContact?q=" + searchQuery : "/contact";
+			`/searchContact?q=${searchQuery}` : "/contact";
 
 		await api.get(queryContactsURL, {
 			headers: {
@@ -133,7 +133,7 @@ export function Contacts({ userId, location }) {
 			annotations
 		};
 
-		await api.put("/contact/" + contact._id, data, {
+		await api.put(`/contact/${contact._id}`, data, {
 			headers: {
 				"X-Access-Token": userId
 			}
@@ -161,7 +161,7 @@ export function Contacts({ userId, location }) {
 
 		data.append("image", image);
 
-		await api.put("/contactImage/" + contact._id, data, {
+		await api.put(`/contactImage/${contact._id}`, data, {
 			headers: {
 				"X-Access-Token": userId
 			}
@@ -186,7 +186,7 @@ export function Contacts({ userId, location }) {
 	async function handleDeleteContact(event) {
 		event.preventDefault();
 
-		await api.delete("/contact/" + contact._id, {
+		await api.delete(`/contact/${contact._id}`, {
 			headers: {
 				"X-Access-Token": userId
 			}
@@ -216,7 +216,7 @@ export function Contacts({ userId, location }) {
 						placeholder="Nome"
 						type="text"
 						value={name}
-						onChange={e => setName(e.target.value)}
+						onChange={(e) => setName(e.target.value)}
 						required
 					/>
 				</Form.Group>
@@ -226,7 +226,7 @@ export function Contacts({ userId, location }) {
 						placeholder="Sobrenome"
 						type="text"
 						value={surname}
-						onChange={e => setSurname(e.target.value)}
+						onChange={(e) => setSurname(e.target.value)}
 					/>
 				</Form.Group>
 				<Form.Group as={Col} controlId="phone" md="12" lg="6">
@@ -235,7 +235,7 @@ export function Contacts({ userId, location }) {
 						placeholder="Telefone"
 						type="text"
 						value={phone}
-						onChange={e => setPhone(e.target.value)}
+						onChange={(e) => setPhone(e.target.value)}
 					/>
 				</Form.Group>
 				<Form.Group as={Col} controlId="email" md="12" lg="6">
@@ -244,7 +244,7 @@ export function Contacts({ userId, location }) {
 						placeholder="Email"
 						type="email"
 						value={email}
-						onChange={e => setEmail(e.target.value)}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</Form.Group>
 				<Form.Group as={Col} controlId="address" md="12" lg="12">
@@ -253,18 +253,18 @@ export function Contacts({ userId, location }) {
 						placeholder="Endereço"
 						type="text"
 						value={address}
-						onChange={e => setAddress(e.target.value)}
+						onChange={(e) => setAddress(e.target.value)}
 					/>
 				</Form.Group>
 				<Form.Group as={Col} controlId="annotations" md="12" lg="12">
 					<Form.Label>Anotações</Form.Label>
 					<Form.Control
 						value={annotations}
-						onChange={e => setAnnotations(e.target.value)}
+						onChange={(e) => setAnnotations(e.target.value)}
 						placeholder="Anotações"
 						as="textarea"
 						rows="3"
-						style={{ resize :"none" }}
+						style={{ resize: "none" }}
 					/>
 				</Form.Group>
 			</Row>
@@ -277,7 +277,7 @@ export function Contacts({ userId, location }) {
 				<Col sm="10">
 					<h1 className="display-5">
 						{searchQuery && searchQuery.length ?
-							"Resultados para busca de \"" + searchQuery + "\""
+							`Resultados para busca de "${searchQuery}"`
 							:
 							"Meus contatos"
 						}
@@ -301,13 +301,15 @@ export function Contacts({ userId, location }) {
 									<Link
 										className="text-light"
 										to="#"
-										onClick={() => { setContact(contact); setEditContactModal(true); }}
+										onClick={() => {
+											setContact(contact); setEditContactModal(true);
+										}}
 									>
 										<Card className="bg-transparent m-0">
 											<Image
 												className="mx-auto"
 												src={contact.image && contact.image.length ?
-													process.env.REACT_APP_API_URL + "files/" + contact.image
+													`${process.env.REACT_APP_API_URL}files/${contact.image}`
 													:
 													avatar
 												}
@@ -331,7 +333,9 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={addContactModal}
-				onHide={() => { setAddContactModal(false); setContact({}); }}
+				onHide={() => {
+					setAddContactModal(false); setContact({});
+				}}
 				size="lg"
 				centered
 			>
@@ -357,10 +361,14 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => { setAddContactModal(false); setContact({}); }}>
+					<Button variant="secondary" onClick={() => {
+						setAddContactModal(false); setContact({});
+					}}>
 						Voltar
 					</Button>
-					<Button variant="primary" onClick={(e) => { handleAddContact(e); }}>
+					<Button variant="primary" onClick={(e) => {
+						handleAddContact(e);
+					}}>
 						Adicionar
 					</Button>
 				</Modal.Footer>
@@ -369,7 +377,9 @@ export function Contacts({ userId, location }) {
 			<Modal
 				className="p-0"
 				show={editContactModal}
-				onHide={() => { setEditContactModal(false); setContact({}); }}
+				onHide={() => {
+					setEditContactModal(false); setContact({});
+				}}
 				size="lg"
 				centered
 			>
@@ -386,7 +396,7 @@ export function Contacts({ userId, location }) {
 									className="d-none"
 									type="file"
 									accept="image/*"
-									onChange={event => setImage(event.target.files[0])}
+									onChange={(event) => setImage(event.target.files[0])}
 									required
 								/>
 								<Image
@@ -395,7 +405,7 @@ export function Contacts({ userId, location }) {
 										preview
 										:
 										(imageName && imageName.length ?
-											process.env.REACT_APP_API_URL + "files/" + imageName
+											`${process.env.REACT_APP_API_URL}files/${imageName}`
 											:
 											avatar
 										)
@@ -424,13 +434,17 @@ export function Contacts({ userId, location }) {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => { setEditContactModal(false); setContact({}); }}>
+					<Button variant="secondary" onClick={() => {
+						setEditContactModal(false); setContact({});
+					}}>
 						Voltar
 					</Button>
 					<Button variant="danger" onClick={handleDeleteContact}>
 						Apagar
 					</Button>
-					<Button variant="primary" onClick={(e) => { handleUpdateContact(e); }}>
+					<Button variant="primary" onClick={(e) => {
+						handleUpdateContact(e);
+					}}>
 						Salvar alterações
 					</Button>
 				</Modal.Footer>

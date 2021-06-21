@@ -11,7 +11,7 @@ export function Loading({ animation }) {
 		<Container className="d-flex h-100" fluid>
 			<Spinner
 				className="m-auto"
-				style={{width: "8rem", height: "8rem"}}
+				style={{ width: "8rem", height: "8rem" }}
 				animation={animation ? animation : "border"}
 				variant="primary"
 			/>

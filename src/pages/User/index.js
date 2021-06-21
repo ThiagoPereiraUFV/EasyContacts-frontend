@@ -46,7 +46,7 @@ export function User({ userId, setUserId, user, setUser }) {
 			passwordN
 		};
 
-		await api.put("/user", data , {
+		await api.put("/user", data, {
 			headers: {
 				"X-Access-Token": userId
 			}
@@ -118,7 +118,7 @@ export function User({ userId, setUserId, user, setUser }) {
 									placeholder="Seu nome"
 									type="text"
 									value={name}
-									onChange={event => setName(event.target.value)}
+									onChange={(event) => setName(event.target.value)}
 									required
 								/>
 							</Form.Group>
@@ -130,7 +130,7 @@ export function User({ userId, setUserId, user, setUser }) {
 									placeholder="Seu email"
 									type="email"
 									value={email}
-									onChange={event => setEmail(event.target.value)}
+									onChange={(event) => setEmail(event.target.value)}
 									required
 								/>
 							</Form.Group>
@@ -144,7 +144,7 @@ export function User({ userId, setUserId, user, setUser }) {
 									placeholder="Senha antiga"
 									type="password"
 									value={passwordO}
-									onChange={event => setPasswordO(event.target.value)}
+									onChange={(event) => setPasswordO(event.target.value)}
 								/>
 							</Form.Group>
 						</Col>
@@ -155,7 +155,7 @@ export function User({ userId, setUserId, user, setUser }) {
 									placeholder="Nova senha"
 									type="password"
 									value={passwordN}
-									onChange={event => setPasswordN(event.target.value)}
+									onChange={(event) => setPasswordN(event.target.value)}
 								/>
 							</Form.Group>
 						</Col>
@@ -182,14 +182,16 @@ export function User({ userId, setUserId, user, setUser }) {
 				</Modal.Header>
 				<Modal.Body>
 					Você está prestes a encerrar sua conta!
-					<Form className="my-3" onSubmit={(e) => { handleUserDelete(e); setModalShow(false); }}>
+					<Form className="my-3" onSubmit={(e) => {
+						handleUserDelete(e); setModalShow(false);
+					}}>
 						<Form.Group controlId="passwordOnDelete">
 							<Form.Label>Confirme sua senha</Form.Label>
 							<Form.Control
 								placeholder="Senha"
 								type="password"
 								value={passwordOnDelete}
-								onChange={event => setPasswordOnDelete(event.target.value)}
+								onChange={(event) => setPasswordOnDelete(event.target.value)}
 								required
 							/>
 						</Form.Group>
@@ -199,7 +201,9 @@ export function User({ userId, setUserId, user, setUser }) {
 					<Button variant="secondary" onClick={() => setModalShow(false)}>
 						Voltar
 					</Button>
-					<Button variant="danger" onClick={(e) => { handleUserDelete(e); setModalShow(false); }}>
+					<Button variant="danger" onClick={(e) => {
+						handleUserDelete(e); setModalShow(false);
+					}}>
 						Encerrar
 					</Button>
 				</Modal.Footer>

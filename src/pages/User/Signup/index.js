@@ -80,7 +80,7 @@ export function Signup({ setUserId, setUser }) {
 									placeholder="Seu nome"
 									type="text"
 									value={name}
-									onChange={event => setName(event.target.value)}
+									onChange={(event) => setName(event.target.value)}
 									autoFocus
 									required
 								/>
@@ -91,7 +91,7 @@ export function Signup({ setUserId, setUser }) {
 									placeholder="Seu email"
 									type="email"
 									value={email}
-									onChange={event => setEmail(event.target.value)}
+									onChange={(event) => setEmail(event.target.value)}
 									required
 								/>
 							</Form.Group>
@@ -101,7 +101,7 @@ export function Signup({ setUserId, setUser }) {
 									placeholder="Senha"
 									type="password"
 									value={password}
-									onChange={event => setPassword(event.target.value)}
+									onChange={(event) => setPassword(event.target.value)}
 									required
 								/>
 							</Form.Group>
@@ -111,7 +111,7 @@ export function Signup({ setUserId, setUser }) {
 									placeholder="Confirme sua senha"
 									type="password"
 									value={passwordC}
-									onChange={event => setPasswordC(event.target.value)}
+									onChange={(event) => setPasswordC(event.target.value)}
 									required
 								/>
 							</Form.Group>

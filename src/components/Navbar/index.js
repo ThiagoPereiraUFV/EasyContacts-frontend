@@ -21,7 +21,7 @@ export function WebNavbar({ userId, setUserId, setUser }) {
 		event.preventDefault();
 
 		try {
-			history.push("/contacts?q=" + searchQuery);
+			history.push(`/contacts?q=${searchQuery}`);
 
 			setSearchQuery("");
 		} catch(error) {

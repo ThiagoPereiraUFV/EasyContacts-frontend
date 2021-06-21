@@ -68,7 +68,7 @@ export function Login({ setUserId, setUser }) {
 								<Form.Label>Email</Form.Label>
 								<Form.Control
 									value={email}
-									onChange={event => setEmail(event.target.value)}
+									onChange={(event) => setEmail(event.target.value)}
 									type="email"
 									placeholder="email@provedor.com"
 									autoFocus
@@ -79,7 +79,7 @@ export function Login({ setUserId, setUser }) {
 								<Form.Label>Senha</Form.Label>
 								<Form.Control
 									value={password}
-									onChange={event => setPassword(event.target.value)}
+									onChange={(event) => setPassword(event.target.value)}
 									type="password"
 									placeholder="Senha"
 									required
