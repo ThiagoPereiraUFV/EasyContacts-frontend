@@ -48,7 +48,7 @@ export function User({ userId, setUserId, user, setUser }) {
 
 		await api.put("/user", data, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status) {
@@ -77,7 +77,7 @@ export function User({ userId, setUserId, user, setUser }) {
 
 		await api.delete("/user", {
 			headers: {
-				"X-Access-Token": userId,
+				authorization: `bearer ${userId}`,
 				password: passwordOnDelete
 			}
 		}).then((response) => {

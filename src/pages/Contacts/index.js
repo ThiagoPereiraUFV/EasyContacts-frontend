@@ -54,11 +54,11 @@ export function Contacts({ userId, location }) {
 	//	Loading user contacts
 	useEffect(async () => {
 		const queryContactsURL = (searchQuery && searchQuery.length) ?
-			`/searchContact?q=${searchQuery}` : "/contact";
+			`/searchContact?q=${searchQuery}` : "/contacts/mine";
 
 		await api.get(queryContactsURL, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
@@ -102,7 +102,7 @@ export function Contacts({ userId, location }) {
 
 		await api.post("/contact", data, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status === 201) {
@@ -135,7 +135,7 @@ export function Contacts({ userId, location }) {
 
 		await api.put(`/contact/${contact._id}`, data, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
@@ -163,7 +163,7 @@ export function Contacts({ userId, location }) {
 
 		await api.put(`/contactImage/${contact._id}`, data, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {
@@ -188,7 +188,7 @@ export function Contacts({ userId, location }) {
 
 		await api.delete(`/contact/${contact._id}`, {
 			headers: {
-				"X-Access-Token": userId
+				authorization: `bearer ${userId}`
 			}
 		}).then((response) => {
 			if(response && response.status === 200) {

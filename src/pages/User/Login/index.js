@@ -35,13 +35,14 @@ export function Login({ setUserId, setUser }) {
 	async function handleLogin(event) {
 		event.preventDefault();
 
-		await api.post("/session", { email, password })
+		await api.post("/auth/login", { email, password })
 			.then((response) => {
 				if(response && response.status === 201) {
-					sessionStorage.setItem("userId", response.data.token);
+					sessionStorage.setItem("userId", response.data.jwt);
+					sessionStorage.setItem("user", JSON.stringify(response.data.user));
 
 					setUserId(sessionStorage.getItem("userId"));
-					setUser(response.data.user);
+					setUser(JSON.parse(sessionStorage.getItem("user")));
 
 					history.push("/contacts");
 				}

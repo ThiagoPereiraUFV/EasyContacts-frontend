@@ -34,12 +34,13 @@ export function Routes() {
 
 	useEffect(async () => {
 		if(userId && userId.length) {
-			await api.get("/session", {
+			await api.get("/users/me", {
 				headers: {
-					"X-Access-Token": userId
+					authorization: `bearer ${userId}`
 				}
 			}).then((response) => {
 				if(response && response.status === 200) {
+					sessionStorage.setItem("user", JSON.stringify(response.data));
 					setUser(response.data);
 				}
 			}).catch(() => {
@@ -52,7 +53,7 @@ export function Routes() {
 		setLoading(false);
 	}, [userId]);
 
-	const userAuth = user && user._id && userId && userId.length;
+	const userAuth = user && user.id && userId && userId.length;
 
 	if(isLoading) {
 		return (<Loading />);
