@@ -1,0 +1,32 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - develop
+      - develop-new
+
+jobs:
+  lint:
+    strategy:
+      matrix:
+        node: ['12', '14']
+
+    runs-on: ubuntu-latest
+
+    name: Lint node ${{ matrix.node }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Run linter
+        run: yarn lint
