@@ -1,6 +1,8 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import Footer from '../components/organisms/Footer'
+import Navbar from '../components/organisms/Navbar'
 
-export default function Document() {
+function Document() {
 	return (
 		<Html>
 			<Head>
@@ -14,9 +16,13 @@ export default function Document() {
 				/>
 			</Head>
 			<body>
+				<Navbar />
 				<Main />
 				<NextScript />
+				<Footer />
 			</body>
 		</Html>
 	)
 }
+
+export default Document
