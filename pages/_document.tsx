@@ -1,6 +1,4 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import Footer from '../components/organisms/Footer'
-import Navbar from '../components/organisms/Navbar'
 
 function Document() {
 	return (
@@ -16,10 +14,8 @@ function Document() {
 				/>
 			</Head>
 			<body>
-				<Navbar />
 				<Main />
 				<NextScript />
-				<Footer />
 			</body>
 		</Html>
 	)

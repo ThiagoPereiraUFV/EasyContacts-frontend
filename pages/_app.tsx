@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import Layout from '../layouts/default'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -11,7 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 				}`}</title>
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</Head>
-			<Component {...pageProps} />
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
 		</>
 	)
 }
