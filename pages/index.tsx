@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 		},
 		body: {
 			text: 'Armazene seus contatos e leve-os para qualquer lugar com o EasyContacts. Abra agora uma conta e sincronize todos os seus contatos de forma rápida e gratuita.',
-			className: 'tw-text-white',
+			className: 'tw-text-white tw-font-bold',
 		},
 		button: {
 			label: 'Acessar conta',
