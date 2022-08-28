@@ -11,17 +11,21 @@ interface TitleProps {
 interface ContentCardProps extends React.PropsWithChildren<unknown> {
 	title: TitleProps
 	className?: string
+	classNameBody?: string
 }
 
-function ContentCard({ title, className, children }: ContentCardProps) {
+function ContentCard({
+	title,
+	className,
+	classNameBody,
+	children,
+}: ContentCardProps) {
 	return (
 		<Card className={className}>
-			<CardContent>
-				<Typography className={title.className} variant="h5" component="div">
-					{title.text}
-				</Typography>
-				{children}
-			</CardContent>
+			<Typography className={title.className} variant="h5" component="div">
+				{title.text}
+			</Typography>
+			<CardContent className={classNameBody}>{children}</CardContent>
 		</Card>
 	)
 }
