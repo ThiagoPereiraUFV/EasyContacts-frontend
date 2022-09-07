@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
-import { ChangeEvent, useState } from 'react'
+import { FormEvent, ChangeEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 
 function LoginCard() {
@@ -16,7 +16,7 @@ function LoginCard() {
 		},
 	}
 
-	async function handleSubmit(e: ChangeEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		alert(`Login: ${email} - Senha: ${password}`)
 	}
