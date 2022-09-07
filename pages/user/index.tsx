@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
+import UserCard from '../../components/organisms/UserCard'
 
 const User: NextPage = () => {
-	return <h1>User</h1>
+	return <UserCard />
 }
 
 User.displayName = 'Perfil'
