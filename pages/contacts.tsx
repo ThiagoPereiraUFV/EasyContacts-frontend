@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
+import ContactsDisplay from '../components/organisms/ContactsDisplay'
 
 const Contacts: NextPage = () => {
-	return <h1>Contacts</h1>
+	return <ContactsDisplay />
 }
 
 Contacts.displayName = 'Contatos'
