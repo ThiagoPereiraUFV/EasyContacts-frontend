@@ -7,7 +7,7 @@ function Layout({ children }: React.PropsWithChildren<unknown>) {
 		<div className="tw-grid tw-grid-cols-1 tw-content-between tw-h-screen">
 			<Navbar />
 			<main>{children}</main>
-			<Footer />
+			<Footer className="tw-flex tw-flex-row tw-gap-x-1 tw-justify-center tw-text-white tw-py-2" />
 		</div>
 	)
 }

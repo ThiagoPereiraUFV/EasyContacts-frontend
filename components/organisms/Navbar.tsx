@@ -19,7 +19,11 @@ const settings = [
 	{ title: 'Sair', to: '/user/logout' },
 ]
 
-function Navbar() {
+interface NavbarProps {
+	className?: string
+}
+
+function Navbar({ className = '' }: NavbarProps) {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
 		null
@@ -41,7 +45,7 @@ function Navbar() {
 	}
 
 	return (
-		<AppBar position="static">
+		<AppBar className={className} position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Typography

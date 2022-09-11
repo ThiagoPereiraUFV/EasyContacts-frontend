@@ -1,6 +1,10 @@
-function Footer() {
+interface FooterProps {
+	className?: string
+}
+
+function Footer({ className = '' }: FooterProps) {
 	return (
-		<footer className="tw-flex tw-flex-row tw-gap-x-1 tw-justify-center tw-text-white tw-py-2">
+		<footer className={className}>
 			<p>{`Copyright © ${new Date().getFullYear()} | Built with ❤️ by`}</p>
 			<a
 				href="https://github.com/ThiagoPereiraUFV"
