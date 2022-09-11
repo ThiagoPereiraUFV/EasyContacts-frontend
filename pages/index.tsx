@@ -25,13 +25,15 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<Jumbotron
-			title={jumbotronProps.title}
-			subtitle={jumbotronProps.subtitle}
-			body={jumbotronProps.body}
-			button={jumbotronProps.button}
-			className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-8 tw-py-12 tw-w-2/3 tw-ml-16"
-		/>
+		<main className="tw-flex tw-py-4 tw-row-span-8">
+			<Jumbotron
+				title={jumbotronProps.title}
+				subtitle={jumbotronProps.subtitle}
+				body={jumbotronProps.body}
+				button={jumbotronProps.button}
+				className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-8 tw-py-12 tw-w-2/3 tw-ml-16 tw-my-auto"
+			/>
+		</main>
 	)
 }
 

@@ -4,7 +4,11 @@ import Button from '@mui/material/Button'
 import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 
-function UserCard() {
+interface UserCardProps {
+	className?: string
+}
+
+function UserCard({ className = '' }: UserCardProps) {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -31,10 +35,7 @@ function UserCard() {
 	}
 
 	return (
-		<ContentCard
-			title={userCardProps.title}
-			className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-4 tw-py-6 md:tw-w-1/2 lg:tw-w-2/3 tw-mx-4 md:tw-mx-auto lg:tw-mx-auto"
-		>
+		<ContentCard title={userCardProps.title} className={className}>
 			<Box
 				className="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-6"
 				component="form"

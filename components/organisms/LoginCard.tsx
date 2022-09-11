@@ -5,7 +5,11 @@ import Link from 'next/link'
 import { FormEvent, ChangeEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 
-function LoginCard() {
+interface LoginCardProps {
+	className?: string
+}
+
+function LoginCard({ className = '' }: LoginCardProps) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -22,10 +26,7 @@ function LoginCard() {
 	}
 
 	return (
-		<ContentCard
-			title={loginCardProps.title}
-			className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-4 tw-py-6 md:tw-w-1/2 lg:tw-w-1/3 tw-mx-4 md:tw-mx-auto lg:tw-mx-auto"
-		>
+		<ContentCard title={loginCardProps.title} className={className}>
 			<Box
 				className="tw-grid tw-grid-cols-1 tw-gap-y-6"
 				component="form"
