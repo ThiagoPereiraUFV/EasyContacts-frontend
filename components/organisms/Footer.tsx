@@ -5,12 +5,12 @@ interface FooterProps {
 function Footer({ className = '' }: FooterProps) {
 	return (
 		<footer className={className}>
-			<p>{`Copyright © ${new Date().getFullYear()} | Built with ❤️ by`}</p>
+			<p className="tw-mt-auto">{`Copyright © ${new Date().getFullYear()} | Built with ❤️ by`}</p>
 			<a
 				href="https://github.com/ThiagoPereiraUFV"
 				target="_blank"
 				rel="noreferrer"
-				className="hover:tw-text-purpleTransparent"
+				className="tw-mt-auto hover:tw-text-purpleTransparent"
 			>
 				Thiago Pereira
 			</a>
