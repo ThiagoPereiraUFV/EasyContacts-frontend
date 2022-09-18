@@ -2,6 +2,8 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Layout from '../layouts/default'
+import { ThemeProvider } from '@mui/material'
+import theme from '../mui.themes'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -12,9 +14,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 				}`}</title>
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</Head>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
+			<ThemeProvider theme={theme}>
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</ThemeProvider>
 		</>
 	)
 }

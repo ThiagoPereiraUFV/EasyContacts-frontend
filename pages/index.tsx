@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 				subtitle={jumbotronProps.subtitle}
 				body={jumbotronProps.body}
 				button={jumbotronProps.button}
-				className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-8 tw-py-12 tw-w-2/3 tw-ml-16 tw-my-auto"
+				className="tw-bg-purpleTransparent tw-rounded-3xl tw-px-4 lg:tw-px-8 tw-py-12 tw-w-11/12 lg:tw-w-2/3 tw-mx-auto lg:tw-ml-16 tw-my-auto"
 			/>
 		</main>
 	)
