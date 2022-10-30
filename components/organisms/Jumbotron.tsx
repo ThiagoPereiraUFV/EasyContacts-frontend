@@ -28,7 +28,7 @@ interface BodyProps {
 interface JumbotronProps {
 	title: TitleProps
 	subtitle: SubtitleProps
-	body: BodyProps
+	body?: BodyProps
 	button?: ButtonProps
 	className?: string
 }
@@ -49,9 +49,11 @@ function Jumbotron({
 				<Typography className={subtitle.className} variant="h5">
 					{subtitle.text}
 				</Typography>
-				<Typography className={body.className} variant="body1">
-					{body.text}
-				</Typography>
+				{body && (
+					<Typography className={body.className} variant="body1">
+						{body.text}
+					</Typography>
+				)}
 			</CardContent>
 			{button && (
 				<CardActions>
