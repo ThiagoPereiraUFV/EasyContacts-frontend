@@ -22,7 +22,7 @@ export const authOptions = {
 					return data
 				} catch (err) {
 					if (err instanceof AxiosError) {
-						console.error(err.response?.data)
+						// console.error(err.response?.data)
 					}
 
 					return null
