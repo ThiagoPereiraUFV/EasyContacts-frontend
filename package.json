@@ -1,12 +1,15 @@
 {
   "name": "easycontacts-frontend",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "patch": "yarn version --patch && git push --follow-tags",
+    "release": "yarn version --major && git push --follow-tags"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
