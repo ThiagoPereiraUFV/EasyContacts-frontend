@@ -4,12 +4,15 @@ import Button from '@mui/material/Button'
 import Link from 'next/link'
 import { FormEvent, ChangeEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
+import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
 
 interface LoginCardProps {
 	className?: string
 }
 
 function LoginCard({ className = '' }: LoginCardProps) {
+	const router = useRouter()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -22,7 +25,14 @@ function LoginCard({ className = '' }: LoginCardProps) {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		alert(`Login: ${email} - Senha: ${password}`)
+
+		const signinOptions = {
+			email,
+			password,
+			callbackUrl: router.query.callbackUrl?.toString() ?? '/'
+		}
+
+		await signIn('credentials', signinOptions)
 	}
 
 	return (
@@ -36,6 +46,7 @@ function LoginCard({ className = '' }: LoginCardProps) {
 					id="email"
 					label="Email"
 					type="email"
+					name="email"
 					variant="outlined"
 					color="primary"
 					className="tw-bg-white tw-rounded-full"
@@ -52,6 +63,7 @@ function LoginCard({ className = '' }: LoginCardProps) {
 				<TextField
 					id="password"
 					label="Senha"
+					name="password"
 					type="password"
 					variant="outlined"
 					color="primary"
