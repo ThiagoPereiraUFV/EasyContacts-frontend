@@ -4,12 +4,16 @@ import Button from '@mui/material/Button'
 import Link from 'next/link'
 import { FormEvent, ChangeEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
+import api from 'helpers/api'
+import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
 
 interface SignupCardProps {
 	className?: string
 }
 
 function SignupCard({ className = '' }: SignupCardProps) {
+	const router = useRouter()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -25,9 +29,22 @@ function SignupCard({ className = '' }: SignupCardProps) {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		alert(
-			`Cadastro: ${email} - Senha: ${password} - Nome: ${name} - Confirmação de senha: ${passwordConfirmation}`
-		)
+
+		const payload = {
+			name,
+			email,
+			password,
+		}
+
+		const { data } = await api.post('/auth/register', payload)
+
+		const signinOptions = {
+			email: data.email,
+			password,
+			callbackUrl: router.query.callbackUrl?.toString() ?? '/',
+		}
+
+		await signIn('credentials', signinOptions)
 	}
 
 	return (
@@ -40,6 +57,7 @@ function SignupCard({ className = '' }: SignupCardProps) {
 				<TextField
 					id="name"
 					label="Nome"
+					name="name"
 					type="text"
 					variant="outlined"
 					color="primary"
@@ -57,6 +75,7 @@ function SignupCard({ className = '' }: SignupCardProps) {
 				<TextField
 					id="email"
 					label="Email"
+					name="email"
 					type="email"
 					variant="outlined"
 					color="primary"
@@ -74,6 +93,7 @@ function SignupCard({ className = '' }: SignupCardProps) {
 				<TextField
 					id="password"
 					label="Senha"
+					name="password"
 					type="password"
 					variant="outlined"
 					color="primary"
@@ -91,6 +111,7 @@ function SignupCard({ className = '' }: SignupCardProps) {
 				<TextField
 					id="passwordConfirmation"
 					label="Confirme sua senha"
+					name="passwordConfirmation"
 					type="password"
 					variant="outlined"
 					color="primary"
