@@ -29,7 +29,7 @@ function LoginCard({ className = '' }: LoginCardProps) {
 		const signinOptions = {
 			email,
 			password,
-			callbackUrl: router.query.callbackUrl?.toString() ?? '/'
+			callbackUrl: router.query.callbackUrl?.toString() ?? '/',
 		}
 
 		await signIn('credentials', signinOptions)
