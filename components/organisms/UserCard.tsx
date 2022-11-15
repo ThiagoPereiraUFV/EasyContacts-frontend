@@ -3,14 +3,17 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
+import { useSession } from 'next-auth/react'
+import api from 'helpers/api'
 
 interface UserCardProps {
 	className?: string
 }
 
 function UserCard({ className = '' }: UserCardProps) {
-	const [name, setName] = useState('')
-	const [email, setEmail] = useState('')
+	const { data: session } = useSession()
+	const [name, setName] = useState(session?.user?.name ?? '')
+	const [email, setEmail] = useState(session?.user?.email ?? '')
 	const [password, setPassword] = useState('')
 	const [oldPassword, setOldPassword] = useState('')
 	const textFieldClass = 'tw-bg-white tw-rounded-full'
@@ -24,15 +27,30 @@ function UserCard({ className = '' }: UserCardProps) {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		alert(
-			`Cadastro: ${email} - Senha: ${password} - Nome: ${name} - Senha antiga: ${oldPassword}`
-		)
+
+		const updatedUser = {
+			name: name !== session?.user?.name ? name : undefined,
+			email: email !== session?.user?.email ? email : undefined,
+			password: password || undefined,
+		}
+
+		const { data } = await api.patch('/auth/updateme', updatedUser)
+
+		if (!data) {
+			throw new Error('Error updating user')
+		}
 	}
 
 	async function handleCloseAccount(e: MouseEvent<HTMLButtonElement>) {
 		e.preventDefault()
 		alert(`Encerrar conta`)
 	}
+
+	const disableUpdate =
+		(email === session?.user?.email &&
+			password === '' &&
+			name === session?.user?.name) ||
+		(password !== '' && oldPassword === '')
 
 	return (
 		<ContentCard title={userCardProps.title} className={className}>
@@ -116,7 +134,7 @@ function UserCard({ className = '' }: UserCardProps) {
 						variant="contained"
 						color="primary"
 						size="large"
-						disabled={!name || !email || !password || !oldPassword}
+						disabled={disableUpdate}
 					>
 						Atualizar
 					</Button>
