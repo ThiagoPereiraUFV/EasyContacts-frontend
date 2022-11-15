@@ -4,8 +4,9 @@ import Head from 'next/head'
 import Layout from '../layouts/default'
 import { ThemeProvider } from '@mui/material'
 import theme from '../mui.themes'
+import { SessionProvider } from 'next-auth/react'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 	return (
 		<>
 			<Head>
@@ -14,11 +15,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 				}`}</title>
 				<meta name="viewport" content="initial-scale=1, width=device-width" />
 			</Head>
-			<ThemeProvider theme={theme}>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-			</ThemeProvider>
+			<SessionProvider session={session}>
+				<ThemeProvider theme={theme}>
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
+				</ThemeProvider>
+			</SessionProvider>
 		</>
 	)
 }
