@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
@@ -12,8 +12,8 @@ interface UserCardProps {
 
 function UserCard({ className = '' }: UserCardProps) {
 	const { data: session } = useSession()
-	const [name, setName] = useState(session?.user?.name ?? '')
-	const [email, setEmail] = useState(session?.user?.email ?? '')
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [oldPassword, setOldPassword] = useState('')
 	const textFieldClass = 'tw-bg-white tw-rounded-full'
@@ -24,6 +24,12 @@ function UserCard({ className = '' }: UserCardProps) {
 			className: 'tw-font-normal tw-text-white tw-mb-4',
 		},
 	}
+
+	// UserCard hook
+	useEffect(() => {
+		setName(session?.user?.name ?? '')
+		setEmail(session?.user?.email ?? '')
+	}, [session])
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
