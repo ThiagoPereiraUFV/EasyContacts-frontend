@@ -2,13 +2,26 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import Layout from '../layouts/default'
-import { ThemeProvider } from '@mui/material'
 import theme from '../mui.themes'
+import { ThemeProvider } from '@mui/material'
 import { SessionProvider } from 'next-auth/react'
+import { CacheProvider } from '@emotion/react'
+import createEmotionCache from 'helpers/createEmotionCache'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+export interface IAppProps extends AppProps {
+	emotionCache?: ReturnType<typeof createEmotionCache>
+}
+
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache()
+
+function MyApp({
+	Component,
+	emotionCache = clientSideEmotionCache,
+	pageProps: { session, ...pageProps },
+}: IAppProps) {
 	return (
-		<>
+		<CacheProvider value={emotionCache}>
 			<Head>
 				<title>{`EasyContacts ${
 					Component.displayName ? ` - ${Component.displayName}` : ''
@@ -22,7 +35,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 					</Layout>
 				</ThemeProvider>
 			</SessionProvider>
-		</>
+		</CacheProvider>
 	)
 }
 
