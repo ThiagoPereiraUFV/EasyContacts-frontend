@@ -38,6 +38,7 @@ function UserCard({ className = '' }: UserCardProps) {
 			name: name !== session?.user?.name ? name : undefined,
 			email: email !== session?.user?.email ? email : undefined,
 			password: password || undefined,
+			oldPassword: oldPassword || undefined,
 		}
 
 		const { data } = await api.patch('/auth/updateme', updatedUser)
