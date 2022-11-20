@@ -41,6 +41,16 @@ export const authOptions = {
 			session.user = token.user
 			session.jwt = token.jwt
 
+			if (token.user.id) {
+				const { data } = await api.get('/auth/me', {
+					headers: {
+						Authorization: `Bearer ${session.jwt}`,
+					},
+				})
+
+				session.user = data
+			}
+
 			return session
 		},
 	} as Partial<CallbacksOptions>,
