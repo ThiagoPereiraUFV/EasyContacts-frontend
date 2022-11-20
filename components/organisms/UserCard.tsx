@@ -101,7 +101,7 @@ function UserCard({ className = '' }: UserCardProps) {
 				/>
 				<TextField
 					id="password"
-					label="Senha"
+					label="Nova senha"
 					type="password"
 					variant="outlined"
 					color="primary"
@@ -118,7 +118,7 @@ function UserCard({ className = '' }: UserCardProps) {
 				/>
 				<TextField
 					id="oldPassword"
-					label="Confirme sua senha"
+					label="Confirme sua senha atual"
 					type="password"
 					variant="outlined"
 					color="primary"
