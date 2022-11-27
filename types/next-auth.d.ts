@@ -1,15 +1,7 @@
 import 'next-auth'
 import 'next-auth/jwt'
 
-interface IUser {
-	id: string
-	name: string
-	email: string
-	password: string
-	avatar: string | null
-	createdAt: Date
-	updatedAt: Date
-}
+import { IUser } from 'next-auth'
 
 declare module 'next-auth' {
 	interface Session {
