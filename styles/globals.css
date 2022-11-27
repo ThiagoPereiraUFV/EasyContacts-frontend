@@ -11,3 +11,29 @@ body {
 	background-attachment: fixed;
 	background-position: center;
 }
+
+
+/* Firefox */
+* {
+  scrollbar-width: 5px;
+  scrollbar-color: var(--secondary) var(--primary);
+	/* scroll-behavior: smooth; */
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #7E7BD785;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 50px;
+  background: #9333ea;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
