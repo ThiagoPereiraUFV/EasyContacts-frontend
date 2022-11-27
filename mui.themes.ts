@@ -1,6 +1,21 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
+import resolveConfig from 'tailwindcss/resolveConfig'
+import tailwindConfig from './tailwind.config.js'
 
-let theme = createTheme()
-theme = responsiveFontSizes(theme)
+const config = resolveConfig(tailwindConfig)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const theme: any = config.theme
 
-export default theme
+let muiTheme = createTheme({
+	palette: {
+		primary: {
+			main: theme?.colors?.purple?.['600'] as string,
+		},
+		secondary: {
+			main: theme?.colors?.blue?.['600'] as string,
+		},
+	},
+})
+muiTheme = responsiveFontSizes(muiTheme)
+
+export default muiTheme
