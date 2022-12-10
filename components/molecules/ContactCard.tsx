@@ -13,9 +13,9 @@ interface IContactCardProps
 	contact: IContact
 }
 
-function ContactCard({ className, contact }: IContactCardProps) {
+function ContactCard({ className, contact, onClick }: IContactCardProps) {
 	return (
-		<Card className={className} sx={{ maxWidth: 345 }}>
+		<Card className={className} sx={{ maxWidth: 345 }} onClick={onClick}>
 			<CardMedia
 				component="img"
 				height="140"
