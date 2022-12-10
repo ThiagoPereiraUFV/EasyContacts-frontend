@@ -8,9 +8,7 @@ import api from 'helpers/api'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
-interface SignupCardProps {
-	className?: string
-}
+interface SignupCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function SignupCard({ className = '' }: SignupCardProps) {
 	const router = useRouter()

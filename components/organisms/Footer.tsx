@@ -1,6 +1,4 @@
-interface FooterProps {
-	className?: string
-}
+interface FooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Footer({ className = '' }: FooterProps) {
 	return (

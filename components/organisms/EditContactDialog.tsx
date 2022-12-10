@@ -22,11 +22,10 @@ const Transition = forwardRef(function Transition(
 	return <Slide direction="up" ref={ref} {...props} />
 })
 
-interface EditContactDialog {
+interface EditContactDialog extends React.HTMLAttributes<HTMLDivElement> {
 	open: boolean
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>
 	selectedContact: IContact
-	className?: string
 }
 
 function EditContactDialog({

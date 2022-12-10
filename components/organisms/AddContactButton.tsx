@@ -1,10 +1,8 @@
 import { IconButton } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
-interface AddContactButtonProps {
-	className?: string
-	onClick?: () => void
-}
+interface AddContactButtonProps
+	extends React.HTMLAttributes<HTMLButtonElement> {}
 
 function AddContactButton({ className = '', onClick }: AddContactButtonProps) {
 	return (

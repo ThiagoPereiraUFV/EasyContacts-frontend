@@ -6,9 +6,7 @@ import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
 
-interface UserCardProps {
-	className?: string
-}
+interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function UserCard({ className = '' }: UserCardProps) {
 	const { data: session } = useSession()

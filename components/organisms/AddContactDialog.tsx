@@ -20,10 +20,9 @@ const Transition = React.forwardRef(function Transition(
 	return <Slide direction="up" ref={ref} {...props} />
 })
 
-interface AddContactDialog {
+interface AddContactDialog extends React.HTMLAttributes<HTMLDivElement> {
 	open: boolean
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>
-	className?: string
 }
 
 function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
