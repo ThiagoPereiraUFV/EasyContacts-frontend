@@ -115,7 +115,7 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 				/>
 				<TextField
 					id="email"
-					label="Telefone"
+					label="Email"
 					type="email"
 					name="email"
 					variant="outlined"
