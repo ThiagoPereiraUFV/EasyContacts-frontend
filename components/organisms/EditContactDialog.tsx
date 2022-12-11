@@ -72,6 +72,16 @@ function EditContactDialog({
 		router.reload()
 	}
 
+	async function handleDelete() {
+		const { data } = await api.delete(`/contacts/mine/${id}`)
+
+		if (!data) {
+			throw new Error('Error deleting contact')
+		}
+
+		router.reload()
+	}
+
 	return (
 		<Dialog
 			open={open}
@@ -81,7 +91,9 @@ function EditContactDialog({
 			maxWidth="md"
 			fullWidth
 		>
-			<DialogTitle>Adicionar novo contato</DialogTitle>
+			<DialogTitle>
+				{contact.name} {contact.surname}
+			</DialogTitle>
 			<DialogContent className="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-4">
 				<TextField
 					id="name"
@@ -139,7 +151,7 @@ function EditContactDialog({
 				/>
 				<TextField
 					id="email"
-					label="Telefone"
+					label="Email"
 					type="email"
 					name="email"
 					variant="outlined"
@@ -189,6 +201,9 @@ function EditContactDialog({
 			<DialogActions>
 				<Button color="secondary" onClick={() => setOpen(false)}>
 					Cancelar
+				</Button>
+				<Button color="error" onClick={handleDelete}>
+					Apagar
 				</Button>
 				<Button type="submit" color="primary" onClick={handleSubmit}>
 					Salvar
