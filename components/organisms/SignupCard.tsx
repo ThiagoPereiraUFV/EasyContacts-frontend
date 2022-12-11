@@ -7,6 +7,7 @@ import ContentCard from '../molecules/ContentCard'
 import api from 'helpers/api'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
+import nprogress from 'nprogress'
 
 interface SignupCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -34,7 +35,9 @@ function SignupCard({ className = '' }: SignupCardProps) {
 			password,
 		}
 
+		nprogress.start()
 		const { data } = await api.post('/auth/register', payload)
+		nprogress.done()
 
 		const signinOptions = {
 			email: data.email,

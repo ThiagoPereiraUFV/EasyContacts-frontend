@@ -1,4 +1,5 @@
 import api from 'helpers/api'
+import nprogress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { IContact } from 'types/contact'
 
@@ -7,7 +8,9 @@ function useContacts() {
 
 	useEffect(() => {
 		async function fetchContacts() {
+			nprogress.start()
 			const { data } = await api.get('/contacts/mine')
+			nprogress.done()
 
 			setContacts(data)
 		}

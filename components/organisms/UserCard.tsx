@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
+import nprogress from 'nprogress'
 
 interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -39,7 +40,9 @@ function UserCard({ className = '' }: UserCardProps) {
 			oldPassword: oldPassword || undefined,
 		}
 
+		nprogress.start()
 		const { data } = await api.patch('/auth/updateme', updatedUser)
+		nprogress.done()
 
 		if (!data) {
 			throw new Error('Error updating user')

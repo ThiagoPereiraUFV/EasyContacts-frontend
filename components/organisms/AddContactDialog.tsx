@@ -11,6 +11,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions'
 import api from 'helpers/api'
 import { useRouter } from 'next/router'
+import nprogress from 'nprogress'
 import React, { ChangeEvent, useState } from 'react'
 import { useEffect } from 'react'
 import { IContact } from 'types/contact'
@@ -39,7 +40,9 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 	}, [open])
 
 	async function handleSubmit() {
+		nprogress.start()
 		const { data } = await api.post('/contacts/mine', contact)
+		nprogress.done()
 
 		if (!data) {
 			throw new Error('Error creating contact')

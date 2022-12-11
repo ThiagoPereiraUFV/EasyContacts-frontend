@@ -11,6 +11,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions'
 import api from 'helpers/api'
 import { useRouter } from 'next/router'
+import nprogress from 'nprogress'
 import React, {
 	ChangeEvent,
 	forwardRef,
@@ -63,7 +64,9 @@ function EditContactDialog({
 			(key) => delete contact[key as keyof IContact]
 		)
 
+		nprogress.start()
 		const { data } = await api.patch(`/contacts/mine/${id}`, contact)
+		nprogress.done()
 
 		if (!data) {
 			throw new Error('Error updating contact')
@@ -73,7 +76,9 @@ function EditContactDialog({
 	}
 
 	async function handleDelete() {
+		nprogress.start()
 		const { data } = await api.delete(`/contacts/mine/${id}`)
+		nprogress.done()
 
 		if (!data) {
 			throw new Error('Error deleting contact')
