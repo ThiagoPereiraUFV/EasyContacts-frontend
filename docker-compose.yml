@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  main:
+    container_name: easycontacts
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: yarn run dev
+    network_mode: host
+    env_file:
+      - .env

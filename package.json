@@ -1,5 +1,5 @@
 {
-  "name": "easycontacts-frontend",
+  "name": "easycontacts",
   "version": "1.0.2",
   "private": true,
   "license": "MIT",
@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "yarn tsc --noEmit && next lint",
+    "docker:up": "docker-compose up --build -V",
+    "docker:down": "docker-compose down",
     "patch": "yarn version --patch && git push --follow-tags",
     "release": "yarn version --major && git push --follow-tags"
   },
