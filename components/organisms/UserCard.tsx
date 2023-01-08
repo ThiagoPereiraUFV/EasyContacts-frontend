@@ -1,19 +1,18 @@
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
+import nprogress from 'nprogress'
 
-interface UserCardProps {
-	className?: string
-}
+interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function UserCard({ className = '' }: UserCardProps) {
 	const { data: session } = useSession()
-	const [name, setName] = useState(session?.user?.name ?? '')
-	const [email, setEmail] = useState(session?.user?.email ?? '')
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [oldPassword, setOldPassword] = useState('')
 	const textFieldClass = 'tw-bg-white tw-rounded-full'
@@ -25,6 +24,12 @@ function UserCard({ className = '' }: UserCardProps) {
 		},
 	}
 
+	// UserCard hook
+	useEffect(() => {
+		setName(session?.user?.name ?? '')
+		setEmail(session?.user?.email ?? '')
+	}, [session])
+
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 
@@ -32,9 +37,12 @@ function UserCard({ className = '' }: UserCardProps) {
 			name: name !== session?.user?.name ? name : undefined,
 			email: email !== session?.user?.email ? email : undefined,
 			password: password || undefined,
+			oldPassword: oldPassword || undefined,
 		}
 
+		nprogress.start()
 		const { data } = await api.patch('/auth/updateme', updatedUser)
+		nprogress.done()
 
 		if (!data) {
 			throw new Error('Error updating user')
@@ -95,7 +103,7 @@ function UserCard({ className = '' }: UserCardProps) {
 				/>
 				<TextField
 					id="password"
-					label="Senha"
+					label="Nova senha"
 					type="password"
 					variant="outlined"
 					color="primary"
@@ -112,7 +120,7 @@ function UserCard({ className = '' }: UserCardProps) {
 				/>
 				<TextField
 					id="oldPassword"
-					label="Confirme sua senha"
+					label="Confirme sua senha atual"
 					type="password"
 					variant="outlined"
 					color="primary"

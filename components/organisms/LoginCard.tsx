@@ -7,9 +7,7 @@ import ContentCard from '../molecules/ContentCard'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
-interface LoginCardProps {
-	className?: string
-}
+interface LoginCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function LoginCard({ className = '' }: LoginCardProps) {
 	const router = useRouter()

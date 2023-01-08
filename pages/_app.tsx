@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material'
 import { SessionProvider } from 'next-auth/react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from 'helpers/createEmotionCache'
+import NextNProgress from 'nextjs-progressbar'
 
 export interface IAppProps extends AppProps {
 	emotionCache?: ReturnType<typeof createEmotionCache>
@@ -31,6 +32,7 @@ function MyApp({
 			<SessionProvider session={session}>
 				<ThemeProvider theme={theme}>
 					<Layout>
+						<NextNProgress height={3} />
 						<Component {...pageProps} />
 					</Layout>
 				</ThemeProvider>

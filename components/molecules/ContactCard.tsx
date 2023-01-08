@@ -5,12 +5,17 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 // import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import { IContact } from 'types/contact'
 
-function ContactCard({
-	className,
-}: React.HTMLAttributes<HTMLDivElement> & React.Attributes) {
+interface IContactCardProps
+	extends React.HTMLAttributes<HTMLDivElement>,
+		React.Attributes {
+	contact: IContact
+}
+
+function ContactCard({ className, contact, onClick }: IContactCardProps) {
 	return (
-		<Card className={className} sx={{ maxWidth: 345 }}>
+		<Card className={className} sx={{ maxWidth: 345 }} onClick={onClick}>
 			<CardMedia
 				component="img"
 				height="140"
@@ -24,7 +29,7 @@ function ContactCard({
 					variant="h5"
 					component="div"
 				>
-					Contato Teste
+					{contact.name} {contact.surname}
 				</Typography>
 			</CardContent>
 			{/* <CardActions>

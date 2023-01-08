@@ -1,9 +1,11 @@
 import type { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Jumbotron from '../components/organisms/Jumbotron'
 
 const Home: NextPage = () => {
 	const router = useRouter()
+	const { data: session } = useSession()
 	const jumbotronProps = {
 		title: {
 			text: 'EasyContacts',
@@ -18,8 +20,9 @@ const Home: NextPage = () => {
 			className: 'tw-text-white tw-font-bold',
 		},
 		button: {
-			label: 'Acessar conta',
-			onClick: () => router.push('/user/login'),
+			label: session?.user?.id ? 'Ver meus contatos' : 'Acessar conta',
+			onClick: () =>
+				router.push(session?.user?.id ? '/contacts' : '/user/login'),
 			className: '',
 		},
 	}

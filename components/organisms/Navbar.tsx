@@ -19,9 +19,7 @@ const settings = [
 	{ title: 'Sair', to: '/user/logout' },
 ]
 
-interface NavbarProps {
-	className?: string
-}
+interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Navbar({ className = '' }: NavbarProps) {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
