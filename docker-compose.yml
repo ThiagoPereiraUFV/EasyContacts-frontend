@@ -11,7 +11,7 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 3000:3000
-    command: yarn run dev
+    command: sh -c "yarn && yarn run dev"
     network_mode: host
     env_file:
       - .env
