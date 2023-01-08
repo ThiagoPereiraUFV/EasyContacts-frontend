@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 import { getSession } from 'next-auth/react'
 
 function API() {
@@ -15,7 +15,7 @@ function API() {
 			request.headers = {
 				...request.headers,
 				Authorization: `Bearer ${session.jwt}`,
-			}
+			} as Partial<AxiosRequestHeaders>
 		}
 
 		return request
