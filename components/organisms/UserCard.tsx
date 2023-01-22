@@ -6,6 +6,8 @@ import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
 import nprogress from 'nprogress'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -16,6 +18,7 @@ function UserCard({ className = '' }: UserCardProps) {
 	const [password, setPassword] = useState('')
 	const [oldPassword, setOldPassword] = useState('')
 	const textFieldClass = 'tw-bg-white tw-rounded-full'
+	const router = useRouter()
 
 	const userCardProps = {
 		title: {
@@ -40,18 +43,49 @@ function UserCard({ className = '' }: UserCardProps) {
 			oldPassword: oldPassword || undefined,
 		}
 
-		nprogress.start()
-		const { data } = await api.patch('/auth/updateme', updatedUser)
-		nprogress.done()
+		try {
+			nprogress.start()
+			const { data } = await api.patch('/auth/updateme', updatedUser)
 
-		if (!data) {
-			throw new Error('Error updating user')
+			if (!data) {
+				throw new Error('Error updating user')
+			}
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
 		}
 	}
 
 	async function handleCloseAccount(e: MouseEvent<HTMLButtonElement>) {
 		e.preventDefault()
-		alert(`Encerrar conta`)
+
+		try {
+			nprogress.start()
+			const { data } = await api.delete('/auth/removeme')
+
+			if (!data) {
+				throw new Error('Error deleting user')
+			}
+
+			router.push('/user/logout')
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
+		}
 	}
 
 	const disableUpdate =

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import api from 'helpers/api'
 import nprogress from 'nprogress'
 import { useEffect, useState } from 'react'
@@ -8,11 +9,26 @@ function useContacts() {
 
 	useEffect(() => {
 		async function fetchContacts() {
-			nprogress.start()
-			const { data } = await api.get('/contacts/mine')
-			nprogress.done()
+			try {
+				nprogress.start()
+				const { data } = await api.get('/contacts/mine')
 
-			setContacts(data)
+				if (!data) {
+					throw new Error('Error getting contacts')
+				}
+
+				setContacts(data)
+			} catch (err) {
+				if (axios.isAxiosError(err)) {
+					// console.error(err.response?.data)
+				} else if (err instanceof Error) {
+					// console.error(err.message)
+				} else {
+					// console.error(err)
+				}
+			} finally {
+				nprogress.done()
+			}
 		}
 
 		fetchContacts()
