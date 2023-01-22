@@ -8,6 +8,7 @@ import api from 'helpers/api'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 import nprogress from 'nprogress'
+import axios from 'axios'
 
 interface SignupCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -35,17 +36,32 @@ function SignupCard({ className = '' }: SignupCardProps) {
 			password,
 		}
 
-		nprogress.start()
-		const { data } = await api.post('/auth/register', payload)
-		nprogress.done()
+		try {
+			nprogress.start()
+			const { data } = await api.post('/auth/register', payload)
 
-		const signinOptions = {
-			email: data.email,
-			password,
-			callbackUrl: router.query.callbackUrl?.toString() ?? '/',
+			if (!data) {
+				throw new Error('Error registering user')
+			}
+
+			const signinOptions = {
+				email: data.email,
+				password,
+				callbackUrl: router.query.callbackUrl?.toString() ?? '/',
+			}
+
+			await signIn('credentials', signinOptions)
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
 		}
-
-		await signIn('credentials', signinOptions)
 	}
 
 	return (

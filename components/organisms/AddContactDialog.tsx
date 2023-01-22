@@ -9,6 +9,7 @@ import {
 	TextField,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import axios from 'axios'
 import api from 'helpers/api'
 import { useRouter } from 'next/router'
 import nprogress from 'nprogress'
@@ -40,15 +41,26 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 	}, [open])
 
 	async function handleSubmit() {
-		nprogress.start()
-		const { data } = await api.post('/contacts/mine', contact)
-		nprogress.done()
+		try {
+			nprogress.start()
+			const { data } = await api.post('/contacts/mine', contact)
 
-		if (!data) {
-			throw new Error('Error creating contact')
+			if (!data) {
+				throw new Error('Error creating contact')
+			}
+
+			router.reload()
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
 		}
-
-		router.reload()
 	}
 
 	return (

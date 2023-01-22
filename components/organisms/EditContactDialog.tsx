@@ -9,6 +9,7 @@ import {
 	TextField,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import axios from 'axios'
 import api from 'helpers/api'
 import { useRouter } from 'next/router'
 import nprogress from 'nprogress'
@@ -64,27 +65,49 @@ function EditContactDialog({
 			(key) => delete contact[key as keyof IContact]
 		)
 
-		nprogress.start()
-		const { data } = await api.patch(`/contacts/mine/${id}`, contact)
-		nprogress.done()
+		try {
+			nprogress.start()
+			const { data } = await api.patch(`/contacts/mine/${id}`, contact)
 
-		if (!data) {
-			throw new Error('Error updating contact')
+			if (!data) {
+				throw new Error('Error updating contact')
+			}
+
+			router.reload()
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
 		}
-
-		router.reload()
 	}
 
 	async function handleDelete() {
-		nprogress.start()
-		const { data } = await api.delete(`/contacts/mine/${id}`)
-		nprogress.done()
+		try {
+			nprogress.start()
+			const { data } = await api.delete(`/contacts/mine/${id}`)
 
-		if (!data) {
-			throw new Error('Error deleting contact')
+			if (!data) {
+				throw new Error('Error deleting contact')
+			}
+
+			router.reload()
+		} catch (err) {
+			if (axios.isAxiosError(err)) {
+				// console.error(err.response?.data)
+			} else if (err instanceof Error) {
+				// console.error(err.message)
+			} else {
+				// console.error(err)
+			}
+		} finally {
+			nprogress.done()
 		}
-
-		router.reload()
 	}
 
 	return (
