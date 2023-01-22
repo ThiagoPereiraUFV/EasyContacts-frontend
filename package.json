@@ -19,7 +19,7 @@
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
-    "@sentry/cli": "1.63.0",
+    "@sentry/cli": "2.11.0",
     "@sentry/nextjs": "^7.29.0",
     "autoprefixer": "^10.4.8",
     "axios": "^1.2.3",
