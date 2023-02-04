@@ -9,10 +9,12 @@ import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 import nprogress from 'nprogress'
 import axios from 'axios'
+import useAlert from 'hooks/useAlert'
 
 interface SignupCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function SignupCard({ className = '' }: SignupCardProps) {
+	const { setAlert } = useAlert()
 	const router = useRouter()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
@@ -53,11 +55,11 @@ function SignupCard({ className = '' }: SignupCardProps) {
 			await signIn('credentials', signinOptions)
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()

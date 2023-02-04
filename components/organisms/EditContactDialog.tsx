@@ -11,6 +11,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions'
 import axios from 'axios'
 import api from 'helpers/api'
+import useAlert from 'hooks/useAlert'
 import { useRouter } from 'next/router'
 import nprogress from 'nprogress'
 import React, {
@@ -45,6 +46,7 @@ function EditContactDialog({
 	open,
 	setOpen,
 }: EditContactDialog) {
+	const { setAlert } = useAlert()
 	const router = useRouter()
 	const [id, setId] = useState<string>(selectedContact.id)
 	const [contact, setContact] = useState<IContact>(selectedContact)
@@ -76,11 +78,11 @@ function EditContactDialog({
 			router.reload()
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()
@@ -99,11 +101,11 @@ function EditContactDialog({
 			router.reload()
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()

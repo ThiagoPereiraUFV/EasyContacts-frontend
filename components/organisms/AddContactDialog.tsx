@@ -11,6 +11,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions'
 import axios from 'axios'
 import api from 'helpers/api'
+import useAlert from 'hooks/useAlert'
 import { useRouter } from 'next/router'
 import nprogress from 'nprogress'
 import React, { ChangeEvent, useState } from 'react'
@@ -34,6 +35,7 @@ interface AddContactDialog extends React.HTMLAttributes<HTMLDivElement> {
 
 function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 	const router = useRouter()
+	const { setAlert } = useAlert()
 	const [contact, setContact] = useState<IContact>({} as IContact)
 
 	useEffect(() => {
@@ -52,11 +54,11 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 			router.reload()
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()

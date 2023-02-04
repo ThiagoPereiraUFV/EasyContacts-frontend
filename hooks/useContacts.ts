@@ -3,8 +3,10 @@ import api from 'helpers/api'
 import nprogress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { IContact } from 'types/contact'
+import useAlert from './useAlert'
 
 function useContacts() {
+	const { setAlert } = useAlert()
 	const [contacts, setContacts] = useState<IContact[]>([])
 
 	useEffect(() => {
@@ -20,11 +22,11 @@ function useContacts() {
 				setContacts(data)
 			} catch (err) {
 				if (axios.isAxiosError(err)) {
-					// console.error(err.response?.data)
+					setAlert(err.response?.data.message, 'error')
 				} else if (err instanceof Error) {
-					// console.error(err.message)
+					setAlert(err.message, 'error')
 				} else {
-					// console.error(err)
+					setAlert(JSON.stringify(err), 'error')
 				}
 			} finally {
 				nprogress.done()
@@ -32,7 +34,7 @@ function useContacts() {
 		}
 
 		fetchContacts()
-	}, [])
+	}, [setAlert])
 
 	return { contacts }
 }

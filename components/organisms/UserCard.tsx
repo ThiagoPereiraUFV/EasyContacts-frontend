@@ -8,10 +8,12 @@ import api from 'helpers/api'
 import nprogress from 'nprogress'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import useAlert from 'hooks/useAlert'
 
 interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function UserCard({ className = '' }: UserCardProps) {
+	const { setAlert } = useAlert()
 	const { data: session } = useSession()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
@@ -52,11 +54,11 @@ function UserCard({ className = '' }: UserCardProps) {
 			}
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()
@@ -77,11 +79,11 @@ function UserCard({ className = '' }: UserCardProps) {
 			router.push('/user/logout')
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
-				// console.error(err.response?.data)
+				setAlert(err.response?.data.message, 'error')
 			} else if (err instanceof Error) {
-				// console.error(err.message)
+				setAlert(err.message, 'error')
 			} else {
-				// console.error(err)
+				setAlert(JSON.stringify(err), 'error')
 			}
 		} finally {
 			nprogress.done()
