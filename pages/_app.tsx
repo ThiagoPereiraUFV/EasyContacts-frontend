@@ -9,6 +9,7 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from 'helpers/createEmotionCache'
 import NextNProgress from 'nextjs-progressbar'
 import { AlertProvider } from 'contexts/AlertContext'
+import AlertPopup from 'components/organisms/AlertPopup'
 
 export interface IAppProps extends AppProps {
 	emotionCache?: ReturnType<typeof createEmotionCache>
@@ -31,6 +32,7 @@ function MyApp({
 					}`}</title>
 					<meta name="viewport" content="initial-scale=1, width=device-width" />
 				</Head>
+				<AlertPopup />
 				<SessionProvider session={session}>
 					<ThemeProvider theme={theme}>
 						<Layout>
