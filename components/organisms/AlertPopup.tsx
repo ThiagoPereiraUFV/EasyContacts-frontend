@@ -10,8 +10,9 @@ const AlertPopup = () => {
 				severity={type}
 				sx={{
 					position: 'absolute',
-					zIndex: 10,
+					zIndex: 10000,
 				}}
+				className="tw-fixed tw-bottom-2 tw-left-2"
 			>
 				{text}
 			</Alert>
