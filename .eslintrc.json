@@ -12,6 +12,7 @@
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "react/react-in-jsx-scope": "off",
     "no-console": "warn"
   }

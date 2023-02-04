@@ -8,6 +8,8 @@ import { SessionProvider } from 'next-auth/react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from 'helpers/createEmotionCache'
 import NextNProgress from 'nextjs-progressbar'
+import { AlertProvider } from 'contexts/AlertContext'
+import AlertPopup from 'components/organisms/AlertPopup'
 
 export interface IAppProps extends AppProps {
 	emotionCache?: ReturnType<typeof createEmotionCache>
@@ -22,22 +24,25 @@ function MyApp({
 	pageProps: { session, ...pageProps },
 }: IAppProps) {
 	return (
-		<CacheProvider value={emotionCache}>
-			<Head>
-				<title>{`EasyContacts ${
-					Component.displayName ? ` - ${Component.displayName}` : ''
-				}`}</title>
-				<meta name="viewport" content="initial-scale=1, width=device-width" />
-			</Head>
-			<SessionProvider session={session}>
-				<ThemeProvider theme={theme}>
-					<Layout>
-						<NextNProgress height={3} />
-						<Component {...pageProps} />
-					</Layout>
-				</ThemeProvider>
-			</SessionProvider>
-		</CacheProvider>
+		<AlertProvider>
+			<CacheProvider value={emotionCache}>
+				<Head>
+					<title>{`EasyContacts ${
+						Component.displayName ? ` - ${Component.displayName}` : ''
+					}`}</title>
+					<meta name="viewport" content="initial-scale=1, width=device-width" />
+				</Head>
+				<AlertPopup />
+				<SessionProvider session={session}>
+					<ThemeProvider theme={theme}>
+						<Layout>
+							<NextNProgress height={3} />
+							<Component {...pageProps} />
+						</Layout>
+					</ThemeProvider>
+				</SessionProvider>
+			</CacheProvider>
+		</AlertProvider>
 	)
 }
 
