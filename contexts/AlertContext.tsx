@@ -1,26 +1,20 @@
+import { AlertColor } from '@mui/material'
 import { createContext, useState } from 'react'
 
 interface ISetAlert {
-	(text: string, type: AlertType): void
+	(text: string, type: AlertColor): void
 }
 
 const ALERT_TIME = 5000
 const initialState = {
 	text: '',
-	type: '',
+	type: 'success' as AlertColor,
 }
 
 const AlertContext = createContext({
 	...initialState,
 	setAlert: (() => {}) as ISetAlert,
 })
-
-enum AlertType {
-	SUCCESS = 'success',
-	ERROR = 'error',
-	INFO = 'info',
-	WARNING = 'warning',
-}
 
 export const AlertProvider = ({
 	children,
@@ -29,15 +23,15 @@ export const AlertProvider = ({
 	children: React.ReactElement<any, any>
 }) => {
 	const [text, setText] = useState('')
-	const [type, setType] = useState('')
+	const [type, setType] = useState<AlertColor>('success')
 
-	const setAlert: ISetAlert = (text: string, type: AlertType) => {
+	const setAlert: ISetAlert = (text: string, type: AlertColor) => {
 		setText(text)
 		setType(type)
 
 		setTimeout(() => {
 			setText('')
-			setType('')
+			setType('success')
 		}, ALERT_TIME)
 	}
 
