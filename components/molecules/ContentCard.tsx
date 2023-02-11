@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Typography from '@mui/material/Typography'
+import H5 from 'components/atoms/H5'
 
 interface TitleProps {
 	text: string
@@ -22,9 +22,7 @@ function ContentCard({
 }: ContentCardProps) {
 	return (
 		<Card className={className}>
-			<Typography className={title.className} variant="h5" component="div">
-				{title.text}
-			</Typography>
+			<H5 className={title.className}>{title.text}</H5>
 			<CardContent className={classNameBody}>{children}</CardContent>
 		</Card>
 	)
