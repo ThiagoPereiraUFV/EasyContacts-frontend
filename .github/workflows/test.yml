@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node: ['14']
+        platform: ['ubuntu-latest', macos-latest]
+
+    runs-on: ${{ matrix.platform }}
+
+    name: Node ${{ matrix.node }} ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Run unit tests
+        run: yarn test:cov --ci
+
+      - name: Run e2e tests
+        run: yarn test:e2e --ci
