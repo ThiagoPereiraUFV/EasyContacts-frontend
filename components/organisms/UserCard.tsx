@@ -106,7 +106,6 @@ function UserCard({ className = '' }: UserCardProps) {
 				<InputText
 					id="name"
 					label="Nome"
-					type="text"
 					className={textFieldClass}
 					value={name}
 					setter={setName}

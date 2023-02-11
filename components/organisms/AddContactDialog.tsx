@@ -6,17 +6,16 @@ import {
 	DialogTitle,
 	Slide,
 	TextareaAutosize,
-	TextField,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import axios from 'axios'
+import InputText from 'components/atoms/InputText'
 import api from 'helpers/api'
 import useAlert from 'hooks/useAlert'
 import { useRouter } from 'next/router'
 import nprogress from 'nprogress'
 import React, { ChangeEvent, useState } from 'react'
 import { useEffect } from 'react'
-import { IContact } from 'types/contact'
 
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {
@@ -36,15 +35,33 @@ interface AddContactDialog extends React.HTMLAttributes<HTMLDivElement> {
 function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 	const router = useRouter()
 	const { setAlert } = useAlert()
-	const [contact, setContact] = useState<IContact>({} as IContact)
+	const [name, setName] = useState('')
+	const [surname, setSurname] = useState('')
+	const [phone, setPhone] = useState('')
+	const [email, setEmail] = useState('')
+	const [address, setAddress] = useState('')
+	const [annotations, setAnnotations] = useState('')
 
 	useEffect(() => {
-		setContact({} as IContact)
+		setName('')
+		setSurname('')
+		setPhone('')
+		setEmail('')
+		setAddress('')
+		setAnnotations('')
 	}, [open])
 
 	async function handleSubmit() {
 		try {
 			nprogress.start()
+			const contact = {
+				name,
+				surname,
+				phone,
+				email,
+				address,
+				annotations,
+			}
 			const { data } = await api.post('/contacts/mine', contact)
 
 			if (!data) {
@@ -76,95 +93,42 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 		>
 			<DialogTitle>Adicionar novo contato</DialogTitle>
 			<DialogContent className="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-4">
-				<TextField
+				<InputText
 					id="name"
 					label="Nome"
-					type="text"
-					name="name"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.name}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, name: target.value })
-					}
+					value={name}
+					setter={setName}
 				/>
-				<TextField
+				<InputText
 					id="surname"
 					label="Sobrenome"
-					type="text"
-					name="surname"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.surname}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, surname: target.value })
-					}
+					value={surname}
+					setter={setSurname}
 				/>
-				<TextField
+				<InputText
 					id="phone"
 					label="Telefone"
 					type="tel"
-					name="phone"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.phone}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, phone: target.value })
-					}
+					value={phone}
+					setter={setPhone}
 				/>
-				<TextField
+				<InputText
 					id="email"
 					label="Email"
 					type="email"
-					name="email"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.email}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, email: target.value })
-					}
+					value={email}
+					setter={setEmail}
 				/>
-				<TextField
+				<InputText
 					id="address"
 					label="Endereço"
-					type="text"
-					name="address"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.address}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, address: target.value })
-					}
+					value={address}
+					setter={setAddress}
 				/>
 				<TextareaAutosize
 					id="annotations"
@@ -173,9 +137,9 @@ function AddContactDialog({ className = '', open, setOpen }: AddContactDialog) {
 					color="primary"
 					className="tw-bg-white tw-rounded-xl tw-border tw-border-gray-400 hover:tw-border-black tw-p-1"
 					minRows={5}
-					defaultValue={contact.annotations ?? ''}
+					defaultValue={annotations ?? ''}
 					onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) =>
-						setContact({ ...contact, annotations: target.value })
+						setAnnotations(target.value)
 					}
 				/>
 			</DialogContent>

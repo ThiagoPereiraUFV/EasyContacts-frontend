@@ -6,10 +6,10 @@ import {
 	DialogTitle,
 	Slide,
 	TextareaAutosize,
-	TextField,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import axios from 'axios'
+import InputText from 'components/atoms/InputText'
 import api from 'helpers/api'
 import useAlert from 'hooks/useAlert'
 import { useRouter } from 'next/router'
@@ -48,27 +48,35 @@ function EditContactDialog({
 }: EditContactDialog) {
 	const { setAlert } = useAlert()
 	const router = useRouter()
-	const [id, setId] = useState<string>(selectedContact.id)
-	const [contact, setContact] = useState<IContact>(selectedContact)
+	const [id, setId] = useState(selectedContact.id)
+	const [name, setName] = useState(selectedContact.name)
+	const [surname, setSurname] = useState(selectedContact.surname)
+	const [phone, setPhone] = useState(selectedContact.phone)
+	const [email, setEmail] = useState(selectedContact.email)
+	const [address, setAddress] = useState(selectedContact.address)
+	const [annotations, setAnnotations] = useState(selectedContact.annotations)
 
 	useEffect(() => {
-		setContact(selectedContact)
+		setName(selectedContact.name ?? '')
+		setSurname(selectedContact.surname ?? '')
+		setPhone(selectedContact.phone ?? '')
+		setEmail(selectedContact.email ?? '')
+		setAddress(selectedContact.address ?? '')
+		setAnnotations(selectedContact.annotations ?? '')
 		setId(selectedContact.id)
-	}, [selectedContact])
+	}, [open, selectedContact])
 
 	async function handleSubmit() {
-		for (const key in contact) {
-			if (contact[key as keyof IContact] === null) {
-				delete contact[key as keyof IContact]
-			}
-		}
-
-		;['createdAt', 'updatedAt', 'id', 'userId'].forEach(
-			(key) => delete contact[key as keyof IContact]
-		)
-
 		try {
 			nprogress.start()
+			const contact = {
+				name: !!name ? name : undefined,
+				surname: !!surname ? surname : undefined,
+				phone: !!phone ? phone : undefined,
+				email: !!email ? email : undefined,
+				address: !!address ? address : undefined,
+				annotations: !!annotations ? annotations : undefined,
+			}
 			const { data } = await api.patch(`/contacts/mine/${id}`, contact)
 
 			if (!data) {
@@ -122,98 +130,45 @@ function EditContactDialog({
 			fullWidth
 		>
 			<DialogTitle>
-				{contact.name} {contact.surname}
+				{name} {surname}
 			</DialogTitle>
 			<DialogContent className="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-4">
-				<TextField
+				<InputText
 					id="name"
 					label="Nome"
-					type="text"
-					name="name"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.name}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, name: target.value })
-					}
+					value={name}
+					setter={setName}
 				/>
-				<TextField
+				<InputText
 					id="surname"
 					label="Sobrenome"
-					type="text"
-					name="surname"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.surname}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, surname: target.value })
-					}
+					value={surname}
+					setter={setSurname}
 				/>
-				<TextField
+				<InputText
 					id="phone"
 					label="Telefone"
 					type="tel"
-					name="phone"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.phone}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, phone: target.value })
-					}
+					value={phone}
+					setter={setPhone}
 				/>
-				<TextField
+				<InputText
 					id="email"
 					label="Email"
 					type="email"
-					name="email"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.email}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, email: target.value })
-					}
+					value={email}
+					setter={setEmail}
 				/>
-				<TextField
+				<InputText
 					id="address"
 					label="Endereço"
-					type="text"
-					name="address"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
-					value={contact.address}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setContact({ ...contact, address: target.value })
-					}
+					value={address}
+					setter={setAddress}
 				/>
 				<TextareaAutosize
 					id="annotations"
@@ -222,9 +177,9 @@ function EditContactDialog({
 					color="primary"
 					className="tw-bg-white tw-rounded-xl tw-border tw-border-gray-400 hover:tw-border-black tw-p-1"
 					minRows={5}
-					defaultValue={contact.annotations ?? ''}
+					defaultValue={annotations ?? ''}
 					onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) =>
-						setContact({ ...contact, annotations: target.value })
+						setAnnotations(target.value)
 					}
 				/>
 			</DialogContent>
