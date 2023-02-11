@@ -6,8 +6,10 @@ interface InputTextProps extends React.PropsWithChildren<unknown> {
 	label: string
 	type?: React.HTMLInputTypeAttribute
 	className?: string
-	value: string
-	setter: React.Dispatch<React.SetStateAction<string>>
+	value: string | null
+	setter:
+		| React.Dispatch<React.SetStateAction<string | null>>
+		| React.Dispatch<React.SetStateAction<string>>
 }
 
 function InputText({
