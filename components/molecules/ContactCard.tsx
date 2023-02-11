@@ -4,8 +4,8 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 // import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import { IContact } from 'types/contact'
+import H5 from 'components/atoms/H5'
 
 interface IContactCardProps
 	extends React.HTMLAttributes<HTMLDivElement>,
@@ -23,14 +23,9 @@ function ContactCard({ className, contact, onClick }: IContactCardProps) {
 				alt="green iguana"
 			/>
 			<CardContent className="tw-text-white">
-				<Typography
-					className="tw-text-center tw-m-0"
-					gutterBottom
-					variant="h5"
-					component="div"
-				>
+				<H5 className="tw-text-center tw-m-0">
 					{contact.name} {contact.surname}
-				</Typography>
+				</H5>
 			</CardContent>
 			{/* <CardActions>
 				<Button size="small">Share</Button>
