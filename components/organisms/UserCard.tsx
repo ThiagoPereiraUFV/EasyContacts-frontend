@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 import { useSession } from 'next-auth/react'
 import api from 'helpers/api'
@@ -9,6 +8,7 @@ import nprogress from 'nprogress'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import useAlert from 'hooks/useAlert'
+import InputText from 'components/atoms/InputText'
 
 interface UserCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -103,73 +103,37 @@ function UserCard({ className = '' }: UserCardProps) {
 				component="form"
 				onSubmit={handleSubmit}
 			>
-				<TextField
+				<InputText
 					id="name"
 					label="Nome"
 					type="text"
-					variant="outlined"
-					color="primary"
 					className={textFieldClass}
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={name}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setName(target.value)
-					}
+					setter={setName}
 				/>
-				<TextField
+				<InputText
 					id="email"
 					label="Email"
 					type="email"
-					variant="outlined"
-					color="primary"
 					className={textFieldClass}
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={email}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setEmail(target.value)
-					}
+					setter={setEmail}
 				/>
-				<TextField
+				<InputText
 					id="password"
 					label="Nova senha"
 					type="password"
-					variant="outlined"
-					color="primary"
 					className={textFieldClass}
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={password}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setPassword(target.value)
-					}
+					setter={setPassword}
 				/>
-				<TextField
+				<InputText
 					id="oldPassword"
 					label="Confirme sua senha atual"
 					type="password"
-					variant="outlined"
-					color="primary"
 					className={textFieldClass}
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={oldPassword}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setOldPassword(target.value)
-					}
+					setter={setOldPassword}
 				/>
 				<div className="tw-grid tw-grid-cols-1 tw-gap-y-6 lg:tw-col-span-2">
 					<Button

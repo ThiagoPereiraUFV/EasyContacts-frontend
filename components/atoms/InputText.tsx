@@ -13,7 +13,7 @@ interface InputTextProps extends React.PropsWithChildren<unknown> {
 function InputText({
 	id,
 	label,
-	type = 'string',
+	type = 'text',
 	className,
 	value,
 	setter,
