@@ -6,8 +6,8 @@ export interface IContact {
 	email: string | null
 	address: string | null
 	annotations: string | null
-	avatar: string | null
+	avatar?: string | null
 	userId: string
-	createdAt: Date
-	updatedAt: Date
+	createdAt?: Date
+	updatedAt?: Date
 }
