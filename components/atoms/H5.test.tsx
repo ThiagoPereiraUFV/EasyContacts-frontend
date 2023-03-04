@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import H5 from 'components/atoms/H5'
-import * as faker from 'faker-br'
+import { mockRandomSentence } from 'helpers/mock'
 import '@testing-library/jest-dom'
 
 const texts = [
-	faker.lorem.sentence(),
-	faker.lorem.sentence(),
-	faker.lorem.sentence(),
-	faker.lorem.sentence(),
-	faker.lorem.sentence(),
+	mockRandomSentence(),
+	mockRandomSentence(),
+	mockRandomSentence(),
+	mockRandomSentence(),
+	mockRandomSentence(),
 ]
 
 describe('H5', () => {

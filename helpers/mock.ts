@@ -25,4 +25,8 @@ function mockContact(): IContact {
 	}
 }
 
-export { mockInputFieldAttrs, mockContact }
+function mockRandomSentence(): string {
+	return faker.lorem.sentence()
+}
+
+export { mockInputFieldAttrs, mockContact, mockRandomSentence }
