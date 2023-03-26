@@ -3,7 +3,7 @@ import Footer from 'components/organisms/Footer'
 import '@testing-library/jest-dom'
 
 describe('Footer', () => {
-	it(`Renders a Footer with text: Thiago Pereira`, () => {
+	it(`Renders a footer with text: Thiago Pereira`, () => {
 		render(<Footer />)
 
 		const texts = screen.getAllByText('Thiago Pereira')

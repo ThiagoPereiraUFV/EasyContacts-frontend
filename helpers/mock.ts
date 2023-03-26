@@ -33,4 +33,27 @@ function mockRandomSentence(title?: boolean) {
 	}
 }
 
-export { mockInputFieldAttrs, mockContact, mockRandomSentence }
+function mockJumbotronProps() {
+	return {
+		title: {
+			text: faker.lorem.sentence() as string,
+		},
+		subtitle: {
+			text: faker.lorem.sentence() as string,
+		},
+		body: {
+			text: faker.lorem.sentence() as string,
+		},
+		button: {
+			label: faker.lorem.sentence() as string,
+			onClick: jest.fn(),
+		},
+	}
+}
+
+export {
+	mockInputFieldAttrs,
+	mockContact,
+	mockRandomSentence,
+	mockJumbotronProps,
+}
