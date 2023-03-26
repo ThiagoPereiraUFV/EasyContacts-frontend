@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
-import { FormEvent, ChangeEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import ContentCard from '../molecules/ContentCard'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
+import InputText from 'components/atoms/InputText'
 
 interface LoginCardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -40,41 +40,21 @@ function LoginCard({ className = '' }: LoginCardProps) {
 				component="form"
 				onSubmit={handleSubmit}
 			>
-				<TextField
+				<InputText
 					id="email"
 					label="Email"
 					type="email"
-					name="email"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={email}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setEmail(target.value)
-					}
+					setter={setEmail}
 				/>
-				<TextField
+				<InputText
 					id="password"
 					label="Senha"
-					name="password"
 					type="password"
-					variant="outlined"
-					color="primary"
 					className="tw-bg-white tw-rounded-full"
-					sx={{
-						'& fieldset': {
-							borderRadius: '30px',
-						},
-					}}
 					value={password}
-					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-						setPassword(target.value)
-					}
+					setter={setPassword}
 				/>
 				<small className="tw-text-white tw-text-center">
 					Não tem conta? Clique{' '}

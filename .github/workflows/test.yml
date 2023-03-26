@@ -1,22 +1,23 @@
-name: Lint
+name: Tests
 
 on:
   push:
     branches:
       - develop
   pull_request:
-    branches: 
+    branches:
       - develop
 
 jobs:
-  lint:
+  test:
     strategy:
       matrix:
         node: ['14']
+        platform: ['ubuntu-latest', macos-latest]
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform }}
 
-    name: Lint node ${{ matrix.node }}
+    name: Node ${{ matrix.node }} ${{ matrix.platform }}
 
     steps:
       - name: Checkout Repository
@@ -30,5 +31,8 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Run linter
-        run: yarn lint
+      - name: Run unit tests
+        run: yarn test:cov --ci
+
+      - name: Run e2e tests
+        run: yarn test:e2e --ci

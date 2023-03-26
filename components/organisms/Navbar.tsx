@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import Link from 'next/link'
 
-const pages = [{ title: 'Contatos', to: '/contacts' }]
-const settings = [
+export const pages = [{ title: 'Contatos', to: '/contacts' }]
+export const settings = [
 	{ title: 'Meu perfil', to: '/user' },
 	{ title: 'Sair', to: '/user/logout' },
 ]

@@ -3,6 +3,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import H5 from 'components/atoms/H5'
 
 interface ButtonProps {
 	label: string
@@ -46,9 +47,7 @@ function Jumbotron({
 				<Typography className={title.className} variant="h1" component="div">
 					{title.text}
 				</Typography>
-				<Typography className={subtitle.className} variant="h5">
-					{subtitle.text}
-				</Typography>
+				<H5 className={subtitle.className}>{subtitle.text}</H5>
 				{body && (
 					<Typography className={body.className} variant="body1">
 						{body.text}
