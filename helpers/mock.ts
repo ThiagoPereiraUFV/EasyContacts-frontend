@@ -25,8 +25,12 @@ function mockContact(): IContact {
 	}
 }
 
-function mockRandomSentence(): string {
-	return faker.lorem.sentence()
+function mockRandomSentence(title?: boolean) {
+	if (title) {
+		return { text: faker.lorem.sentence() as string }
+	} else {
+		return faker.lorem.sentence() as string
+	}
 }
 
 export { mockInputFieldAttrs, mockContact, mockRandomSentence }
