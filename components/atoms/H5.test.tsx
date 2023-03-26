@@ -9,7 +9,7 @@ const texts = [
 	mockRandomSentence(),
 	mockRandomSentence(),
 	mockRandomSentence(),
-]
+] as string[]
 
 describe('H5', () => {
 	for (const text of texts) {
