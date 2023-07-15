@@ -58,7 +58,7 @@ function LoginCard({ className = '' }: LoginCardProps) {
 				/>
 				<small className="tw-text-white tw-text-center">
 					Não tem conta? Clique{' '}
-					<Link href="/user/signup">
+					<Link id="signup-url" href="/user/signup">
 						<span className="hover:tw-text-purpleTransparent tw-cursor-pointer">
 							aqui
 						</span>

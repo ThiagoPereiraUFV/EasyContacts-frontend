@@ -107,7 +107,7 @@ function SignupCard({ className = '' }: SignupCardProps) {
 				<div className="tw-grid tw-grid-cols-1 tw-gap-y-6 lg:tw-col-span-2">
 					<small className="tw-text-white tw-text-center">
 						Já tem uma conta? Clique{' '}
-						<Link href="/user/login">
+						<Link id="login-url" href="/user/login">
 							<span className="hover:tw-text-purpleTransparent tw-cursor-pointer">
 								aqui
 							</span>
