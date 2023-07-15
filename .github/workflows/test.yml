@@ -17,6 +17,9 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
 
+    env:
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+
     name: Test node ${{ matrix.node }} ${{ matrix.platform }}
 
     steps:
