@@ -35,4 +35,4 @@ jobs:
         run: yarn test:cov --ci
 
       - name: Run e2e tests
-        run: yarn test:e2e --ci
+        run: yarn test:e2e
