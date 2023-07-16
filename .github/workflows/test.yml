@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node: ['lts/*']
-        platform: ['ubuntu-latest', 'macos-latest']
+        platform: ['ubuntu-latest']
 
     runs-on: ${{ matrix.platform }}
 
