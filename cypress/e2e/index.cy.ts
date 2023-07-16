@@ -13,3 +13,5 @@ describe('Homepage tests', () => {
 		cy.contains('div', 'Acesse sua conta')
 	})
 })
+
+export {}

@@ -14,3 +14,5 @@ describe('Signup page tests', () => {
 	// 	cy.url().should('contain', '/user/login')
 	// })
 })
+
+export {}
