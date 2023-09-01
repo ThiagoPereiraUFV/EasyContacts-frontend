@@ -38,7 +38,7 @@ jobs:
         run: yarn test:cov --ci
 
       - name: Run e2e tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           start: yarn dev
           wait-on: ${{ env.NEXT_PUBLIC_APP_URL }}
